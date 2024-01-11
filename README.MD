@@ -45,3 +45,34 @@ $$ [x, y, z] \to \left[ {{\left({w \over h} \right) fx} \over z}, {fy \over z}, 
 
 $$ [x, y, z] \to \left[ {{\left({w \over h} \right) {1 \over tan \left( {Θ \over 2} \right)}x} \over z}, {{1 \over tan \left( {Θ \over 2} \right)}y \over z}, z \left(z_{far} \over z_{far} - z_{near}  \right) - \left({z_{far}  z_{near}} \over z_{far} - z_{near}  \right)\right] $$
 
+
+Engines 3D exploram 2 conceitos:
+1. Geometria dos Vértices
+2. As "Normals" perpendiculares ao plano (Retas Imaginárias perpendiculares aos planos)
+
+### Normals
+
+Para conseguir as normals podemos utilizar a função de "Cross Product", ela funciona nos fornecendo um vetor, dado outros 2 vetores
+
+$$
+a = 3i + 5j - 7k \\
+b = 2i - 6j + 4k
+$$
+$$
+a \times b = \begin{bmatrix}
+x & y & z\\
+3 & 5 & -7\\
+2 & -6 & 4
+\end{bmatrix}
+$$
+$$
+x \begin{bmatrix} 5 & -7 \\ -6 & 4 \end{bmatrix} -
+y \begin{bmatrix} 3 & -7 \\ 2 & 4\end{bmatrix} +
+ \begin{bmatrix} 3 & 5 \\ 2 & -6 \end{bmatrix}
+$$
+$$
+x(5 \times 4 - -6 \times -7) - y(3 \times 4 - 4 \times -7)... \\ \to \\
+-22x - 26y -28z
+$$
+
+enconctrar determinante

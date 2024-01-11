@@ -12,16 +12,39 @@ public class EMEngine
     public float fAspectRatio = 1.333333f;
     public float fFovRad;
     public Mat4x4 matProj;
+    public Vec3D VCamera = new(){ X = 0, Y = 0, Z = 0};
+    public Vec3D LightDirection = new(){ X = 0, Y = 0, Z = -1f};
+    public Vec3D NLightDirection;
+
 
     public EMEngine()
     {
         setFovAndMatrix();
+
+        float length = MathF.Sqrt(LightDirection.X * LightDirection.X + LightDirection.Y * LightDirection.Y + LightDirection.Z * LightDirection.Z);
+        LightDirection.X /= length;
+        LightDirection.Y /= length;
+        LightDirection.Z /= length;
     }
 
     public EMEngine(float height, float width)
     {
         this.fAspectRatio = height / width;
         setFovAndMatrix();
+
+        float length = MathF.Sqrt(LightDirection.X * LightDirection.X + LightDirection.Y * LightDirection.Y + LightDirection.Z * LightDirection.Z);
+        LightDirection.X /= length;
+        LightDirection.Y /= length;
+        LightDirection.Z /= length;
+    }
+
+    public static Vec3D getVectorFromVec3D(Vec3D p1, Vec3D p2)
+    {
+        return new(){
+            X = p1.X - p2.X,
+            Y = p1.Y - p2.Y,
+            Z = p1.Z - p2.Z
+        };
     }
     private void setFovAndMatrix()
     {
@@ -33,6 +56,17 @@ public class EMEngine
         matProj.m[3,2] = (-this.fFar * this.fNear) / (this.fFar - this.fNear);
         matProj.m[2,3] = 1f;
         matProj.m[3,3] = 0f;
+    }
+
+    public static Vec3D FindNormal(Vec3D l1, Vec3D l2)
+    {
+        Vec3D res = new(){
+            X = l1.Y * l2.Z - l1.Z * l2.Y,
+            Y = l1.Z * l2.X - l1.X * l2.Z,
+            Z = l1.X * l2.Y - l1.Y * l2.X
+        };
+
+        return res;
     }
 
     public static Vec3D MultiplyMatrixVector(Vec3D i, Mat4x4 m)
@@ -53,23 +87,40 @@ public class EMEngine
         return res;
     }
 
-    public static Triangle RotateTriangle(Triangle tr, Mat4x4 rotationMatrix)
+    public static Triangule RotateTriangle(Triangule tr, Mat4x4 rotationMatrix)
     {
-        Triangle rotatedTri = new();
+        Triangule rotatedTri = new();
         rotatedTri.P[0] = MultiplyMatrixVector(tr.P[0], rotationMatrix);
         rotatedTri.P[1] = MultiplyMatrixVector(tr.P[1], rotationMatrix);
         rotatedTri.P[2] = MultiplyMatrixVector(tr.P[2], rotationMatrix);
         
         return rotatedTri;
     }
-    public static Triangle ProjectTriangle(Triangle tr, Mat4x4 m, (float width, float height) size)
+    public static (Triangule? t, float lightInt) ProjectTriangle(Triangule tr, Vec3D light, Vec3D camera, Mat4x4 m, (float width, float height) size)
     {
-        Triangle trTranslated = (Triangle) tr.Clone();
+        Triangule trTranslated = (Triangule) tr.Clone();
         trTranslated.P[0].Z = tr.P[0].Z + 3f;
         trTranslated.P[1].Z = tr.P[1].Z + 3f;
         trTranslated.P[2].Z = tr.P[2].Z + 3f;
 
-        Triangle trProjected = new();
+        Vec3D l1 = getVectorFromVec3D(trTranslated.P[1], trTranslated.P[0]);
+        Vec3D l2 = getVectorFromVec3D(trTranslated.P[2], trTranslated.P[0]);
+        Vec3D normal = FindNormal(l1, l2);
+        float length = MathF.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
+        normal.X /= length; 
+        normal.Y /= length; 
+        normal.Z /= length; 
+
+        if (
+            normal.X * ( trTranslated.P[0].X - camera.X ) +
+            normal.Y * ( trTranslated.P[0].Y - camera.Y ) +
+            normal.Z * ( trTranslated.P[0].Z - camera.Z ) > 0)
+        // if(normal.Z > 0)
+            return (null, 0);
+
+        float dp = normal.X * light.X + normal.Y * light.Y + normal.Z * light.Z;
+
+        Triangule trProjected = new();
 
         trProjected.P[0] = MultiplyMatrixVector(trTranslated.P[0], m);
         trProjected.P[1] = MultiplyMatrixVector(trTranslated.P[1], m);
@@ -86,10 +137,10 @@ public class EMEngine
         trProjected.P[2].X *= 0.5f * size.width;
         trProjected.P[2].Y *= 0.5f * size.height;
 
-        return trProjected;
+        return (trProjected, dp);
     }
 
-    public static void FillTriangleWithGraphics(Brush b, Graphics g, Triangle tr)
+    public static void FillTriangleWithGraphics(Brush b, Graphics g, Triangule tr)
     {
         var path = new GraphicsPath();
         PointF[] pts =  new PointF[]{
@@ -103,7 +154,7 @@ public class EMEngine
 
         g.FillPath(b, path);
     }
-    public static void DrawTriangleWithGraphics(Pen p, Graphics g, Triangle tr)
+    public static void DrawTriangleWithGraphics(Pen p, Graphics g, Triangule tr)
     {
         var path = new GraphicsPath();
         PointF[] pts =  new PointF[]{

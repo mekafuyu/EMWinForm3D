@@ -2,9 +2,9 @@ namespace EM3D;
 
 public class Mesh
 {
-    public Triangle[] t;
+    public Triangule[] t;
     public Mesh() { }
-    public Mesh(Triangle[] tri) {
+    public Mesh(Triangule[] tri) {
         this.t = tri;
     }
 }

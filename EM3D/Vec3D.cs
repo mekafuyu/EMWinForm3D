@@ -19,6 +19,12 @@ public class Vec3D : ICloneable
         return new Vec3D(){X = this.X, Y = this.Y, Z = this.Z};
     }
 
+    public static implicit operator Vec3D((float x, float y, float z) tuple)
+    {
+        Vec3D output = new(tuple.x, tuple.y, tuple.z);
+        return output;
+    }
+
     public static explicit operator Vec3D(float[] obj)
     {
         Vec3D output = new(

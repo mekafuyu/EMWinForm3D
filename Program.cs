@@ -3,36 +3,36 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using EM3D;
-
+using static EM3D.EMUtils;
 
 float[] f = {1f, 2f, 3f};
 Vec3D[] v = new Vec3D[]{(Vec3D) f};
 Mesh cube = new(
-    new Triangle[]{
+    new Triangule[]{
 
         // SOUTH
-        (Triangle) new Vec3D[] { new Vec3D(0f, 0f, 0f), new Vec3D(0f, 1f, 0f), new Vec3D(1f, 1f, 0f) },
-        (Triangle) new Vec3D[] { new Vec3D(0f, 0f, 0f), new Vec3D(0f, 1f, 0f), new Vec3D(1f, 0f, 0f) },
+        ArrToTri((0f, 0f, 0f), (0f, 1f, 0f), (1f, 1f, 0f)),
+        ArrToTri((0f, 0f, 0f), (1f, 1f, 0f), (1f, 0f, 0f)),
 
         // EAST
-        (Triangle) new Vec3D[] { new Vec3D(1f, 0f, 0f), new Vec3D(1f, 1f, 0f), new Vec3D(1f, 1f, 1f) },
-        (Triangle) new Vec3D[] { new Vec3D(1f, 0f, 0f), new Vec3D(1f, 1f, 1f), new Vec3D(1f, 0f, 1f) },
+        ArrToTri((1f, 0f, 0f), (1f, 1f, 0f), (1f, 1f, 1f)),
+        ArrToTri((1f, 0f, 0f), (1f, 1f, 1f), (1f, 0f, 1f)),
 
         // NORTH
-        (Triangle) new Vec3D[] { new Vec3D(1f, 0f, 1f), new Vec3D(1f, 1f, 1f), new Vec3D(0f, 1f, 1f) },
-        (Triangle) new Vec3D[] { new Vec3D(1f, 0f, 1f), new Vec3D(0f, 1f, 1f), new Vec3D(0f, 0f, 1f) },
+        ArrToTri((1f, 0f, 1f), (1f, 1f, 1f), (0f, 1f, 1f)),
+        ArrToTri((1f, 0f, 1f), (0f, 1f, 1f), (0f, 0f, 1f)),
 
         // WEST
-        (Triangle) new Vec3D[] { new Vec3D(0f, 0f, 1f), new Vec3D(0f, 1f, 1f), new Vec3D(0f, 1f, 0f) },
-        (Triangle) new Vec3D[] { new Vec3D(0f, 0f, 1f), new Vec3D(0f, 1f, 0f), new Vec3D(0f, 0f, 0f) },
+        ArrToTri((0f, 0f, 1f), (0f, 1f, 1f), (0f, 1f, 0f)),
+        ArrToTri((0f, 0f, 1f), (0f, 1f, 0f), (0f, 0f, 0f)),
 
         // TOP
-        (Triangle) new Vec3D[] { new Vec3D(0f, 1f, 0f), new Vec3D(0f, 1f, 1f), new Vec3D(1f, 1f, 1f) },
-        (Triangle) new Vec3D[] { new Vec3D(0f, 1f, 0f), new Vec3D(1f, 1f, 1f), new Vec3D(1f, 1f, 0f) },
+        ArrToTri((0f, 1f, 0f), (0f, 1f, 1f), (1f, 1f, 1f)),
+        ArrToTri((0f, 1f, 0f), (1f, 1f, 1f), (1f, 1f, 0f)),
 
         // BOTTOM
-        (Triangle) new Vec3D[] { new Vec3D(1f, 0f, 1f), new Vec3D(0f, 0f, 1f), new Vec3D(0f, 0f, 0f) },
-        (Triangle) new Vec3D[] { new Vec3D(1f, 0f, 1f), new Vec3D(0f, 0f, 0f), new Vec3D(1f, 0f, 0f) },
+        ArrToTri((1f, 0f, 1f), (0f, 0f, 1f), (0f, 0f, 0f)),
+        ArrToTri((1f, 0f, 1f), (0f, 0f, 0f), (1f, 0f, 0f)),
     }
 );
 
@@ -44,7 +44,7 @@ PictureBox pb = new PictureBox{
 };
 
 var timer = new Timer{
-    Interval = 40
+    Interval = 20
 };
 
 var form = new Form
@@ -68,7 +68,7 @@ form.Load += (o, e) =>
 
 float theta = 0;
 Mat4x4 matRotZ = new(), matRotX = new();
-
+var triColor = Brushes.Gray;
 timer.Tick += (o, e) => {
     g.Clear(Color.White);
 
@@ -90,9 +90,14 @@ timer.Tick += (o, e) => {
     {
         var rotatedTri = EMEngine.RotateTriangle(tri, matRotZ);
         rotatedTri = EMEngine.RotateTriangle(rotatedTri, matRotX);
-        var triProj = EMEngine.ProjectTriangle(rotatedTri, eng.matProj, (form.Width, form.Height));
-        EMEngine.DrawTriangleWithGraphics(
-            Pens.Blue,
+        var (triProj, lightInt) = EMEngine.ProjectTriangle(rotatedTri, eng.LightDirection, eng.VCamera, eng.matProj, (form.Width, form.Height));
+        if(triProj is null)
+            continue;
+        int[] rgb = new int[]{143, 180, 255};
+
+        SolidBrush b = new(Color.FromArgb( (int) (rgb[0] * lightInt), (int) (rgb[1] * lightInt), (int) (rgb[2] * lightInt)));
+        EMEngine.FillTriangleWithGraphics(
+            b,
             g,
             triProj
         );
