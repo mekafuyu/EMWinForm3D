@@ -1,10 +1,136 @@
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Numerics;
+
+
 namespace EM3D;
 
 public static class EMUtils
 {
-  public static Triangule ArrToTri(params Vec3D[] vecs)
+  public static Triangule ArrToTri(params Vector3[] vecs)
     => vecs;
+  public static Vector3 getVectorFromVec3D(Vector3 p1, Vector3 p2)
+  {
+    return new()
+    {
+      X = p1.X - p2.X,
+      Y = p1.Y - p2.Y,
+      Z = p1.Z - p2.Z
+    };
+  }
+  public static Vector3 MultiplyMatrixVector(Vector3 i, Matrix4x4 m)
+  {
+    Vector3 res = new()
+    {
+      X = i.X * m[0, 0] + i.Y * m[1, 0] + i.Z * m[2, 0] + m[3, 0],
+      Y = i.X * m[0, 1] + i.Y * m[1, 1] + i.Z * m[2, 1] + m[3, 1],
+      Z = i.X * m[0, 2] + i.Y * m[1, 2] + i.Z * m[2, 2] + m[3, 2]
+    };
+    float w = i.X * m[0, 3] + i.Y * m[1, 3] + i.Z * m[2, 3] + m[3, 3];
 
-  public static Triangule ArrToTri(params float[] vecs)
-    => ArrToTri(new Vec3D(vecs[0], vecs[1], 0f), new Vec3D(1f, 1f, 0f), new Vec3D(1f, 1f, 1f));
+    if (w != 0.0f)
+    {
+      res.X /= w;
+      res.Y /= w;
+      res.Z /= w;
+    }
+
+    return res;
+  }
+  public static Triangule RotateTriangleWithMatrix(Triangule tr, Matrix4x4 rotationMatrix)
+  {
+    Triangule rotatedTri = new();
+    rotatedTri.P[0] = MultiplyMatrixVector(tr.P[0], rotationMatrix);
+    rotatedTri.P[1] = MultiplyMatrixVector(tr.P[1], rotationMatrix);
+    rotatedTri.P[2] = MultiplyMatrixVector(tr.P[2], rotationMatrix);
+
+    return rotatedTri;
+  }
+
+  public static Vector3 FindNormal(Vector3 l1, Vector3 l2)
+  {
+    Vector3 res = new()
+    {
+      X = l1.Y * l2.Z - l1.Z * l2.Y,
+      Y = l1.Z * l2.X - l1.X * l2.Z,
+      Z = l1.X * l2.Y - l1.Y * l2.X
+    };
+
+    return res;
+  }
+
+  public static (Triangule? t, float lightInt) ProjectTriangle(Triangule tr, Vector3 light, Vector3 camera, Matrix4x4 m, (float width, float height) size)
+  {
+    Triangule trTranslated = (Triangule)tr.Clone();
+    trTranslated.P[0].Z = tr.P[0].Z + 3f;
+    trTranslated.P[1].Z = tr.P[1].Z + 3f;
+    trTranslated.P[2].Z = tr.P[2].Z + 3f;
+
+    Vector3 l1 = getVectorFromVec3D(trTranslated.P[1], trTranslated.P[0]);
+    Vector3 l2 = getVectorFromVec3D(trTranslated.P[2], trTranslated.P[0]);
+    Vector3 normal = FindNormal(l1, l2);
+    float length = MathF.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
+    normal.X /= length;
+    normal.Y /= length;
+    normal.Z /= length;
+
+    if (
+        normal.X * (trTranslated.P[0].X - camera.X) +
+        normal.Y * (trTranslated.P[0].Y - camera.Y) +
+        normal.Z * (trTranslated.P[0].Z - camera.Z) > 0
+    )
+      return (null, 0);
+
+    float dp = normal.X * light.X + normal.Y * light.Y + normal.Z * light.Z;
+
+    Triangule trProjected = new();
+
+    trProjected.P[0] = MultiplyMatrixVector(trTranslated.P[0], m);
+    trProjected.P[1] = MultiplyMatrixVector(trTranslated.P[1], m);
+    trProjected.P[2] = MultiplyMatrixVector(trTranslated.P[2], m);
+
+    trProjected.P[0].X += 1f; trProjected.P[0].Y += 1f;
+    trProjected.P[1].X += 1f; trProjected.P[1].Y += 1f;
+    trProjected.P[2].X += 1f; trProjected.P[2].Y += 1f;
+
+    trProjected.P[0].X *= 0.5f * size.width;
+    trProjected.P[0].Y *= 0.5f * size.height;
+    trProjected.P[1].X *= 0.5f * size.width;
+    trProjected.P[1].Y *= 0.5f * size.height;
+    trProjected.P[2].X *= 0.5f * size.width;
+    trProjected.P[2].Y *= 0.5f * size.height;
+    if (dp < 0)
+      dp = 0;
+    return (trProjected, dp);
+  }
+
+  public static void FillTriangleWithGraphics(Brush b, Graphics g, Triangule tr)
+  {
+    var path = new GraphicsPath();
+    PointF[] pts = new PointF[]{
+            new(tr.P[0].X, tr.P[0].Y),
+            new(tr.P[1].X, tr.P[1].Y),
+            new(tr.P[2].X, tr.P[2].Y),
+        };
+
+    path.AddLines(pts);
+    path.CloseFigure();
+
+    g.FillPath(b, path);
+  }
+  public static void DrawTriangleWithGraphics(Pen p, Graphics g, Triangule tr)
+  {
+    var path = new GraphicsPath();
+    PointF[] pts = new PointF[]{
+            new(tr.P[0].X, tr.P[0].Y),
+            new(tr.P[1].X, tr.P[1].Y),
+            new(tr.P[2].X, tr.P[2].Y),
+        };
+
+    path.AddLines(pts);
+    path.CloseFigure();
+
+    g.DrawPath(p, path);
+  }
 }

@@ -1,24 +1,32 @@
 using System;
+using System.Numerics;
 
 namespace EM3D;
 
 public class Triangule : ICloneable
 {
-    public Vec3D[] P = new Vec3D[3];
+    public Vector3[] P = new Vector3[3];
     
     public Triangule () { }
-    public Triangule (Vec3D[] p)
+    public Triangule (Vector3[] p)
     {
         this.P = p;
     }
 
     public object Clone()
     {
-        Triangule nt = new Vec3D[] { (Vec3D)this.P[0].Clone(), (Vec3D)this.P[1].Clone(), (Vec3D)this.P[2].Clone(), };
+        Triangule nt = new Triangule(
+            this.P
+            // new Vector3[]{
+            //     this.P[0],
+            //     this.P[1],
+            //     this.P[2]
+            // }
+            );
         return nt;
     }
 
-    public static implicit operator Triangule(Vec3D[] vec)
+    public static implicit operator Triangule(Vector3[] vec)
     {
         if(vec.Length != 3)
             throw new Exception("KKKKKKK sla");
