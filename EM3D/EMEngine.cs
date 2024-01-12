@@ -10,7 +10,7 @@ public class EMEngine
   public float fNear = 0.1f;
   public float fFar = 1000.0f;
   public float fFov = 90.0f;
-  public float fAspectRatio = 1.333333f;
+  public float fAspectRatio;
   public float fFovRad;
   public Matrix4x4 matProj;
   public Vector3 VCamera =
@@ -31,31 +31,15 @@ public class EMEngine
 
   public EMEngine()
   {
+    this.fAspectRatio = 1.333333f;
     setFovAndMatrix();
-
-    float length = MathF.Sqrt(
-        LightDirection.X * LightDirection.X
-            + LightDirection.Y * LightDirection.Y
-            + LightDirection.Z * LightDirection.Z
-    );
-    LightDirection.X /= length;
-    LightDirection.Y /= length;
-    LightDirection.Z /= length;
   }
 
   public EMEngine(float height, float width)
   {
     this.fAspectRatio = height / width;
     setFovAndMatrix();
-
-    float length = MathF.Sqrt(
-        LightDirection.X * LightDirection.X
-            + LightDirection.Y * LightDirection.Y
-            + LightDirection.Z * LightDirection.Z
-    );
-    LightDirection.X /= length;
-    LightDirection.Y /= length;
-    LightDirection.Z /= length;
+    normalizeLight();
   }
 
   private void setFovAndMatrix()
@@ -68,5 +52,17 @@ public class EMEngine
     matProj[3, 2] = (-this.fFar * this.fNear) / (this.fFar - this.fNear);
     matProj[2, 3] = 1f;
     matProj[3, 3] = 0f;
+  }
+
+  private void normalizeLight()
+  {
+    float length = MathF.Sqrt(
+      LightDirection.X * LightDirection.X +
+      LightDirection.Y * LightDirection.Y +
+      LightDirection.Z * LightDirection.Z
+    );
+    LightDirection.X /= length;
+    LightDirection.Y /= length;
+    LightDirection.Z /= length;
   }
 }
