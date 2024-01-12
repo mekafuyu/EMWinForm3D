@@ -3,37 +3,33 @@ using System.Numerics;
 
 namespace EM3D;
 
-public class Triangule : ICloneable
+public class Triangle : ICloneable
 {
-    public Vector3[] P = new Vector3[3];
-    
-    public Triangule () { }
-    public Triangule (Vector3[] p)
-    {
-        this.P = p;
-    }
+  public Vector3[] P = new Vector3[3];
 
-    public object Clone()
-    {
-        Triangule nt = new Triangule(
-            this.P
-            // new Vector3[]{
-            //     this.P[0],
-            //     this.P[1],
-            //     this.P[2]
-            // }
-            );
-        return nt;
-    }
+  public Triangle() { }
+  public Triangle(Vector3[] p)
+  {
+    this.P = p;
+  }
 
-    public static implicit operator Triangule(Vector3[] vec)
-    {
-        if(vec.Length != 3)
-            throw new Exception("KKKKKKK sla");
+  public object Clone()
+  {
+    Triangle nt = new Triangle(
+      (Vector3[]) this.P.Clone()
+      );
+    return nt;
+  }
 
-        Triangule output = new(){
-            P = vec
-        };
-        return output;
-    }
+  public static implicit operator Triangle(Vector3[] vec)
+  {
+    if (vec.Length != 3)
+      throw new Exception("KKKKKKK sla");
+
+    Triangle output = new()
+    {
+      P = vec
+    };
+    return output;
+  }
 }
