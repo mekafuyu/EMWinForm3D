@@ -22,6 +22,8 @@ public static class Geometry
       Y = l1.Z * l2.X - l1.X * l2.Z,
       Z = l1.X * l2.Y - l1.Y * l2.X
     };
+    if (res.X == float.NaN)
+      return res;
 
     return res;
   }
@@ -110,7 +112,7 @@ public static class Geometry
     }
     return tr;
   }
-  public static (Triangle? t, float lightInt) ProjectTriangle(
+  public static (Triangle t, float lightInt) ProjectTriangle(
     Triangle tr,
     Vector3 light,
     Vector3 camera,
@@ -118,6 +120,8 @@ public static class Geometry
     (float width, float height) size
   )
   {
+    bool nan = false;
+
     Triangle trTranslated = (Triangle)tr.Clone();
     trTranslated.P[0].Z = tr.P[0].Z + 3f;
     trTranslated.P[1].Z = tr.P[1].Z + 3f;
@@ -132,14 +136,19 @@ public static class Geometry
     normal.Z /= length;
 
     if (
-    normal.X * (trTranslated.P[0].X - camera.X)
-        + normal.Y * (trTranslated.P[0].Y - camera.Y)
-        + normal.Z * (trTranslated.P[0].Z - camera.Z)
-    > 0
+      normal.X * (trTranslated.P[0].X - camera.X) +
+      normal.Y * (trTranslated.P[0].Y - camera.Y) +
+      normal.Z * (trTranslated.P[0].Z - camera.Z)
+      > 0
     )
       return (null, 0);
 
+    if(normal.X == float.NaN)
+      return (null, 0);
+
     float dp = normal.X * light.X + normal.Y * light.Y + normal.Z * light.Z;
+    // if (dp < 0)
+    //   return (null, 0);
 
     Triangle trProjected = new();
 
