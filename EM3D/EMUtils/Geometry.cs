@@ -120,7 +120,6 @@ public static class Geometry
     (float width, float height) size
   )
   {
-    bool nan = false;
 
     Triangle trTranslated = (Triangle)tr.Clone();
     trTranslated.P[0].Z = tr.P[0].Z + 10f;

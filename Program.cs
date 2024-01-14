@@ -12,50 +12,27 @@ using System.Linq;
 
 Mesh spaceship = LoadObjectFile("example.obj");
 
-// Mesh cube = new(
-//   new Triangle[]
-//   {
-//     // SOUTH
-//     ArrToTri(new(0f, 0f, 0f), new(0f, 1f, 0f), new(1f, 1f, 0f)),
-//     ArrToTri(new(0f, 0f, 0f), new(1f, 1f, 0f), new(1f, 0f, 0f)),
-//     // EAST
-//     ArrToTri(new(1f, 0f, 0f), new(1f, 1f, 0f), new(1f, 1f, 1f)),
-//     ArrToTri(new(1f, 0f, 0f), new(1f, 1f, 1f), new(1f, 0f, 1f)),
-//     // NORTH
-//     ArrToTri(new(1f, 0f, 1f), new(1f, 1f, 1f), new(0f, 1f, 1f)),
-//     ArrToTri(new(1f, 0f, 1f), new(0f, 1f, 1f), new(0f, 0f, 1f)),
-//     // WEST
-//     ArrToTri(new(0f, 0f, 1f), new(0f, 1f, 1f), new(0f, 1f, 0f)),
-//     ArrToTri(new(0f, 0f, 1f), new(0f, 1f, 0f), new(0f, 0f, 0f)),
-//     // TOP
-//     ArrToTri(new(0f, 1f, 0f), new(0f, 1f, 1f), new(1f, 1f, 1f)),
-//     ArrToTri(new(0f, 1f, 0f), new(1f, 1f, 1f), new(1f, 1f, 0f)),
-//     // BOTTOM
-//     ArrToTri(new(1f, 0f, 1f), new(0f, 0f, 1f), new(0f, 0f, 0f)),
-//     ArrToTri(new(1f, 0f, 1f), new(0f, 0f, 0f), new(1f, 0f, 0f)),
-//   }
-// );
 Mesh cube = new(
   new Triangle[]
   {
     // SOUTH
-    ArrToTri(new(-0.5f, -0.5f, -0.5f), new(-0.5f, 0.5f, -0.5f), new(0.5f, 0.5f, -0.5f)),
-    ArrToTri(new(-0.5f, -0.5f, -0.5f), new(0.5f, 0.5f, -0.5f), new(0.5f, -0.5f, -0.5f)),
+    ArrToTri(new(0f, 0f, 0f), new(0f, 1f, 0f), new(1f, 1f, 0f)),
+    ArrToTri(new(0f, 0f, 0f), new(1f, 1f, 0f), new(1f, 0f, 0f)),
     // EAST
-    ArrToTri(new(0.5f, -0.5f, -0.5f), new(0.5f, 0.5f, -0.5f), new(0.5f, 0.5f, 0.5f)),
-    ArrToTri(new(0.5f, -0.5f, -0.5f), new(0.5f, 0.5f, 0.5f), new(0.5f, -0.5f, 0.5f)),
+    ArrToTri(new(1f, 0f, 0f), new(1f, 1f, 0f), new(1f, 1f, 1f)),
+    ArrToTri(new(1f, 0f, 0f), new(1f, 1f, 1f), new(1f, 0f, 1f)),
     // NORTH
-    ArrToTri(new(0.5f, -0.5f, 0.5f), new(0.5f, 0.5f, 0.5f), new(-0.5f, 0.5f, 0.5f)),
-    ArrToTri(new(0.5f, -0.5f, 0.5f), new(-0.5f, 0.5f, 0.5f), new(-0.5f, -0.5f, 0.5f)),
+    ArrToTri(new(1f, 0f, 1f), new(1f, 1f, 1f), new(0f, 1f, 1f)),
+    ArrToTri(new(1f, 0f, 1f), new(0f, 1f, 1f), new(0f, 0f, 1f)),
     // WEST
-    ArrToTri(new(-0.5f, -0.5f, 0.5f), new(-0.5f, 0.5f, 0.5f), new(-0.5f, 0.5f, -0.5f)),
-    ArrToTri(new(-0.5f, -0.5f, 0.5f), new(-0.5f, 0.5f, -0.5f), new(-0.5f, -0.5f, -0.5f)),
+    ArrToTri(new(0f, 0f, 1f), new(0f, 1f, 1f), new(0f, 1f, 0f)),
+    ArrToTri(new(0f, 0f, 1f), new(0f, 1f, 0f), new(0f, 0f, 0f)),
     // TOP
-    ArrToTri(new(-0.5f, 0.5f, -0.5f), new(-0.5f, 0.5f, 0.5f), new(0.5f, 0.5f, 0.5f)),
-    ArrToTri(new(-0.5f, 0.5f, -0.5f), new(0.5f, 0.5f, 0.5f), new(0.5f, 0.5f, -0.5f)),
+    ArrToTri(new(0f, 1f, 0f), new(0f, 1f, 1f), new(1f, 1f, 1f)),
+    ArrToTri(new(0f, 1f, 0f), new(1f, 1f, 1f), new(1f, 1f, 0f)),
     // BOTTOM
-    ArrToTri(new(0.5f, -0.5f, 0.5f), new(-0.5f, -0.5f, 0.5f), new(-0.5f, -0.5f, -0.5f)),
-    ArrToTri(new(0.5f, -0.5f, 0.5f), new(-0.5f, -0.5f, -0.5f), new(0.5f, -0.5f, -0.5f)),
+    ArrToTri(new(1f, 0f, 1f), new(0f, 0f, 1f), new(0f, 0f, 0f)),
+    ArrToTri(new(1f, 0f, 1f), new(0f, 0f, 0f), new(1f, 0f, 0f)),
   }
 );
 
@@ -64,7 +41,7 @@ Graphics g = null;
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
 Matrix4x4 mrx, mry, mrz;
-Mesh[] meshesToRender = new Mesh[] { spaceship }; 
+Mesh[] meshesToRender = new Mesh[] { spaceship, cube }; 
 
 PictureBox pb = new PictureBox { Dock = DockStyle.Fill };
 
