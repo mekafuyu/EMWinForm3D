@@ -112,7 +112,7 @@ public static class Geometry
     }
     return tr;
   }
-  public static (Triangle t, float lightInt) ProjectTriangle(
+  public static Triangle ProjectTriangle(
     Triangle tr,
     Vector3 light,
     Vector3 camera,
@@ -123,17 +123,20 @@ public static class Geometry
     bool nan = false;
 
     Triangle trTranslated = (Triangle)tr.Clone();
-    trTranslated.P[0].Z = tr.P[0].Z + 3f;
-    trTranslated.P[1].Z = tr.P[1].Z + 3f;
-    trTranslated.P[2].Z = tr.P[2].Z + 3f;
+    trTranslated.P[0].Z = tr.P[0].Z + 10f;
+    trTranslated.P[1].Z = tr.P[1].Z + 10f;
+    trTranslated.P[2].Z = tr.P[2].Z + 10f;
 
     Vector3 l1 = GetVectorFromPoints(trTranslated.P[1], trTranslated.P[0]);
     Vector3 l2 = GetVectorFromPoints(trTranslated.P[2], trTranslated.P[0]);
     Vector3 normal = FindNormal(l1, l2);
     float length = MathF.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
-    normal.X /= length;
-    normal.Y /= length;
-    normal.Z /= length;
+    if (length != 0)
+    {
+      normal.X /= length;
+      normal.Y /= length;
+      normal.Z /= length;
+    }
 
     if (
       normal.X * (trTranslated.P[0].X - camera.X) +
@@ -141,14 +144,11 @@ public static class Geometry
       normal.Z * (trTranslated.P[0].Z - camera.Z)
       > 0
     )
-      return (null, 0);
-
-    if(normal.X == float.NaN)
-      return (null, 0);
+      return null;
 
     float dp = normal.X * light.X + normal.Y * light.Y + normal.Z * light.Z;
-    // if (dp < 0)
-    //   return (null, 0);
+    if (dp < 0)
+      dp = 0;
 
     Triangle trProjected = new();
 
@@ -169,8 +169,8 @@ public static class Geometry
     trProjected.P[1].Y *= 0.5f * size.height;
     trProjected.P[2].X *= 0.5f * size.width;
     trProjected.P[2].Y *= 0.5f * size.height;
-    if (dp < 0)
-      dp = 0;
-    return (trProjected, dp);
+    
+    trProjected.lightIntensity = dp;
+    return trProjected;
   }
 }

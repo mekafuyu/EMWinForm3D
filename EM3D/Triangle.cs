@@ -6,6 +6,9 @@ namespace EM3D;
 public class Triangle : ICloneable
 {
   public Vector3[] P = new Vector3[3];
+  public float lightIntensity = 1f;
+  public float zPos
+    => (P[0].Z + P[1].Z + P[2].Z) / 3f;
 
   public Triangle() { }
   public Triangle(Vector3[] p)

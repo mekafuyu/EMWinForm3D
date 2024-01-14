@@ -7,6 +7,8 @@ using EM3D;
 using static EM3D.EMUtils.Utils;
 using static EM3D.EMUtils.Geometry;
 using static EM3D.EMUtils.Drawing;
+using System.Collections.Generic;
+using System.Linq;
 
 Mesh spaceship = LoadObjectFile("example.obj");
 
@@ -85,10 +87,12 @@ form.Load += (o, e) =>
 };
 
 // OnFrame
+int[] rgb = new int[] { 128, 128, 255 };
+int damageTaken = 0;
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Black);
-  g.DrawString("Cube v0.0.4", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
+  g.DrawString("EM3D v0.0.6", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
 
   mrx = GetRotateInXMatrix(thetaX);
   mry = GetRotateInYMatrix(thetaY);
@@ -98,17 +102,18 @@ timer.Tick += (o, e) =>
 
   Pen p = new Pen(Color.FromArgb(255, 0, 0, 0), 2 * form.Width/form.Height);
 
+  List<Triangle> trianglesToRaster = new();
   foreach (var mesh in meshesToRender)
   {
-    foreach (var tri in mesh.t)
+    foreach (var meshTri in mesh.t)
     {
-      var moddedTri = (Triangle) tri.Clone();
-      moddedTri = TranslateTriangle3D(moddedTri, transX, transY, transZ);
+      if (meshTri is null)
+        continue;
+      var moddedTri = (Triangle) meshTri.Clone();
       moddedTri = RotateTriangle3D(moddedTri, mrx);
-      // moddedTri = RotateTriangle3D(moddedTri, mry);
-      // moddedTri = RotateTriangle3D(moddedTri, mrz);
+      moddedTri = TranslateTriangle3D(moddedTri, transX, transY, transZ);
 
-      var (triProj, lightInt) = ProjectTriangle(
+      var triProj = ProjectTriangle(
         moddedTri,
         eng.LightDirection,
         eng.VCamera,
@@ -117,23 +122,32 @@ timer.Tick += (o, e) =>
       );
       if (triProj is null)
         continue;
-      int[] rgb = new int[] { 255, 255, 255 };
-      if(lightInt < 0 || lightInt > 1)
-        lightInt = 0.5f;
+      trianglesToRaster.Add(triProj);
+    }
 
+    // trianglesToRaster.Sort(( ));
+    trianglesToRaster = trianglesToRaster.OrderBy( t => t.zPos ).ToList();
+
+    foreach (var triangle in trianglesToRaster)
+    {
       SolidBrush b =
         new(
           Color.FromArgb(
-            (int)(rgb[0] * lightInt),
-            (int)(rgb[1] * lightInt),
-            (int)(rgb[2] * lightInt)
+            (int)(rgb[0] * triangle.lightIntensity),
+            (int)(rgb[1] * triangle.lightIntensity),
+            (int)(rgb[2] * triangle.lightIntensity)
           )
         );
+      FillTriangleWithGraphics(b, g, triangle);
+      // DrawTriangleWithGraphics(p, g, triangle);
+    }
 
-      FillTriangleWithGraphics(b, g, triProj);
-      DrawTriangleWithGraphics(p, g, triProj);
-      thetaX += 0.01f;
-      thetaZ += 0.005f;
+    rgb = new int[]{128, 128, 255};
+    if(damageTaken > 0 )
+    {
+      damageTaken--;
+      if(damageTaken % 8 > 3)
+      rgb = new int[]{255, 128, 128};
     }
   }
 
@@ -141,7 +155,7 @@ timer.Tick += (o, e) =>
 };
 
 // OnKey
-float speed = 0.05f;
+float speed = 0.1f;
 form.KeyDown += (o, e) =>
 {
    switch (e.KeyCode)
@@ -185,6 +199,9 @@ form.KeyDown += (o, e) =>
       break;
     case Keys.Escape:
       form.Close();
+      break;
+    case Keys.Space:
+      damageTaken = 40;
       break;
     default:
       break;
