@@ -27,16 +27,15 @@ public static class Geometry
 
     return res;
   }
+  public static Vector3 FindNormal(Triangle t)
+  {
+    Vector3 l1 = GetVectorFromPoints(t.P[1], t.P[0]);
+    Vector3 l2 = GetVectorFromPoints(t.P[2], t.P[0]);
+    return FindNormal(l1, l2);
+  }
   public static Vector3 MultiplyVectorMatrix(Vector3 i, Matrix4x4 m)
   {
     Vector3 res =
-    // new()
-    // {
-    //   X = i.X * m[0, 0] + i.Y * m[1, 0] + i.Z * m[2, 0] + m[3, 0],
-    //   Y = i.X * m[0, 1] + i.Y * m[1, 1] + i.Z * m[2, 1] + m[3, 1],
-    //   Z = i.X * m[0, 2] + i.Y * m[1, 2] + i.Z * m[2, 2] + m[3, 2]
-    // };
-    // float w = i.X * m[0, 3] + i.Y * m[1, 3] + i.Z * m[2, 3] + m[3, 3];
     new()
     {
       X = i.X * m[0, 0] + i.Y * m[0, 1] + i.Z * m[0, 2] + m[0, 3],
@@ -56,7 +55,6 @@ public static class Geometry
   }
   public static Triangle RotateTriangle3D(Triangle tr, Matrix4x4 rotationMatrix)
   {
-    // Triangle rotatedTri = new();
     tr.P[0] = MultiplyVectorMatrix(tr.P[0], rotationMatrix);
     tr.P[1] = MultiplyVectorMatrix(tr.P[1], rotationMatrix);
     tr.P[2] = MultiplyVectorMatrix(tr.P[2], rotationMatrix);
@@ -112,6 +110,21 @@ public static class Geometry
     }
     return tr;
   }
+
+  public static float DotProduct(Vector3 v1, Vector3 v2)
+  {
+    return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
+  }
+
+  public static Vector3 SubtractVector(Vector3 v1, Vector3 v2)
+  {
+    return new(
+      v1.X - v2.X,
+      v1.Y - v2.Y,
+      v1.Z - v2.Z
+    );
+  }
+
   public static Triangle ProjectTriangle(
     Triangle tr,
     Vector3 light,
@@ -120,15 +133,12 @@ public static class Geometry
     (float width, float height) size
   )
   {
-
+    // Move farther
     Triangle trTranslated = (Triangle)tr.Clone();
-    trTranslated.P[0].Z = tr.P[0].Z + 10f;
-    trTranslated.P[1].Z = tr.P[1].Z + 10f;
-    trTranslated.P[2].Z = tr.P[2].Z + 10f;
+    TranslateTriangle3D(trTranslated, 0, 0, 10);
 
-    Vector3 l1 = GetVectorFromPoints(trTranslated.P[1], trTranslated.P[0]);
-    Vector3 l2 = GetVectorFromPoints(trTranslated.P[2], trTranslated.P[0]);
-    Vector3 normal = FindNormal(l1, l2);
+    // Find normal and normalize
+    Vector3 normal = FindNormal(trTranslated);
     float length = MathF.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
     if (length != 0)
     {
@@ -136,6 +146,7 @@ public static class Geometry
       normal.Y /= length;
       normal.Z /= length;
     }
+
 
     if (
       normal.X * (trTranslated.P[0].X - camera.X) +
@@ -145,7 +156,7 @@ public static class Geometry
     )
       return null;
 
-    float dp = normal.X * light.X + normal.Y * light.Y + normal.Z * light.Z;
+    float dp = DotProduct(normal, light);
     if (dp < 0)
       dp = 0;
 

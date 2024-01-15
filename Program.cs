@@ -10,7 +10,7 @@ using static EM3D.EMUtils.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 
-Mesh spaceship = LoadObjectFile("example.obj");
+Mesh spaceship = LoadObjectFile("axis.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -55,7 +55,7 @@ timer.Tick += (o, e) =>
     (transX, transY, transZ)
   );
 
-  thetaZ += 0.001f;
+  // thetaY += 0.001f;
 };
 
 // OnKey

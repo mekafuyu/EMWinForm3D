@@ -17,6 +17,7 @@ public class ObjExample
   private int fps = 0;
   private DateTime lastCheckTime;
   private Matrix4x4 mrx, mry, mrz;
+  private long totalTriangles = 0;
 
   public void renderFrame(
     PictureBox pb,
@@ -30,10 +31,9 @@ public class ObjExample
     double secondsElapsed = (DateTime.Now - lastCheckTime).TotalSeconds;
     lastCheckTime = DateTime.Now;
     fps = (int) (1 / secondsElapsed);
+    totalTriangles = 0;
     g.Clear(Color.Black);
-    g.DrawString("EM3D v0.0.6", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
-    g.DrawString(fps.ToString(), SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 10f));
-
+    
     mrx = GetRotateInXMatrix(rotationAngles.rx);
     mry = GetRotateInYMatrix(rotationAngles.ry);
     mrz = GetRotateInZMatrix(rotationAngles.rz);
@@ -63,23 +63,28 @@ public class ObjExample
           continue;
         trianglesToRaster.Add(triProj);
       }
-
-      trianglesToRaster = trianglesToRaster.OrderBy(t => t.zPos).ToList();
-
-      foreach (var triangle in trianglesToRaster)
-      {
-        SolidBrush b =
-          new(
-            Color.FromArgb(
-              (int)(rgb[0] * triangle.lightIntensity),
-              (int)(rgb[1] * triangle.lightIntensity),
-              (int)(rgb[2] * triangle.lightIntensity)
-            )
-          );
-        FillTriangleWithGraphics(b, g, triangle);
-        // DrawTriangleWithGraphics(p, g, triangle);
-      }
+      totalTriangles += mesh.t.Count();
     }
+    trianglesToRaster = trianglesToRaster.OrderBy(t => t.zPos).ToList();
+
+    foreach (var triangle in trianglesToRaster)
+    {
+      SolidBrush b =
+        new(
+          Color.FromArgb(
+            (int)(rgb[0] * triangle.lightIntensity),
+            (int)(rgb[1] * triangle.lightIntensity),
+            (int)(rgb[2] * triangle.lightIntensity)
+          )
+        );
+      FillTriangleWithGraphics(b, g, triangle);
+      // DrawTriangleWithGraphics(p, g, triangle);
+    }
+
+    g.DrawString("EM3D v0.0.6", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
+    g.DrawString("FPS: " + fps.ToString(), SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 10f));
+    g.DrawString("Triangles: " + trianglesToRaster.Count.ToString() + "/" + totalTriangles, SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 20f));
+
     pb.Refresh();
   }
 }
