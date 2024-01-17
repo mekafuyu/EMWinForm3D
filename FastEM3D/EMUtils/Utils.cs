@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Numerics;
@@ -10,6 +11,17 @@ public static class Utils
 {
   // public static Triangle ArrToTri((Vertex, Vertex, Vertex) vertexes)
   //   => vertexes;
+
+  public static PointF[] TriangleToPointFs(Triangle tr)
+  {
+    PointF[] points = new PointF[]
+    {
+      new(tr.P.l1.X, tr.P.l1.Y),
+      new(tr.P.l2.X, tr.P.l2.Y),
+      new(tr.P.l3.X, tr.P.l3.Y),
+    };
+    return points;
+  }
 
   public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(string filepath)
   {
@@ -87,11 +99,11 @@ public static class Utils
           if(line[0] == 'f')
           {
             var tItems = line.Split(' ');
-            triangles[countf] = new Triangle(
+            triangles[countf] = new Triangle((
               vertexes[int.Parse(tItems[1]) - 1],
               vertexes[int.Parse(tItems[2]) - 1],
               vertexes[int.Parse(tItems[3]) - 1]
-            );
+            ));
             countf++;
           }
         }

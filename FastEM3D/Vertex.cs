@@ -53,5 +53,12 @@ public struct Vertex
   }
 
   // TODO
-  // public static implicit to from vector3 to vertex
+  public static implicit operator Vertex(Vector3 v)
+  {
+    return new(v);
+  }
+  public static implicit operator Vertex(Vector4 v)
+  {
+    return new(v);
+  }
 }
