@@ -10,21 +10,14 @@ public partial class FastEMEngine
   public float fFov;
   public float fAspectRatio;
   public float fFovRad;
-  public Matrix4x4 matProj;
-  public Vector3 VCamera =
-      new()
-      {
-        X = 0,
-        Y = 0,
-        Z = 0
-      };
+
   public Vector3 LightDirection =
-      new()
-      {
-        X = 0,
-        Y = 0,
-        Z = -1f
-      };
+    new()
+    {
+      X = 0,
+      Y = 0,
+      Z = -1f
+    };
   public Vector3 NLightDirection;
   private DateTime lastCheckTime;
 
@@ -33,6 +26,7 @@ public partial class FastEMEngine
     this.fAspectRatio = 1.333333f;
     this.SetFov(90);
     this.SetProjectionMatrix();
+    this.RefreshView();
     NLightDirection = Vector3.Normalize(LightDirection);
   }
 
@@ -41,6 +35,7 @@ public partial class FastEMEngine
     this.fAspectRatio = height / width;
     this.SetFov(90);
     this.SetProjectionMatrix();
+    this.RefreshView();
     NLightDirection = Vector3.Normalize(LightDirection);
   }
 
@@ -52,7 +47,7 @@ public partial class FastEMEngine
   
   public void SetProjectionMatrix()
   {
-    matProj = new(
+    ProjectionMatrix = new(
       this.fAspectRatio * this.fFovRad, 0, 0, 0,
       0, this.fFovRad, 0, 0,
       0, 0, this.fFar / (this.fFar - this.fNear), (-this.fFar * this.fNear) / (this.fFar - this.fNear),
@@ -63,6 +58,8 @@ public partial class FastEMEngine
   public void RefreshAspectRatio(float width, float height)
   {
     this.fAspectRatio = height / width;
-    matProj[0,0] = this.fAspectRatio * this.fFovRad;
+    ProjectionMatrix[0,0] = this.fAspectRatio * this.fFovRad;
   }
+
+
 }

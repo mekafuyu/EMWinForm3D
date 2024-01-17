@@ -26,15 +26,16 @@ public static partial class EMGeometry
     }
     public static Triangle ScaledTriangleTransformation(Triangle tr, Matrix4x4 tMatrix)
     {
-      tr.P.l1.V4 = Vector4.Transform(tr.P.l1.V4, tMatrix);
-      tr.P.l2.V4 = Vector4.Transform(tr.P.l2.V4, tMatrix);
-      tr.P.l3.V4 = Vector4.Transform(tr.P.l3.V4, tMatrix);
+      var newTr = (Triangle) tr.Clone();
+      newTr.P.l1.V4 = Vector4.Transform(newTr.P.l1.V4, tMatrix);
+      newTr.P.l2.V4 = Vector4.Transform(newTr.P.l2.V4, tMatrix);
+      newTr.P.l3.V4 = Vector4.Transform(newTr.P.l3.V4, tMatrix);
 
-      tr.P.l1.V3 /= tr.P.l1.W;
-      tr.P.l2.V3 /= tr.P.l2.W;
-      tr.P.l3.V3 /= tr.P.l3.W;
+      newTr.P.l1.V3 /= newTr.P.l1.W;
+      newTr.P.l2.V3 /= newTr.P.l2.W;
+      newTr.P.l3.V3 /= newTr.P.l3.W;
 
-      return tr;
+      return newTr;
     }
     public static void ScaleTriangle(Triangle tr, float width, float height)
     {

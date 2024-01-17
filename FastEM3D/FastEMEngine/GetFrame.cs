@@ -26,6 +26,7 @@ public partial class FastEMEngine
     int[] rgb = new int[] { 128, 128, 255 };
 
     var rotationMatrix = MatrixMath.GetRotationMatrix(rotation.x, rotation.y, rotation.z);
+    this.RefreshView();
 
     List<Triangle> trianglesToRaster = new();
     foreach (var mesh in meshesToRender)

@@ -24,9 +24,6 @@ public partial class FastEMEngine
 
         var triProj = renderTriangle(
           moddedTri,
-          this.LightDirection,
-          this.VCamera,
-          this.matProj,
           size
         );
 
