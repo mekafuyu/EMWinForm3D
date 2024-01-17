@@ -1,12 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using System.Windows.Forms;
-
-using FastEM3D.EMUtils;
-using static FastEM3D.EMUtils.EMGeometry;
 
 namespace FastEM3D;
 
@@ -56,20 +49,20 @@ public partial class FastEMEngine
     this.fFov = angle;
     this.fFovRad = 1f / MathF.Tan(this.fFov * 0.5f / 180f * MathF.PI);
   }
+  
   public void SetProjectionMatrix()
   {
-    // matProj = new(
-    //   this.fAspectRatio * this.fFovRad, 0, 0, 0,
-    //   0, this.fFovRad, 0, 0,
-    //   0, 0, this.fFar / (this.fFar - this.fNear), 1f,
-    //   0, 0, (-this.fFar * this.fNear) / (this.fFar - this.fNear), 0
-    // );
-    matProj = new();
-    matProj[0, 0] = this.fAspectRatio * this.fFovRad;
-    matProj[1, 1] = this.fFovRad;
-    matProj[2, 2] = this.fFar / (this.fFar - this.fNear);
-    matProj[3, 2] = (-this.fFar * this.fNear) / (this.fFar - this.fNear);
-    matProj[2, 3] = 1f;
-    matProj[3, 3] = 0f;
+    matProj = new(
+      this.fAspectRatio * this.fFovRad, 0, 0, 0,
+      0, this.fFovRad, 0, 0,
+      0, 0, this.fFar / (this.fFar - this.fNear), (-this.fFar * this.fNear) / (this.fFar - this.fNear),
+      0, 0, 1f, 0
+    );
+  }
+
+  public void RefreshAspectRatio(float width, float height)
+  {
+    this.fAspectRatio = height / width;
+    matProj[0,0] = this.fAspectRatio * this.fFovRad;
   }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using static FastEM3D.EMUtils.Utils;
@@ -26,7 +25,6 @@ public static class Drawing
 
     g.FillPath(b, path);
   }
-
   public static void DrawTriangleWithGraphics(Pen p, Graphics g, Triangle tr)
   {
     var path = new GraphicsPath();

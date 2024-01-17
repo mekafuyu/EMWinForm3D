@@ -1,22 +1,15 @@
 using System.Drawing;
-using System.Numerics;
 using System.Windows.Forms;
 using FastEM3D;
-using static FastEM3D.EMUtils.Utils;
+using FastEM3D.EMUtils;
 
-
-// Triangle tr1 = new((Vector4.One, Vector4.One, Vector4.One));
-// Triangle tr2 = (Triangle) tr1.Clone();
-// tr1.P.l1.X = 4f;
-
-
-Mesh spaceship = LoadObjectFile("example_2.obj");
+Mesh obj3D = EMFile.LoadObjectFile("axis.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
-Mesh[] meshesToRender = new Mesh[] { spaceship }; 
+Mesh[] meshesToRender = new Mesh[] { obj3D }; 
 
 PictureBox pb = new PictureBox { Dock = DockStyle.Fill };
 
@@ -39,29 +32,32 @@ form.Load += (o, e) =>
 };
 
 // OnFrame
+bool showMesh = false;
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Black);
+  eng.RefreshAspectRatio(form.Width, form.Height);
 
   eng.GetFrame(
-    pb,
     (form.Width, form.Height),
     g,
     meshesToRender,
     (thetaX, thetaY, thetaZ),
     (transX, transY, transZ),
     true,
-    true
+    showMesh
   );
   g.DrawString("T = " + transX + " | " + transY + " | " + transZ, SystemFonts.DefaultFont, Brushes.White, 0, 30);
   g.DrawString("R = " + thetaX + " | " + thetaY + " | " + thetaZ, SystemFonts.DefaultFont, Brushes.White, 0, 40);
-
+  g.DrawString("F = " + form.Width + " | " + form.Height, SystemFonts.DefaultFont, Brushes.White, 0, 50);
+  
   // thetaY += 0.001f;
   pb.Refresh();
 };
 
 // OnKey
 float speed = 0.05f;
+float tspeed = 1f;
 form.KeyDown += (o, e) =>
 {
    switch (e.KeyCode)
@@ -86,25 +82,29 @@ form.KeyDown += (o, e) =>
       break;
 
     case Keys.J:
-      transX += speed;
+      transX += tspeed;
       break;
     case Keys.L:
-      transX -= speed;
+      transX -= tspeed;
       break;
     case Keys.I:
-      transY += speed;
+      transY += tspeed;
       break;
     case Keys.K:
-      transY -= speed;
+      transY -= tspeed;
       break;
     case Keys.O:
-      transZ += speed;
+      transZ += tspeed;
       break;
     case Keys.U:
-      transZ -= speed;
+      transZ -= tspeed;
       break;
+
     case Keys.Escape:
       form.Close();
+      break;
+    case Keys.Enter:
+      showMesh = !showMesh;
       break;
     default:
       break;

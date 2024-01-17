@@ -13,7 +13,6 @@ namespace FastEM3D;
 public partial class FastEMEngine
 {
   public void GetFrame(
-   PictureBox pb,
    (float width, float height) size,
    Graphics g,
    IEnumerable<Mesh> meshesToRender,

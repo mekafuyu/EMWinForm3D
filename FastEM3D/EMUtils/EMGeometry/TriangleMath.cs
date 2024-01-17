@@ -24,11 +24,11 @@ public static partial class EMGeometry
 
       return TranslateTriangle3D(tr, d);
     }
-    public static Triangle ScaledTriangleTransformation(Triangle tr, Matrix4x4 rotationMatrix)
+    public static Triangle ScaledTriangleTransformation(Triangle tr, Matrix4x4 tMatrix)
     {
-      tr.P.l1.V4 = Vector4.Transform(tr.P.l1.V4, rotationMatrix);
-      tr.P.l2.V4 = Vector4.Transform(tr.P.l2.V4, rotationMatrix);
-      tr.P.l3.V4 = Vector4.Transform(tr.P.l3.V4, rotationMatrix);
+      tr.P.l1.V4 = Vector4.Transform(tr.P.l1.V4, tMatrix);
+      tr.P.l2.V4 = Vector4.Transform(tr.P.l2.V4, tMatrix);
+      tr.P.l3.V4 = Vector4.Transform(tr.P.l3.V4, tMatrix);
 
       tr.P.l1.V3 /= tr.P.l1.W;
       tr.P.l2.V3 /= tr.P.l2.W;
@@ -36,7 +36,6 @@ public static partial class EMGeometry
 
       return tr;
     }
-
     public static void ScaleTriangle(Triangle tr, float width, float height)
     {
       tr.P.l1.X += 1f;

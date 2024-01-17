@@ -21,18 +21,6 @@ public static partial class EMGeometry
         Z = l1.X * l2.Y - l1.Y * l2.X
       };
     }
-    // public static Vector3 Normalize(Vector3 v)
-    // {
-    //   var s = MathF.Sqrt(
-    //     (v.X * v.X) +
-    //     (v.Y * v.Y) +
-    //     (v.Z * v.Z)
-    //   );
-
-    //   if(s != 0)
-    //     return v / 3;
-    //   return v;
-    // }
     public static Vector3 Normalize(Vertex v)
     {
       return Vector3.Normalize(v.V3);

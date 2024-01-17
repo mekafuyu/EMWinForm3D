@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using System.Windows.Forms;
 
-using FastEM3D.EMUtils;
 using static FastEM3D.EMUtils.EMGeometry;
 
 namespace FastEM3D;
@@ -22,7 +16,7 @@ public partial class FastEMEngine
   {
     // Move farther
     Triangle trTranslated = (Triangle)tr.Clone();
-    trTranslated = TriangleMath.TranslateTriangle3D(trTranslated, (0f, 0f, 10f));
+    trTranslated = TriangleMath.TranslateTriangle3D(trTranslated, (0f, -1f, 40f));
 
     // Find normal vector and normalize
     Vector3 normal = VectorMath.FindNormal(trTranslated);
