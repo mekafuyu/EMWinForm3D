@@ -18,7 +18,9 @@ public partial class FastEMEngine
    Graphics g,
    IEnumerable<Mesh> meshesToRender,
    (float x, float y, float z) rotation,
-   (float x, float y, float z) translation
+   (float x, float y, float z) translation,
+   bool fillShape,
+   bool showMesh
    )
   {
     int totalTriangles = 0;
@@ -37,7 +39,7 @@ public partial class FastEMEngine
     g.Clear(Color.Black);
     foreach (var triangle in trianglesToRaster)
     {
-      RasterTriangle(triangle, g, rgb, true, false);
+      RasterTriangle(triangle, g, rgb, fillShape, showMesh);
     }
 
     g.DrawString("EM3D v0.0.8", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));

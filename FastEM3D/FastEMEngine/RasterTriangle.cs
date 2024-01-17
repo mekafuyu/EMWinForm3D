@@ -14,7 +14,7 @@ public partial class FastEMEngine
 {
   private void RasterTriangle(Triangle tr, Graphics g, int[] rgb, bool fillPoly, bool drawPolly)
   {
-    Pen p = new Pen(Color.FromArgb(255, 0, 0, 0), 2);
+    Pen p = new Pen(Color.FromArgb(255, 0, 0, 0), 1);
     SolidBrush b =
       new(
         Color.FromArgb(

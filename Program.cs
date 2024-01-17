@@ -49,7 +49,9 @@ timer.Tick += (o, e) =>
     g,
     meshesToRender,
     (thetaX, thetaY, thetaZ),
-    (transX, transY, transZ)
+    (transX, transY, transZ),
+    true,
+    true
   );
   g.DrawString("T = " + transX + " | " + transY + " | " + transZ, SystemFonts.DefaultFont, Brushes.White, 0, 30);
   g.DrawString("R = " + thetaX + " | " + thetaY + " | " + thetaZ, SystemFonts.DefaultFont, Brushes.White, 0, 40);
