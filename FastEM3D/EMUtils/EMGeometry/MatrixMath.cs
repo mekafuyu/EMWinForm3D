@@ -19,9 +19,9 @@ public static partial class EMGeometry
     public static Matrix4x4 GetRotateInYMatrix(float angle)
     {
       return new(
-        MathF.Cos(angle), 0, -MathF.Sin(angle), 0,
+        MathF.Cos(angle), 0, MathF.Sin(angle), 0,
         0, 1, 0, 0,
-        MathF.Sin(angle), 0, MathF.Cos(angle), 0,
+        -MathF.Sin(angle), 0, MathF.Cos(angle), 0,
         0, 0, 0, 1
       );
     }

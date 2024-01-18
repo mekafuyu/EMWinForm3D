@@ -47,8 +47,8 @@ timer.Tick += (o, e) =>
     true,
     showMesh
   );
-  g.DrawString("T = " + transX + " | " + transY + " | " + transZ, SystemFonts.DefaultFont, Brushes.White, 0, 30);
-  g.DrawString("R = " + thetaX + " | " + thetaY + " | " + thetaZ, SystemFonts.DefaultFont, Brushes.White, 0, 40);
+  g.DrawString("T = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z, SystemFonts.DefaultFont, Brushes.White, 0, 30);
+  g.DrawString("R = " + thetaX + " | " + eng.VirtualCamera.Yaw + " | " + thetaZ, SystemFonts.DefaultFont, Brushes.White, 0, 40);
   g.DrawString("F = " + form.Width + " | " + form.Height, SystemFonts.DefaultFont, Brushes.White, 0, 50);
   
   // thetaY += 0.001f;
@@ -56,48 +56,48 @@ timer.Tick += (o, e) =>
 };
 
 // OnKey
-float speed = 0.05f;
+float speed = 0.01f;
 float tspeed = 1f;
 form.KeyDown += (o, e) =>
 {
    switch (e.KeyCode)
   {
-    case Keys.D:
-      thetaY += speed;
-      break;
     case Keys.A:
-      thetaY -= speed;
+      eng.VirtualCamera.Yaw -= speed;
       break;
-    case Keys.S:
-      thetaX += speed;
+    case Keys.D:
+      eng.VirtualCamera.Yaw += speed;
       break;
-    case Keys.W:
-      thetaX -= speed;
-      break;
-    case Keys.E:
-      thetaZ += speed;
-      break;
-    case Keys.Q:
-      thetaZ -= speed;
-      break;
+    // case Keys.W:
+    //   thetaY -= speed;
+    //   break;
+    // case Keys.S:
+    //   thetaY += speed;
+    //   break;
+    // case Keys.E:
+    //   thetaZ += speed;
+    //   break;
+    // case Keys.Q:
+    //   thetaZ -= speed;
+    //   break;
 
     case Keys.J:
-      eng.VirtualCamera.VCamera.X += tspeed;
+      eng.VirtualCamera.MoveRight(tspeed);
       break;
     case Keys.L:
-      eng.VirtualCamera.VCamera.X -= tspeed;
+      eng.VirtualCamera.MoveLeft(tspeed);
       break;
     case Keys.I:
-      eng.VirtualCamera.VCamera.Z += tspeed;
+      eng.VirtualCamera.MoveFront(tspeed);
       break;
     case Keys.K:
-      eng.VirtualCamera.VCamera.Z -= tspeed;
+      eng.VirtualCamera.MoveBack(tspeed);
       break;
     case Keys.O:
-      eng.VirtualCamera.VCamera.Y -= tspeed;
+      eng.VirtualCamera.MoveDown(tspeed);
       break;
     case Keys.U:
-      eng.VirtualCamera.VCamera.Y += tspeed;
+      eng.VirtualCamera.MoveUp(tspeed);
       break;
 
     case Keys.Escape:
