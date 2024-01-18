@@ -1,0 +1,14 @@
+ax + by + cz + d = 0
+P + (Q - P)*t
+
+a * (xp + (xq - xp) * t) + b * (yp + (yq - yp) * t) + c * (zp + (zq - zp) * t) = -d
+
+N * P + N * Q * t - N * P * t = -d
+
+N * P = ad
+N * Q = bd
+
+ad + bd * t - ad * t = -d
+t = -(d + ad) / (bd - ad)
+
+P + (Q - P)*t = (x, y, z)
