@@ -25,5 +25,28 @@ public static partial class EMGeometry
     {
       return Vector3.Normalize(v.V3);
     }
+
+    public static Vector3 IntersectPlane(Vertex planePoint, Vector3 planeNormal, Vertex lineStartP, Vertex lineEndP)
+    {
+      // Transform to unit 
+      planeNormal = Vector3.Normalize(planeNormal);
+
+      // X * Nx + Y * Ny + Z * Nz - dot(N, P) = 0
+      // Ax + By + Cz - D = 0
+
+      // Constant
+      float d = -Vector3.Dot(planeNormal, planePoint.V3);
+
+      // Find Gradient
+      float ad = Vector3.Dot(lineStartP.V3, planeNormal);
+      float bd = Vector3.Dot(lineEndP.V3, planeNormal);
+      float t = (-d - ad) / (bd - ad);
+
+      // Lines to test against
+      Vector3 lineStartToEnd = lineEndP.V3 - lineStartP.V3;
+      Vector3 lineToIntersect = lineStartToEnd * t;
+
+      return lineStartP.V3 + lineToIntersect;
+    }
   }
 }

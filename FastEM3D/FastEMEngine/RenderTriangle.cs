@@ -40,7 +40,7 @@ public partial class FastEMEngine
     // Calculate light intensity
     float dp = Vector3.Dot(normal, this.LightDirection);
     if (dp < 0)
-      dp = 0;
+      dp *= -1;
     trProjected.lightIntensity = dp;
 
     return trProjected;

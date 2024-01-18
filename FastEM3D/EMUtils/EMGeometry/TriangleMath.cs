@@ -54,5 +54,35 @@ public static partial class EMGeometry
       tr.P.l3.X *= 0.5f * width;
       tr.P.l3.Y *= 0.5f * height;
     }
+
+    private static float distancePointPlane(Vector3 point, Vector3 planePoint, Vector3 planeNormal)
+    {
+      var n = Vector3.Normalize(point);
+      return Vector3.Dot(planeNormal, n) - Vector3.Dot(planeNormal, planePoint);
+    }
+
+    public static int ClipAgainstPlane(Vector3 planePoint, Vector3 planeNormal, Triangle inputTr, (Triangle t1, Triangle t2) outTr)
+    {
+      planeNormal = Vector3.Normalize(planeNormal);
+      
+      Vertex[] insidePoints = new Vertex[3];
+      int countIP = 0;
+      Vertex[] outsidePoints = new Vertex[3];
+      int countOP = 0;
+
+      float d0 = distancePointPlane(inputTr.P.l1.V3, planePoint, planeNormal);
+      float d1 = distancePointPlane(inputTr.P.l2.V3, planePoint, planeNormal);
+      float d2 = distancePointPlane(inputTr.P.l3.V3, planePoint, planeNormal);
+
+      if (d0 >= 0) { insidePoints[countIP++] = inputTr.P.l1; }
+      else { outsidePoints[countOP++] = inputTr.P.l1; }
+      if (d1 >= 0) { insidePoints[countIP++] = inputTr.P.l2; }
+      else { outsidePoints[countOP++] = inputTr.P.l2; }
+      if (d2 >= 0) { insidePoints[countIP++] = inputTr.P.l3; }
+      else { outsidePoints[countOP++] = inputTr.P.l3; }
+
+      // TODO finish clipping
+      return countIP;
+    }
   }
 }

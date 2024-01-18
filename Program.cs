@@ -57,7 +57,7 @@ timer.Tick += (o, e) =>
 
 // OnKey
 float speed = 0.01f;
-float tspeed = 1f;
+float tspeed = 0.5f;
 form.KeyDown += (o, e) =>
 {
    switch (e.KeyCode)
