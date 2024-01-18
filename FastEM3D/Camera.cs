@@ -1,11 +1,12 @@
+
 using System.Numerics;
 using static FastEM3D.EMUtils.EMGeometry;
 
 namespace FastEM3D;
-
-public partial class FastEMEngine
+public class Camera
 {
-   public Vector3 VCamera =
+
+public Vector3 VCamera =
     new()
     {
       X = 0,
@@ -53,6 +54,4 @@ public partial class FastEMEngine
     this.RefreshVTarget();
     this.RefreshCameraMatrix();
   }
-
-
 }

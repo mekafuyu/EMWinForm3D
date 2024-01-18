@@ -82,22 +82,22 @@ form.KeyDown += (o, e) =>
       break;
 
     case Keys.J:
-      eng.VCamera.X += tspeed;
+      eng.VirtualCamera.VCamera.X += tspeed;
       break;
     case Keys.L:
-      eng.VCamera.X -= tspeed;
+      eng.VirtualCamera.VCamera.X -= tspeed;
       break;
     case Keys.I:
-      eng.VCamera.Z += tspeed;
+      eng.VirtualCamera.VCamera.Z += tspeed;
       break;
     case Keys.K:
-      eng.VCamera.Z -= tspeed;
+      eng.VirtualCamera.VCamera.Z -= tspeed;
       break;
     case Keys.O:
-      eng.VCamera.Y -= tspeed;
+      eng.VirtualCamera.VCamera.Y -= tspeed;
       break;
     case Keys.U:
-      eng.VCamera.Y += tspeed;
+      eng.VirtualCamera.VCamera.Y += tspeed;
       break;
 
     case Keys.Escape:

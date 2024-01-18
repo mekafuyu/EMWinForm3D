@@ -20,19 +20,19 @@ public partial class FastEMEngine
     normal = Vector3.Normalize(normal);
 
     // Test if needs to project triangle by similarity
-    if (Vector3.Dot(normal, trTranslated.P.l1.V3 - this.VCamera) > 0)
+    if (Vector3.Dot(normal, trTranslated.P.l1.V3 - this.VirtualCamera.VCamera) > 0)
       return null;
 
     // Convert World Space
     Triangle trViewed = new((
-      Vector4.Transform(trTranslated.P.l1.V4, this.ViewMatrix),
-      Vector4.Transform(trTranslated.P.l3.V4, this.ViewMatrix),
-      Vector4.Transform(trTranslated.P.l2.V4, this.ViewMatrix)
+      Vector4.Transform(trTranslated.P.l1.V4, this.VirtualCamera.ViewMatrix),
+      Vector4.Transform(trTranslated.P.l3.V4, this.VirtualCamera.ViewMatrix),
+      Vector4.Transform(trTranslated.P.l2.V4, this.VirtualCamera.ViewMatrix)
     ));
 
     // Project Triangle
     Triangle trProjected = TriangleMath
-      .ScaledTriangleTransformation(trViewed, this.ProjectionMatrix);
+      .ScaledTriangleTransformation(trViewed, this.VirtualCamera.ProjectionMatrix);
 
     // Scale triangle
     TriangleMath.ScaleTriangle(trProjected, size.width, size.height);
