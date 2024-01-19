@@ -31,15 +31,74 @@ public partial class FastEMEngine
     List<Triangle> trianglesToRaster = new();
     foreach (var mesh in meshesToRender)
     {
-      transformMeshToBuffer(mesh, rotationMatrix, translation, size, trianglesToRaster);
-      totalTriangles += mesh.t.Count();
+      totalTriangles += transformMeshToBuffer(mesh, rotationMatrix, translation, size, trianglesToRaster);
     }
+
     trianglesToRaster = trianglesToRaster.OrderBy(t => t.ZPos).ToList();
 
-    g.Clear(Color.Black);
     foreach (var triangle in trianglesToRaster)
     {
-      RasterTriangle(triangle, g, rgb, fillShape, showMesh);
+      var clipped = new Triangle[2];
+
+      List<Triangle> listTr = new(){ triangle };
+      int newTriangles = 1;
+
+      for (int plane = 0; plane < 4; plane++)
+      {
+        int trisToAdd = 0;
+        
+        while (newTriangles > 0)
+        {
+          Triangle trToTest = listTr.First();
+          listTr.RemoveAt(0);
+          newTriangles--;
+
+          switch (plane)
+          {
+            case 0:
+              (trisToAdd, clipped) = TriangleMath.ClipAgainstPlane(
+                new(0.0f, 0.0f, 0.0f),
+                new(0.0f, 1.0f, 0.0f),
+                trToTest);
+              // trisToAdd += sum;
+              break;
+            case 1:
+              (trisToAdd, clipped) = TriangleMath.ClipAgainstPlane(
+                new(0.0f, size.height - 1, 0.0f),
+                new(0.0f, -1.0f, 0.0f),
+                trToTest);
+              // trisToAdd += sum;
+              break;
+            case 2:
+              (trisToAdd, clipped) = TriangleMath.ClipAgainstPlane(
+                new(0.0f, 0.0f, 0.0f),
+                new(1.0f, 0.0f, 0.0f),
+                trToTest);
+              // trisToAdd += sum;
+              break;
+            case 3:
+              (trisToAdd, clipped) = TriangleMath.ClipAgainstPlane(
+                new(size.width - 1, 0.0f, 0.0f),
+                new(-1.0f, 0.0f, 0.0f),
+                trToTest);
+              // trisToAdd += sum;
+              break;
+            default:
+              break;
+          }
+
+          for (int tw = 0; tw < trisToAdd; tw++)
+          {
+            listTr.Add(clipped[tw]);
+          }
+        }
+        newTriangles = listTr.Count;
+      }
+
+      foreach (var clippedTr in listTr)
+      {
+        RasterTriangle(clippedTr, g, rgb, fillShape, showMesh);
+      }
     }
 
     g.DrawString("EM3D v0.0.8", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));

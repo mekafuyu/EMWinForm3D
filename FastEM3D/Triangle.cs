@@ -14,6 +14,10 @@ public class Triangle : ICloneable
   {
     this.P = p;
   }
+  public Triangle(Vertex p1, Vertex p2, Vertex p3)
+  {
+    this.P = (p1, p2, p3);
+  }
 
   public object Clone()
   {

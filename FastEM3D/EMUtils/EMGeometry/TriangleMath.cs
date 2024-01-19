@@ -58,10 +58,10 @@ public static partial class EMGeometry
     private static float distancePointPlane(Vector3 point, Vector3 planePoint, Vector3 planeNormal)
     {
       var n = Vector3.Normalize(point);
-      return Vector3.Dot(planeNormal, n) - Vector3.Dot(planeNormal, planePoint);
+      return Vector3.Dot(planeNormal, point) - Vector3.Dot(planeNormal, planePoint);
     }
 
-    public static int ClipAgainstPlane(Vector3 planePoint, Vector3 planeNormal, Triangle inputTr, (Triangle t1, Triangle t2) outTr)
+    public static (int, Triangle[]) ClipAgainstPlane(Vector3 planePoint, Vector3 planeNormal, Triangle inputTr)
     {
       planeNormal = Vector3.Normalize(planeNormal);
       
@@ -74,6 +74,8 @@ public static partial class EMGeometry
       float d1 = distancePointPlane(inputTr.P.l2.V3, planePoint, planeNormal);
       float d2 = distancePointPlane(inputTr.P.l3.V3, planePoint, planeNormal);
 
+
+      // ! TALVEZ BUGADO
       if (d0 >= 0) { insidePoints[countIP++] = inputTr.P.l1; }
       else { outsidePoints[countOP++] = inputTr.P.l1; }
       if (d1 >= 0) { insidePoints[countIP++] = inputTr.P.l2; }
@@ -81,8 +83,45 @@ public static partial class EMGeometry
       if (d2 >= 0) { insidePoints[countIP++] = inputTr.P.l3; }
       else { outsidePoints[countOP++] = inputTr.P.l3; }
 
-      // TODO finish clipping
-      return countIP;
+      if(countIP == 3)
+        return (1, new Triangle[]{inputTr});
+      if(countIP == 1 && countOP == 2)
+      {
+        Triangle newTr = new((
+          insidePoints[0],
+          VectorMath.IntersectPlane(planePoint, planeNormal, insidePoints[0], outsidePoints[0]),
+          VectorMath.IntersectPlane(planePoint, planeNormal, insidePoints[0], outsidePoints[1])
+        ))
+        {
+          lightIntensity = inputTr.lightIntensity
+        };
+        
+        return (1, new Triangle[]{newTr});
+      }
+      if(countIP == 2 && countOP == 1)
+      {
+        Triangle newTr1 = new((
+          insidePoints[0],
+          insidePoints[1],
+          VectorMath.IntersectPlane(planePoint, planeNormal, insidePoints[0], outsidePoints[0])
+        ))
+        {
+          lightIntensity = inputTr.lightIntensity
+        };
+
+        // ! TALVEZ BUGADO
+        Triangle newTr2 = new((
+          insidePoints[1],
+          newTr1.P.l3,
+          VectorMath.IntersectPlane(planePoint, planeNormal, insidePoints[1], outsidePoints[0])
+        ))
+        {
+          lightIntensity = inputTr.lightIntensity
+        };
+        
+        return (2, new Triangle[]{newTr1, newTr2});
+      }
+      return (0, null);
     }
   }
 }

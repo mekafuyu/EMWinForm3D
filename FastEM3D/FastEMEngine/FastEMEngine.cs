@@ -26,7 +26,7 @@ public partial class FastEMEngine
   public FastEMEngine()
   {
     this.fAspectRatio = 1.333333f;
-    this.SetFov(90);
+    this.SetFov(120);
     this.SetProjectionMatrix();
     this.VirtualCamera.RefreshView();
     NLightDirection = Vector3.Normalize(LightDirection);
@@ -35,7 +35,7 @@ public partial class FastEMEngine
   public FastEMEngine(float height, float width)
   {
     this.fAspectRatio = height / width;
-    this.SetFov(90);
+    this.SetFov(120);
     this.SetProjectionMatrix();
     this.VirtualCamera.RefreshView();
     NLightDirection = Vector3.Normalize(LightDirection);

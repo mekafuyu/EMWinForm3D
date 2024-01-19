@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using FastEM3D;
 using FastEM3D.EMUtils;
 
-Mesh obj3D = EMFile.LoadObjectFile("axis.obj");
+Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -35,7 +35,7 @@ form.Load += (o, e) =>
 bool showMesh = false;
 timer.Tick += (o, e) =>
 {
-  g.Clear(Color.Black);
+  g.Clear(Color.Gray);
   eng.RefreshAspectRatio(form.Width, form.Height);
 
   eng.GetFrame(
@@ -68,35 +68,30 @@ form.KeyDown += (o, e) =>
     case Keys.D:
       eng.VirtualCamera.Yaw += speed;
       break;
-    // case Keys.W:
-    //   thetaY -= speed;
-    //   break;
-    // case Keys.S:
-    //   thetaY += speed;
-    //   break;
-    // case Keys.E:
-    //   thetaZ += speed;
-    //   break;
-    // case Keys.Q:
-    //   thetaZ -= speed;
-    //   break;
-
-    case Keys.J:
-      eng.VirtualCamera.MoveRight(tspeed);
+    case Keys.Q:
+      eng.VirtualCamera.Xaw -= speed;
       break;
-    case Keys.L:
-      eng.VirtualCamera.MoveLeft(tspeed);
+    case Keys.E:
+      eng.VirtualCamera.Xaw += speed;
       break;
-    case Keys.I:
+    case Keys.W:
       eng.VirtualCamera.MoveFront(tspeed);
       break;
-    case Keys.K:
+    case Keys.S:
       eng.VirtualCamera.MoveBack(tspeed);
       break;
-    case Keys.O:
+
+
+    case Keys.Right:
+      eng.VirtualCamera.MoveRight(tspeed);
+      break;
+    case Keys.Left:
+      eng.VirtualCamera.MoveLeft(tspeed);
+      break;
+    case Keys.Down:
       eng.VirtualCamera.MoveDown(tspeed);
       break;
-    case Keys.U:
+    case Keys.Up:
       eng.VirtualCamera.MoveUp(tspeed);
       break;
 
