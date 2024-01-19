@@ -9,6 +9,9 @@ Bitmap bmp = null;
 Graphics g = null;
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
+float movex = 0;
+float movey = 0;
+
 Mesh[] meshesToRender = new Mesh[] { obj3D }; 
 
 PictureBox pb = new PictureBox { Dock = DockStyle.Fill };
@@ -47,12 +50,24 @@ timer.Tick += (o, e) =>
     true,
     showMesh
   );
+  // Point mouseP = form.Cursor.Position;
   g.DrawString("T = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z, SystemFonts.DefaultFont, Brushes.White, 0, 30);
   g.DrawString("R = " + thetaX + " | " + eng.VirtualCamera.Yaw + " | " + thetaZ, SystemFonts.DefaultFont, Brushes.White, 0, 40);
   g.DrawString("F = " + form.Width + " | " + form.Height, SystemFonts.DefaultFont, Brushes.White, 0, 50);
+  g.DrawString("MM = " + movex + " | " + movey, SystemFonts.DefaultFont, Brushes.White, 0, 60);
+
   
   // thetaY += 0.001f;
   pb.Refresh();
+};
+
+// OnMouseMove
+Point mouseLast = new();
+pb.MouseMove += (o, e) =>
+{
+  eng.VirtualCamera.Xaw = (e.Location.X - mouseLast.X) * 0.01f;
+  eng.VirtualCamera.Yaw = (e.Location.Y - mouseLast.Y) * 0.01f;
+  mouseLast = e.Location;
 };
 
 // OnKey
