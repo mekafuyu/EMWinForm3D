@@ -29,6 +29,7 @@ var eng = new EMEngine(form.Width, form.Height);
 form.Load += (o, e) =>
 {
   amelia = new Amelia(pb.Width / 2);
+  amelia.Pos3D = new(0, -1, -5);
   bmp = new Bitmap(pb.Width, pb.Height);
   g = Graphics.FromImage(bmp);
   g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -42,7 +43,7 @@ float pitchMove = 0;
 float yawMove = 0;
 Point cursorReset = new Point(pb.Width / 2, pb.Height / 2);
 Vertex bolinha = new(0, -1, -5);
-amelia.Pos3D = bolinha;
+
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
@@ -71,6 +72,8 @@ timer.Tick += (o, e) =>
   g.DrawString("MM = " + pitchMove + " | " + yawMove, SystemFonts.DefaultFont, Brushes.White, 0, 60);
   g.DrawString("MP = " + Cursor.Position.X + " | " + Cursor.Position.Y, SystemFonts.DefaultFont, Brushes.White, 0, 70);
   g.DrawString("CP = " + cursorReset.X + " | " + cursorReset.Y, SystemFonts.DefaultFont, Brushes.White, 0, 80);
+  g.DrawString("PB = " + bolinha.X + " | " + bolinha.Y, SystemFonts.DefaultFont, Brushes.White, 0, 90);
+  g.DrawString("PA = " + amelia.Pos3D.X + " | " + amelia.Pos3D.Y, SystemFonts.DefaultFont, Brushes.White, 0, 100);
   cursorReset = new Point(form.Width / 2, form.Height / 2);
   Cursor.Position = cursorReset;
   
