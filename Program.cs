@@ -9,8 +9,6 @@ Bitmap bmp = null;
 Graphics g = null;
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
-float movex = 0;
-float movey = 0;
 
 Mesh[] meshesToRender = new Mesh[] { obj3D }; 
 
@@ -30,12 +28,14 @@ form.Load += (o, e) =>
   bmp = new Bitmap(pb.Width, pb.Height);
   g = Graphics.FromImage(bmp);
   pb.Image = bmp;
-  form.WindowState = FormWindowState.Normal;
   timer.Start();
 };
 
 // OnFrame
 bool showMesh = false;
+float pitchMove = 0;
+float yawMove = 0;
+Point cursorReset = new Point(pb.Width / 2, pb.Height / 2);
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
@@ -54,20 +54,24 @@ timer.Tick += (o, e) =>
   g.DrawString("T = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z, SystemFonts.DefaultFont, Brushes.White, 0, 30);
   g.DrawString("R = " + thetaX + " | " + eng.VirtualCamera.Yaw + " | " + thetaZ, SystemFonts.DefaultFont, Brushes.White, 0, 40);
   g.DrawString("F = " + form.Width + " | " + form.Height, SystemFonts.DefaultFont, Brushes.White, 0, 50);
-  g.DrawString("MM = " + movex + " | " + movey, SystemFonts.DefaultFont, Brushes.White, 0, 60);
-
+  g.DrawString("MM = " + pitchMove + " | " + yawMove, SystemFonts.DefaultFont, Brushes.White, 0, 60);
+  g.DrawString("MP = " + Cursor.Position.X + " | " + Cursor.Position.Y, SystemFonts.DefaultFont, Brushes.White, 0, 70);
+  g.DrawString("CP = " + cursorReset.X + " | " + cursorReset.Y, SystemFonts.DefaultFont, Brushes.White, 0, 80);
+  cursorReset = new Point(form.Width / 2, form.Height / 2);
+  Cursor.Position = cursorReset;
   
   // thetaY += 0.001f;
   pb.Refresh();
 };
 
 // OnMouseMove
-Point mouseLast = new();
+float sense = 0.001f;
 pb.MouseMove += (o, e) =>
 {
-  eng.VirtualCamera.Xaw = (e.Location.X - mouseLast.X) * 0.01f;
-  eng.VirtualCamera.Yaw = (e.Location.Y - mouseLast.Y) * 0.01f;
-  mouseLast = e.Location;
+  pitchMove = (e.Location.Y - cursorReset.Y) * sense + 23 * sense;
+  yawMove = (e.Location.X - cursorReset.X) * sense;
+  eng.VirtualCamera.Yaw += yawMove;
+  eng.VirtualCamera.Pitch -= pitchMove;
 };
 
 // OnKey
@@ -84,10 +88,10 @@ form.KeyDown += (o, e) =>
       eng.VirtualCamera.Yaw += speed;
       break;
     case Keys.Q:
-      eng.VirtualCamera.Xaw -= speed;
+      eng.VirtualCamera.Pitch -= speed;
       break;
     case Keys.E:
-      eng.VirtualCamera.Xaw += speed;
+      eng.VirtualCamera.Pitch += speed;
       break;
     case Keys.W:
       eng.VirtualCamera.MoveFront(tspeed);
@@ -103,12 +107,13 @@ form.KeyDown += (o, e) =>
     case Keys.Left:
       eng.VirtualCamera.MoveLeft(tspeed);
       break;
-    case Keys.Down:
-      eng.VirtualCamera.MoveDown(tspeed);
-      break;
-    case Keys.Up:
+    case Keys.Space:
       eng.VirtualCamera.MoveUp(tspeed);
       break;
+    case Keys.ShiftKey:
+      eng.VirtualCamera.MoveDown(tspeed);
+      break;
+
 
     case Keys.Escape:
       form.Close();
@@ -116,6 +121,7 @@ form.KeyDown += (o, e) =>
     case Keys.Enter:
       showMesh = !showMesh;
       break;
+
     default:
       break;
   }

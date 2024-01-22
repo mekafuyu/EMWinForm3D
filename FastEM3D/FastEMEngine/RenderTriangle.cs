@@ -35,6 +35,11 @@ public partial class FastEMEngine
     // The point to test is zNear, the plane is the Z axis, 
     var (clippedTrCount, trs) = TriangleMath.ClipAgainstPlane(new(0f, 0f, this.fNear), new(0f, 0f, 1f), trViewed);
     
+    // Calculate light intensity
+    float dp = Vector3.Dot(normal, this.LightDirection);
+    if (dp < 0.3)
+      dp = 0.3f;
+      
     for (int i = 0; i < clippedTrCount; i++)
     {
       // Project Triangle
@@ -44,10 +49,6 @@ public partial class FastEMEngine
       // Scale triangle
       TriangleMath.ScaleTriangle(trProjected, size.width, size.height);
 
-      // Calculate light intensity
-      float dp = Vector3.Dot(normal, this.LightDirection);
-      if (dp < 0.3)
-        dp = 0.3f;
       trProjected.lightIntensity = dp;
       trianglesToRasterBuffer.Add(trProjected);      
     }
