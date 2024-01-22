@@ -42,6 +42,7 @@ float pitchMove = 0;
 float yawMove = 0;
 Point cursorReset = new Point(pb.Width / 2, pb.Height / 2);
 Vertex bolinha = new(0, -1, -5);
+amelia.Pos3D = bolinha;
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
@@ -96,18 +97,22 @@ form.KeyDown += (o, e) =>
   {
     case Keys.W:
       bolinha.Z += 0.1f;
+      amelia.StartUp();
       break;
 
     case Keys.A:
       bolinha.X += 0.1f;
+      amelia.StartLeft();
       break;
 
     case Keys.S:
       bolinha.Z -= 0.1f;
+      amelia.StartDown();
       break;
 
     case Keys.D:
       bolinha.X -= 0.1f;
+      amelia.StartRight();
       break;
 
     case Keys.J:

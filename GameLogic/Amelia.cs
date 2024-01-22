@@ -2,21 +2,31 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
+using EM3D;
 
 public class Amelia : Entity
 {
     public float Size { get; set; } = 400;
-    public float X { get; set; } = 400;
-    public float Y { get; set; } = 0;
+    public Vertex Pos3D { get; set; }
+    public float X
+    {
+        get => Pos3D.X;
+        set => this.Pos3D = new(value, Pos3D.Y, Pos3D.Z);
+    }
+    public float Y {
+        get => Pos3D.Z;
+        set => this.Pos3D = new(Pos3D.X, Pos3D.Y, value);
+    }
     public float Speed { get; set; } = 10;
     private SpriteManager manager;
 
     private float centerScreen;
     public Amelia(float centerScreen)
     {
+        this.Pos3D = new(400, 0, 0);
         this.centerScreen = centerScreen;
         manager = new SpriteManager("Amelia bonita de todos.png", 32, 16);
-        manager.QuantSprite = 4;
+        manager.QuantSprite = 0;
         Sprite sprite = new Sprite();
         sprite.Add(0, manager);
     }

@@ -103,13 +103,14 @@ public partial class EMEngine
       }
     }
 
-    var (newP, resize) = renderPoint(p, size);
+    var (ameliaNewPos, resize) = renderPoint(amelia.Pos3D, size);
     if(resize > 0)
     {
-      EMUtils.Drawing.DrawPoint(Brushes.Red, g, newP, 1000 / resize);
-      amelia.X = newP.X;
-      amelia.Y = newP.Y;
+      EMUtils.Drawing.DrawPoint(Brushes.Red, g, ameliaNewPos, 1000 / resize);
+      amelia.Pos3D = ameliaNewPos;
       amelia.Size = 10000 / resize;
+      // amelia.X = newP.X;
+      // amelia.Y = newP.Y;
       RenderAmelia(amelia, g);
     }
 
