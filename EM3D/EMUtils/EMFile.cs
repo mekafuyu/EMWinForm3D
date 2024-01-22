@@ -3,7 +3,7 @@ using System.IO;
 using System.Numerics;
 using System.Text;
 
-namespace FastEM3D.EMUtils;
+namespace EM3D.EMUtils;
 
 public static class EMFile
 {
@@ -37,7 +37,7 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
             continue;
           }
 
-          if (buffer[i] == 'v')
+          if (buffer[i] == 'v' && buffer[i + 1] == ' ')
             vecCount++;
           if (buffer[i] == 'f')
             faceCount++;
@@ -68,7 +68,7 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
         var lines = tempstr.Split('\n');
         foreach (var line in lines)
         {
-          if(line[0] == 'v')
+          if(line[0] == 'v' && line[1] == ' ')
           {
             var vItems = line.Split(' ');
             vertexes[countv] = new(){
@@ -84,9 +84,9 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
           {
             var tItems = line.Split(' ');
             triangles[countf] = new Triangle((
-              vertexes[int.Parse(tItems[1]) - 1],
-              vertexes[int.Parse(tItems[2]) - 1],
-              vertexes[int.Parse(tItems[3]) - 1]
+              vertexes[int.Parse(tItems[1].Split('/')[0]) - 1],
+              vertexes[int.Parse(tItems[2].Split('/')[0]) - 1],
+              vertexes[int.Parse(tItems[3].Split('/')[0]) - 1]
             ));
             countf++;
           }

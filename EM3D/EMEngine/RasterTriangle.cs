@@ -5,12 +5,12 @@ using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
 
-using FastEM3D.EMUtils;
-using static FastEM3D.EMUtils.EMGeometry;
+using EM3D.EMUtils;
+using static EM3D.EMUtils.EMGeometry;
 
-namespace FastEM3D;
+namespace EM3D;
 
-public partial class FastEMEngine
+public partial class EMEngine
 {
   private void RasterTriangle(Triangle tr, Graphics g, int[] rgb, bool fillPoly, bool drawPolly)
   {

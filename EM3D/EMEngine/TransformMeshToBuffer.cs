@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-using static FastEM3D.EMUtils.EMGeometry;
+using static EM3D.EMUtils.EMGeometry;
 
-namespace FastEM3D;
+namespace EM3D;
 
-public partial class FastEMEngine
+public partial class EMEngine
 {
   private int transformMeshToBuffer(Mesh m, Matrix4x4 rotationMatrix, (float x, float y, float z) translation, (float width, float height) size, List<Triangle> bufferList)
   {

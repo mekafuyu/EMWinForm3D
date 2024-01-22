@@ -1,4 +1,4 @@
-namespace FastEM3D.EMUtils;
+namespace EM3D.EMUtils;
 
 public static partial class EMGeometry
 {

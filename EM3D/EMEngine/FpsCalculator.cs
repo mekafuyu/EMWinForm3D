@@ -1,8 +1,8 @@
 using System;
 
-namespace FastEM3D;
+namespace EM3D;
 
-public partial class FastEMEngine
+public partial class EMEngine
 {
   public int fpsCalculator()
   {

@@ -1,8 +1,8 @@
 
 using System.Numerics;
-using static FastEM3D.EMUtils.EMGeometry;
+using static EM3D.EMUtils.EMGeometry;
 
-namespace FastEM3D;
+namespace EM3D;
 public class Camera
 {
   public Vector3 VCamera =
@@ -74,11 +74,13 @@ public class Camera
 
   public void MoveLeft(float step)
   {
-    this.VCamera.X -= step;
+    var right = new Vector3(VLookDirection.X * step, VLookDirection.Y * step, 0);
+    this.VCamera -= right;
   }
   public void MoveRight(float step)
   {
-    this.VCamera.X += step;
+    var right = new Vector3(VLookDirection.X * step, VLookDirection.Y * step, 0);
+    this.VCamera += right;
   }
   public void MoveUp(float step)
   {

@@ -5,12 +5,12 @@ using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
 
-using FastEM3D.EMUtils;
-using static FastEM3D.EMUtils.EMGeometry;
+using EM3D.EMUtils;
+using static EM3D.EMUtils.EMGeometry;
 
-namespace FastEM3D;
+namespace EM3D;
 
-public partial class FastEMEngine
+public partial class EMEngine
 {
   public void GetFrame(
    (float width, float height) size,
@@ -19,7 +19,8 @@ public partial class FastEMEngine
    (float x, float y, float z) rotation,
    (float x, float y, float z) translation,
    bool fillShape,
-   bool showMesh
+   bool showMesh,
+   Vertex p
    )
   {
     int totalTriangles = 0;
@@ -100,6 +101,11 @@ public partial class FastEMEngine
         RasterTriangle(clippedTr, g, rgb, fillShape, showMesh);
       }
     }
+
+    var (newP, resize) = renderPoint(p, size);
+    if(resize > 0)
+      EMUtils.Drawing.DrawPoint(Brushes.Red, g, newP, 1000 / resize);
+    
 
     g.DrawString("EM3D v0.0.8", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
     g.DrawString("FPS: " + fpsCalculator().ToString(), SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 10f));

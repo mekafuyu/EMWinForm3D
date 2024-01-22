@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace FastEM3D.EMUtils;
+namespace EM3D.EMUtils;
 
 public static partial class EMGeometry
 {
@@ -55,7 +55,7 @@ public static partial class EMGeometry
       tr.P.l3.Y *= 0.5f * height;
     }
 
-    private static float distancePointPlane(Vector3 point, Vector3 planePoint, Vector3 planeNormal)
+    public static float distancePointPlane(Vector3 point, Vector3 planePoint, Vector3 planeNormal)
     {
       var n = Vector3.Normalize(point);
       return Vector3.Dot(planeNormal, point) - Vector3.Dot(planeNormal, planePoint);

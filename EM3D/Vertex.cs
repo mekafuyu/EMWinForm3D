@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace FastEM3D;
+namespace EM3D;
 
 public struct Vertex
 {

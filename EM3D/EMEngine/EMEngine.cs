@@ -1,9 +1,9 @@
 using System;
 using System.Numerics;
 
-namespace FastEM3D;
+namespace EM3D;
 
-public partial class FastEMEngine
+public partial class EMEngine
 {
   public float fNear = 0.1f;
   public float fFar = 1000.0f;
@@ -23,7 +23,7 @@ public partial class FastEMEngine
   public Vector3 NLightDirection;
   private DateTime lastCheckTime;
 
-  public FastEMEngine()
+  public EMEngine()
   {
     this.fAspectRatio = 1.333333f;
     this.SetFov(120);
@@ -32,7 +32,7 @@ public partial class FastEMEngine
     NLightDirection = Vector3.Normalize(LightDirection);
   }
 
-  public FastEMEngine(float height, float width)
+  public EMEngine(float height, float width)
   {
     this.fAspectRatio = height / width;
     this.SetFov(120);

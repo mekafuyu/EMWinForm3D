@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
 
-using static FastEM3D.EMUtils.EMGeometry;
+using static EM3D.EMUtils.EMGeometry;
 
-namespace FastEM3D;
+namespace EM3D;
 
-public partial class FastEMEngine
+public partial class EMEngine
 {
   private int renderTriangle(
     Triangle tr,
@@ -37,7 +38,7 @@ public partial class FastEMEngine
     
     // Calculate light intensity
     float dp = Vector3.Dot(normal, this.LightDirection);
-    if (dp < 0.3)
+    if (dp < 0.3 || dp is float.NaN)
       dp = 0.3f;
       
     for (int i = 0; i < clippedTrCount; i++)
@@ -53,5 +54,36 @@ public partial class FastEMEngine
       trianglesToRasterBuffer.Add(trProjected);      
     }
     return clippedTrCount; 
+  }
+  private (Vertex, float) renderPoint(
+    Vertex p,
+    (float width, float height) size
+  )
+  {
+    var pClone = p;
+    // Move farther
+    pClone.Z += 8;
+
+    // Convert World Space to view Space
+    pClone = Vector4.Transform(pClone.V4, this.VirtualCamera.ViewMatrix);
+
+    // The point to test is zNear, the plane is the Z axis, 
+    float distance = TriangleMath.distancePointPlane(pClone.V3, new(0f, 0f, this.fNear), new(0f, 0f, 1f));
+    if (distance <= 0)
+      return (p, 0);
+    
+    pClone.V4 = Vector4.Transform(pClone.V4, this.VirtualCamera.ProjectionMatrix);
+    pClone.V3 /= pClone.W;
+
+    // Scale triangle
+    pClone.X += 1f;
+    pClone.Y += 1f;
+    pClone.X *= 0.5f * size.width;
+    pClone.Y *= 0.5f * size.height;
+
+    // trProjected.lightIntensity =
+    // trianglesToRasterBuffer.Add(trProjected);      
+
+    return (pClone, distance); 
   }
 }

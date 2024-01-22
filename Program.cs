@@ -1,16 +1,18 @@
 using System.Drawing;
 using System.Windows.Forms;
-using FastEM3D;
-using FastEM3D.EMUtils;
+using EM3D;
+using EM3D.EMUtils;
 
 Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
+Mesh spc = EMFile.LoadObjectFile("example.obj");
+Mesh floor = EMFile.LoadObjectFile("chao.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
 
-Mesh[] meshesToRender = new Mesh[] { obj3D }; 
+Mesh[] meshesToRender = new Mesh[] { floor };
 
 PictureBox pb = new PictureBox { Dock = DockStyle.Fill };
 
@@ -20,7 +22,7 @@ var form = new Form {
   WindowState = FormWindowState.Maximized,
   Controls = { pb },
 };
-var eng = new FastEMEngine(form.Width, form.Height);
+var eng = new EMEngine(form.Width, form.Height);
 
 // OnStart
 form.Load += (o, e) =>
@@ -36,6 +38,7 @@ bool showMesh = false;
 float pitchMove = 0;
 float yawMove = 0;
 Point cursorReset = new Point(pb.Width / 2, pb.Height / 2);
+Vertex bolinha = new(0, -1, -5);
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
@@ -48,7 +51,8 @@ timer.Tick += (o, e) =>
     (thetaX, thetaY, thetaZ),
     (transX, transY, transZ),
     true,
-    showMesh
+    showMesh,
+    bolinha
   );
   // Point mouseP = form.Cursor.Position;
   g.DrawString("T = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z, SystemFonts.DefaultFont, Brushes.White, 0, 30);
