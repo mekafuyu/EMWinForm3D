@@ -1,0 +1,140 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+ApplicationConfiguration.Initialize();
+
+Bitmap bmp = null;
+Graphics g = null;
+
+Amelia amelia = null;
+Wall parede = null;
+var pb = new PictureBox {
+    Dock = DockStyle.Fill,
+};
+
+var timer = new Timer {
+    Interval = 20,
+};
+
+var form = new Form {
+    WindowState = FormWindowState.Maximized,
+    FormBorderStyle = FormBorderStyle.None,
+    Controls = { pb }
+};
+
+form.Load += (o, e) =>
+{
+
+    amelia = new Amelia(pb.Width / 2);
+    bmp = new Bitmap(
+        pb.Width, 
+        pb.Height
+    );
+    g = Graphics.FromImage(bmp);
+    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+    g.Clear(Color.Black);
+    pb.Image = bmp;
+    amelia.Y = pb.Height - 100;
+    timer.Start();
+};
+
+timer.Interval = 1000 / 60;
+
+timer.Tick += (o, e) =>
+{
+    g.Clear(Color.White);
+
+    amelia.Move(0 , pb.Width, 0, pb.Height);
+    amelia.Draw(g);
+
+    g.DrawString(amelia.RealMove.ToString(), SystemFonts.DefaultFont, Brushes.Black, 0, 0);
+    g.DrawString(amelia.RealMoveY.ToString(), SystemFonts.DefaultFont, Brushes.Black, 0, 10);
+    
+    pb.Refresh();
+};
+
+int xSpeed = 0;
+int ySpeed = 0;
+form.KeyDown += (o, e) =>
+{
+    switch (e.KeyCode)
+    {
+        case Keys.Escape:
+            Application.Exit();
+            break;
+        
+        case Keys.D:
+            amelia.StartRight();
+
+            if(xSpeed > 0)
+                amelia.StartUp();
+            if(xSpeed < 0)
+                amelia.StartDown();
+
+            ySpeed = 20;
+            break;
+        
+        case Keys.A:
+            amelia.StartLeft();
+
+            if(xSpeed > 0)
+                amelia.StartUp();
+            if(xSpeed < 0)
+                amelia.StartDown();
+
+             ySpeed = -20;
+            break;
+
+        case Keys.W:
+            amelia.StartUp();
+
+             if(ySpeed > 0)
+                amelia.StartRight();
+            if(ySpeed < 0)
+                amelia.StartLeft();
+
+            xSpeed = 20;
+            break;
+
+        case Keys.S:
+            amelia.StartDown();
+
+            if(ySpeed > 0)
+                amelia.StartRight();
+            if(ySpeed < 0)
+                amelia.StartLeft();
+
+            xSpeed = -20;
+            break;
+
+        default:
+            break;
+    }
+};
+
+form.KeyUp += (o, e) =>
+{
+    switch (e.KeyCode)
+    {
+        case Keys.W:
+            xSpeed = 0;
+            break;
+        case Keys.A:
+            ySpeed = 0;
+            break;
+
+        case Keys.S:
+            xSpeed = 0;
+            break;
+
+        case Keys.D:
+            ySpeed = 0;
+            break;
+
+        default:
+            break;
+    }
+};
+
+Application.Run(form);

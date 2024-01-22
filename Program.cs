@@ -9,6 +9,7 @@ Mesh floor = EMFile.LoadObjectFile("chao.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
+Amelia amelia = null;
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
 
@@ -27,8 +28,10 @@ var eng = new EMEngine(form.Width, form.Height);
 // OnStart
 form.Load += (o, e) =>
 {
+  amelia = new Amelia(pb.Width / 2);
   bmp = new Bitmap(pb.Width, pb.Height);
   g = Graphics.FromImage(bmp);
+  g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
   pb.Image = bmp;
   timer.Start();
 };
@@ -52,8 +55,14 @@ timer.Tick += (o, e) =>
     (transX, transY, transZ),
     true,
     showMesh,
-    bolinha
+    bolinha,
+    amelia
   );
+  
+  //amelia 
+  // amelia.Move(0 , pb.Width, 0, pb.Height);
+  // amelia.Draw(g);
+
   // Point mouseP = form.Cursor.Position;
   g.DrawString("T = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z, SystemFonts.DefaultFont, Brushes.White, 0, 30);
   g.DrawString("R = " + thetaX + " | " + eng.VirtualCamera.Yaw + " | " + thetaZ, SystemFonts.DefaultFont, Brushes.White, 0, 40);
@@ -85,22 +94,38 @@ form.KeyDown += (o, e) =>
 {
    switch (e.KeyCode)
   {
+    case Keys.W:
+      bolinha.Z += 0.1f;
+      break;
+
     case Keys.A:
+      bolinha.X += 0.1f;
+      break;
+
+    case Keys.S:
+      bolinha.Z -= 0.1f;
+      break;
+
+    case Keys.D:
+      bolinha.X -= 0.1f;
+      break;
+
+    case Keys.J:
       eng.VirtualCamera.Yaw -= speed;
       break;
-    case Keys.D:
+    case Keys.L:
       eng.VirtualCamera.Yaw += speed;
       break;
-    case Keys.Q:
+    case Keys.U:
       eng.VirtualCamera.Pitch -= speed;
       break;
-    case Keys.E:
+    case Keys.O:
       eng.VirtualCamera.Pitch += speed;
       break;
-    case Keys.W:
+    case Keys.I:
       eng.VirtualCamera.MoveFront(tspeed);
       break;
-    case Keys.S:
+    case Keys.K:
       eng.VirtualCamera.MoveBack(tspeed);
       break;
 

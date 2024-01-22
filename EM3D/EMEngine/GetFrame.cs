@@ -20,7 +20,8 @@ public partial class EMEngine
    (float x, float y, float z) translation,
    bool fillShape,
    bool showMesh,
-   Vertex p
+   Vertex p,
+   Amelia amelia
    )
   {
     int totalTriangles = 0;
@@ -104,7 +105,14 @@ public partial class EMEngine
 
     var (newP, resize) = renderPoint(p, size);
     if(resize > 0)
+    {
       EMUtils.Drawing.DrawPoint(Brushes.Red, g, newP, 1000 / resize);
+      amelia.X = newP.X;
+      amelia.Y = newP.Y;
+      amelia.Size = 10000 / resize;
+      RenderAmelia(amelia, g);
+    }
+
     
 
     g.DrawString("EM3D v0.0.8", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
