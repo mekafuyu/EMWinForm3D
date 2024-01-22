@@ -75,7 +75,9 @@ timer.Tick += (o, e) =>
   g.DrawString("PB = " + bolinha.X + " | " + bolinha.Y, SystemFonts.DefaultFont, Brushes.White, 0, 90);
   g.DrawString("PA = " + amelia.Pos3D.X + " | " + amelia.Pos3D.Y, SystemFonts.DefaultFont, Brushes.White, 0, 100);
   cursorReset = new Point(form.Width / 2, form.Height / 2);
-  Cursor.Position = cursorReset;
+
+  if(form.Focused)
+    Cursor.Position = cursorReset;
   
   // thetaY += 0.001f;
   pb.Refresh();
