@@ -14,12 +14,11 @@ public class ColissionManager
   {
     foreach (var anotherEntity in entities)
     {
-      if (entity.rec.Contains(anotherEntity.rec))
+      if (entity.Hitbox.Contains(anotherEntity.Hitbox))
         return true;
-      if (anotherEntity.rec.Contains(entity.rec))
+      if (anotherEntity.Hitbox.Contains(entity.Hitbox))
         return true;
     }
     return false;
   }
-
 }

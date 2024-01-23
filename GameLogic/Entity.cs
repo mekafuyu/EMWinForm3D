@@ -1,4 +1,5 @@
 using System.Drawing;
+using EM3D;
 
 public class Entity
 {
@@ -6,7 +7,10 @@ public class Entity
   public float X { get; set; }
   public float Y { get; set; }
   public float Speed { get; set; }
-  public Rectangle rec = new Rectangle();
-  private SpriteManager manager;
-  public void Draw(Graphics g) { }
+  public RectangleF Hitbox { get; set; }
+  public Vertex Anchor3D { get; set; }
+  public virtual void Draw(Graphics g)
+  {
+
+  }
 }

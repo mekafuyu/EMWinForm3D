@@ -10,6 +10,7 @@ Mesh floor = EMFile.LoadObjectFile("chao.obj");
 Bitmap bmp = null;
 Graphics g = null;
 Amelia amelia = null;
+Wall parede = null;
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
 
@@ -17,19 +18,22 @@ Mesh[] meshesToRender = new Mesh[] { floor };
 
 PictureBox pb = new PictureBox { Dock = DockStyle.Fill };
 
-var timer = new Timer { Interval = 1};
+var timer = new Timer { Interval = 1 };
 
-var form = new Form {
+var form = new Form
+{
   WindowState = FormWindowState.Maximized,
-  Controls = { pb },
+  Controls = { pb }
 };
 var eng = new EMEngine(form.Width, form.Height);
 
 // OnStart
 form.Load += (o, e) =>
 {
-  amelia = new Amelia(pb.Width / 2);
-  amelia.Pos3D = new(0, -1, -5);
+  parede = new Wall(0, -1, -20, 10, 10);
+  amelia = new Amelia(0, -1, -5, 5, 5);
+  Cursor.Hide();
+  Cursor.Position = new Point(form.Width / 2, form.Height / 2);
   bmp = new Bitmap(pb.Width, pb.Height);
   g = Graphics.FromImage(bmp);
   g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -43,12 +47,14 @@ float pitchMove = 0;
 float yawMove = 0;
 Point cursorReset = new Point(pb.Width / 2, pb.Height / 2);
 Vertex bolinha = new(0, -1, -5);
-
+Image bg = Image.FromFile("./bg.png");
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
+  g.DrawImage(bg, 0, 0, form.Width, form.Height);
   eng.RefreshAspectRatio(form.Width, form.Height);
 
+  amelia.Move(0 , pb.Width, 0, pb.Height);
   eng.GetFrame(
     (form.Width, form.Height),
     g,
@@ -58,11 +64,11 @@ timer.Tick += (o, e) =>
     true,
     showMesh,
     bolinha,
-    amelia
+    amelia,
+    parede
   );
-  
+
   //amelia 
-  // amelia.Move(0 , pb.Width, 0, pb.Height);
   // amelia.Draw(g);
 
   // Point mouseP = form.Cursor.Position;
@@ -73,9 +79,11 @@ timer.Tick += (o, e) =>
   g.DrawString("MP = " + Cursor.Position.X + " | " + Cursor.Position.Y, SystemFonts.DefaultFont, Brushes.White, 0, 70);
   g.DrawString("CP = " + cursorReset.X + " | " + cursorReset.Y, SystemFonts.DefaultFont, Brushes.White, 0, 80);
   g.DrawString("PB = " + bolinha.X + " | " + bolinha.Y, SystemFonts.DefaultFont, Brushes.White, 0, 90);
-  g.DrawString("PA = " + amelia.Pos3D.X + " | " + amelia.Pos3D.Y, SystemFonts.DefaultFont, Brushes.White, 0, 100);
+  g.DrawString("PA = " + amelia.Anchor3D.X + " | " + amelia.Anchor3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 100);
+  g.DrawString("PA = " + amelia.X + " | " + amelia.Y, SystemFonts.DefaultFont, Brushes.White, 0, 110);
+  g.DrawString("SPI = " + amelia.manager.SpriteIndex + " | " + amelia.manager.QuantSprite, SystemFonts.DefaultFont, Brushes.White, 0, 120);
+  g.DrawString("SZ = " + amelia.Size + " | " + amelia.RealSize, SystemFonts.DefaultFont, Brushes.White, 0, 130);
   cursorReset = new Point(form.Width / 2, form.Height / 2);
-
   if(form.Focused)
     Cursor.Position = cursorReset;
   
@@ -98,25 +106,25 @@ float speed = 0.01f;
 float tspeed = 0.5f;
 form.KeyDown += (o, e) =>
 {
-   switch (e.KeyCode)
+  switch (e.KeyCode)
   {
     case Keys.W:
-      bolinha.Z += 0.1f;
+      // bolinha.Z += 0.1f;
       amelia.StartUp();
       break;
 
     case Keys.A:
-      bolinha.X += 0.1f;
+      // bolinha.X += 0.1f;
       amelia.StartLeft();
       break;
 
     case Keys.S:
-      bolinha.Z -= 0.1f;
+      // bolinha.Z -= 0.1f;
       amelia.StartDown();
       break;
 
     case Keys.D:
-      bolinha.X -= 0.1f;
+      // bolinha.X -= 0.1f;
       amelia.StartRight();
       break;
 
