@@ -30,18 +30,8 @@ var eng = new EMEngine(form.Width, form.Height);
 // OnStart
 form.Load += (o, e) =>
 {
-  parede = new Wall
-  {
-    Size = 10.0f,
-    vRec3D = new Vertex[]{
-      new(0, -1, -20),
-      new(10, -1, -20),
-      new(10, -1, -10),
-      new(0, -1, -10)
-    }
-  };
-  amelia = new Amelia(pb.Width / 2);
-  amelia.Pos3D = new(0, -1, -5);
+  parede = new Wall(0, -1, -20, 10, 10);
+  amelia = new Amelia(0, -1, -5, 5, 5);
   Cursor.Hide();
   Cursor.Position = new Point(form.Width / 2, form.Height / 2);
   bmp = new Bitmap(pb.Width, pb.Height);
@@ -89,7 +79,7 @@ timer.Tick += (o, e) =>
   g.DrawString("MP = " + Cursor.Position.X + " | " + Cursor.Position.Y, SystemFonts.DefaultFont, Brushes.White, 0, 70);
   g.DrawString("CP = " + cursorReset.X + " | " + cursorReset.Y, SystemFonts.DefaultFont, Brushes.White, 0, 80);
   g.DrawString("PB = " + bolinha.X + " | " + bolinha.Y, SystemFonts.DefaultFont, Brushes.White, 0, 90);
-  g.DrawString("PA = " + amelia.Pos3D.X + " | " + amelia.Pos3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 100);
+  g.DrawString("PA = " + amelia.Anchor3D.X + " | " + amelia.Anchor3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 100);
   g.DrawString("PA = " + amelia.X + " | " + amelia.Y, SystemFonts.DefaultFont, Brushes.White, 0, 110);
   g.DrawString("SPI = " + amelia.manager.SpriteIndex + " | " + amelia.manager.QuantSprite, SystemFonts.DefaultFont, Brushes.White, 0, 120);
   g.DrawString("SZ = " + amelia.Size + " | " + amelia.RealSize, SystemFonts.DefaultFont, Brushes.White, 0, 130);

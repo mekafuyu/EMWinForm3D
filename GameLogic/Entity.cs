@@ -7,10 +7,8 @@ public class Entity
   public float X { get; set; }
   public float Y { get; set; }
   public float Speed { get; set; }
-  public Rectangle rec = new Rectangle();
-  public Vertex Pos3D { get; set; }
-  private SpriteManager manager;
-
+  public RectangleF Hitbox { get; set; }
+  public Vertex Anchor3D { get; set; }
   public virtual void Draw(Graphics g)
   {
 

@@ -3,27 +3,29 @@ using EM3D;
 
 public class Amelia : Entity
 {
-  public new float Size { get; set; } = 100;
   public float RealSize { get; set; } = 0;
-  public Vertex Pos3D { get; set; }
   public new float X { get; set; }
   public new float Y { get; set; } = 0;
   public new float Speed { get; set; } = 0.05f;
   public SpriteManager manager;
-
-  private float centerScreen;
-  public Amelia(float centerScreen)
+  
+  public Amelia(float x, float y, float z, float length, float width)
   {
-    // this.centerScreen = centerScreen;
-    manager = new SpriteManager("Amelia bonita de todos.png", 8, 16);
-    manager.QuantSprite = 4;
+    this.Size = 100;
+    this.Anchor3D = new(x, y, z);
+    this.Hitbox = new(x, z, width, length);
+
+    manager = new SpriteManager("Amelia bonita de todos.png", 8, 16)
+    {
+      QuantSprite = 4
+    };
   }
 
   public void Draw(Graphics g, float distance, float ratio)
   {
     float k = ratio * distance;
     RealSize = k;
-    manager.Draw(g, new PointF(X, Y), (Size) / k, (Size) / k);
+    manager.Draw(g, new PointF(X, Y), Size / k, Size / k);
   }
   public float RealMove { get; set; } = 0f;
   public float FalseMove { get; set; } = 0f;
@@ -72,7 +74,10 @@ public class Amelia : Entity
   public void Move(int xmin, int xmax, int ymin, int ymax)
   {
     if (FalseMove != 0)
-      this.Pos3D = new(Pos3D.X + FalseMove, Pos3D.Y, Pos3D.Z);
+    {
+      this.Anchor3D = new(Anchor3D.X + FalseMove, Anchor3D.Y, Anchor3D.Z);
+      this.Hitbox =  new(Hitbox.X + FalseMove, Hitbox.Y, Hitbox.Width, Hitbox.Height);
+    }
     if (X < xmin)
       X = xmin;
     if (X > xmax)
@@ -82,7 +87,10 @@ public class Amelia : Entity
       RealMove = FalseMove;
 
     if (FalseMoveY != 0)
-      this.Pos3D = new(Pos3D.X, Pos3D.Y, Pos3D.Z + FalseMoveY);
+    {
+      this.Anchor3D = new(Anchor3D.X, Anchor3D.Y, Anchor3D.Z + FalseMoveY);
+      this.Hitbox =  new(Hitbox.X, Hitbox.Y + FalseMoveY, Hitbox.Width, Hitbox.Height);
+    }
     if (Y < ymin)
       Y = ymin;
     if (Y > ymax - Size / 2)

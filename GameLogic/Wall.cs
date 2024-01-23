@@ -3,19 +3,10 @@ using EM3D;
 public class Wall : Entity
 {
   Image spritesheet = null;
-  public float Size { get; set; }
-  public float X { get; set; }
-  public float Y { get; set; }
-  public Vertex[] vRec3D { get; set; }
-
-  public RectangleF hitbox {
-    get
-      => new RectangleF(
-        vRec3D[0].X,
-        vRec3D[0].Z,
-        vRec3D[0].X - vRec3D[1].X,
-        vRec3D[0].Z - vRec3D[1].Z
-      );
+  public Wall(float x, float y, float z, float length, float width)
+  {
+    this.Anchor3D = new(x, y, z);
+    this.Hitbox = new(x, z, width, length);
   }
 
   public void Draw(Graphics g, PointF p)
