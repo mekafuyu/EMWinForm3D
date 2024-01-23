@@ -17,9 +17,10 @@ Mesh[] meshesToRender = new Mesh[] { floor };
 
 PictureBox pb = new PictureBox { Dock = DockStyle.Fill };
 
-var timer = new Timer { Interval = 1};
+var timer = new Timer { Interval = 1 };
 
-var form = new Form {
+var form = new Form
+{
   WindowState = FormWindowState.Maximized,
   Controls = { pb },
 };
@@ -60,7 +61,7 @@ timer.Tick += (o, e) =>
     bolinha,
     amelia
   );
-  
+
   //amelia 
   // amelia.Move(0 , pb.Width, 0, pb.Height);
   // amelia.Draw(g);
@@ -76,7 +77,7 @@ timer.Tick += (o, e) =>
   g.DrawString("PA = " + amelia.Pos3D.X + " | " + amelia.Pos3D.Y, SystemFonts.DefaultFont, Brushes.White, 0, 100);
   cursorReset = new Point(form.Width / 2, form.Height / 2);
   Cursor.Position = cursorReset;
-  
+
   // thetaY += 0.001f;
   pb.Refresh();
 };
@@ -96,7 +97,7 @@ float speed = 0.01f;
 float tspeed = 0.5f;
 form.KeyDown += (o, e) =>
 {
-   switch (e.KeyCode)
+  switch (e.KeyCode)
   {
     case Keys.W:
       bolinha.Z += 0.1f;

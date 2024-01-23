@@ -109,7 +109,7 @@ public static partial class EMGeometry
           lightIntensity = inputTr.lightIntensity
         };
 
-        // ! TALVEZ BUGADO
+        // TALVEZ BUGADO
         Triangle newTr2 = new((
           insidePoints[1],
           newTr1.P.l3,
