@@ -10,6 +10,7 @@ Mesh floor = EMFile.LoadObjectFile("chao.obj");
 Bitmap bmp = null;
 Graphics g = null;
 Amelia amelia = null;
+Wall parede = null;
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
 
@@ -29,6 +30,16 @@ var eng = new EMEngine(form.Width, form.Height);
 // OnStart
 form.Load += (o, e) =>
 {
+  parede = new Wall
+  {
+    Size = 10.0f,
+    vRec3D = new Vertex[]{
+      new(0, -1, -20),
+      new(10, -1, -20),
+      new(10, -1, -10),
+      new(0, -1, -10)
+    }
+  };
   amelia = new Amelia(pb.Width / 2);
   amelia.Pos3D = new(0, -1, -5);
   Cursor.Hide();
@@ -63,7 +74,8 @@ timer.Tick += (o, e) =>
     true,
     showMesh,
     bolinha,
-    amelia
+    amelia,
+    parede
   );
 
   //amelia 

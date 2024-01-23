@@ -50,7 +50,7 @@ public class Camera
   {
     // this.VTarget = VCamera + VLookDirection;
     this.VTarget = Vector3.UnitZ;
-    Matrix4x4 cameraRotMat = MatrixMath.GetRotateInYMatrix(Yaw);
+    Matrix4x4 cameraRotMat = MatrixMath.GetRotateInYMatrix(Yaw) * MatrixMath.GetRotateInXMatrix(Pitch);
 
     var temp = Vector4.Transform(new Vector4(this.VTarget, 1), cameraRotMat);
     VLookDirection.X = temp.X;

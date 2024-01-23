@@ -21,7 +21,8 @@ public partial class EMEngine
    bool fillShape,
    bool showMesh,
    Vertex p,
-   Amelia amelia
+   Amelia amelia,
+   Wall wall
    )
   {
     int totalTriangles = 0;
@@ -104,6 +105,7 @@ public partial class EMEngine
     }
 
     RenderAmelia(amelia, g, size);
+    RenderWall(wall, g, size);
     
     g.DrawString("EM3D v0.0.8", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
     g.DrawString("FPS: " + fpsCalculator().ToString(), SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 10f));
