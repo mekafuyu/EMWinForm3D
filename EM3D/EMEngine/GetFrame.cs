@@ -103,28 +103,8 @@ public partial class EMEngine
       }
     }
 
-
-    var (newP, resize) = renderPoint(p, size);
-    var (newPAmelia, ameliaResize) = renderPoint(amelia.Pos3D, size);
-    if(resize > 0)
-    {
-      Drawing.DrawPoint(Brushes.Red, g, newP, 1000 / resize);
-      p.X = newP.X;
-      p.Y = newP.Y;
-      amelia.X = newP.X;
-      amelia.Y = newP.Y;
-      RenderAmelia(amelia, g);
-    }
-
-    // TODO Fix Amelia pos3D
-    if(ameliaResize > 0)
-    {
-      // amelia.Pos3D = new (newPAmelia.X, newPAmelia.Y, amelia.Pos3D.Z);
-      // amelia.Size = 10000 / ameliaResize;
-    }
-
+    RenderAmelia(amelia, g, size);
     
-
     g.DrawString("EM3D v0.0.8", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
     g.DrawString("FPS: " + fpsCalculator().ToString(), SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 10f));
     g.DrawString("Triangles: " + trianglesToRaster.Count.ToString() + "/" + totalTriangles, SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 20f));

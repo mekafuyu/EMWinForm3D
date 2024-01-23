@@ -9,7 +9,7 @@ public class Entity
   public Rectangle rec = new Rectangle();
   private SpriteManager manager;
 
-  public void Draw(Graphics g)
+  public virtual void Draw(Graphics g)
   {
 
   }

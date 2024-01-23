@@ -75,7 +75,7 @@ public static partial class EMGeometry
       float d2 = distancePointPlane(inputTr.P.l3.V3, planePoint, planeNormal);
 
 
-      // ! TALVEZ BUGADO
+      // FIXME TALVEZ BUGADO
       if (d0 >= 0) { insidePoints[countIP++] = inputTr.P.l1; }
       else { outsidePoints[countOP++] = inputTr.P.l1; }
       if (d1 >= 0) { insidePoints[countIP++] = inputTr.P.l2; }
@@ -109,7 +109,7 @@ public static partial class EMGeometry
           lightIntensity = inputTr.lightIntensity
         };
 
-        // TALVEZ BUGADO
+        // FIXME TALVEZ BUGADO
         Triangle newTr2 = new((
           insidePoints[1],
           newTr1.P.l3,

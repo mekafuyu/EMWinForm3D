@@ -40,8 +40,16 @@ public partial class EMEngine
     return (pClone, distance);
   }
 
-  public static void RenderAmelia(Amelia amelia, Graphics g)
+  public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
   {
-    amelia.Draw(g);
+    var (newPAmelia, ameliaResize) = renderPoint(amelia.Pos3D, size);
+    if(ameliaResize > 0)
+    {
+      amelia.X = newPAmelia.X;
+      amelia.Y = newPAmelia.Y;
+      var d = Vector3.Distance(VirtualCamera.VCamera, amelia.Pos3D.V3);
+      // var d = TriangleMath.distancePointPlane(am)
+      amelia.Draw(g, d, fAspectRatio);
+    }
   }
 }
