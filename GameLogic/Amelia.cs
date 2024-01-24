@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Windows.Forms;
 using EM3D;
 
 public class Amelia : Entity
@@ -47,24 +48,13 @@ public class Amelia : Entity
   }
   public void StartUp()
   {
-    if (ColissionManager.Current.IsColliding(this))
-    {
-      FalseMoveZ = -Speed;
-      manager.StartIndex = 4;
-      manager.QuantSprite = 4;
-    }
+ 
     FalseMoveZ = -Speed;
     manager.StartIndex = 4;
     manager.QuantSprite = 4;
   }
   public void StartDown()
   {
-    if (ColissionManager.Current.IsColliding(this))
-    {
-      FalseMoveZ = Speed;
-      manager.StartIndex = 0;
-      manager.QuantSprite = 4;
-    }
     FalseMoveZ = Speed;
     manager.StartIndex = 0;
     manager.QuantSprite = 4;
@@ -84,24 +74,11 @@ public class Amelia : Entity
       SetHitbox();
     }
 
+    if (FalseMoveX != 0 && ColissionManager.Current.IsColliding(this) == false)
+      RealMoveX = FalseMoveX;
 
-
-    // if (X < xmin)
-    //   X = xmin;
-    // if (X > xmax)
-    //   X = xmax;
-    // if (FalseMove != 0 && ColissionManager.Current.IsColliding(this) == false)
-    //   RealMove = FalseMove;
-
-
-    // if (Y < zmin)
-    //   Y = zmin;
-    // if (Y > zmax)
-    //   Y = zmax;
-    // if (FalseMoveY != 0 && ColissionManager.Current.IsColliding(this) == false)
-    //   RealMoveY = FalseMoveY;
-    // RealMoveX = FalseMoveX;
-    // RealMoveZ = FalseMoveZ;
+    if (FalseMoveZ != 0 && ColissionManager.Current.IsColliding(this) == false)
+      RealMoveZ = FalseMoveZ;
 
     if (
       FalseMoveX < (0.1f * Speed) &&
@@ -116,6 +93,6 @@ public class Amelia : Entity
       manager.QuantSprite = 0;
     }
 
-    
+
   }
 }
