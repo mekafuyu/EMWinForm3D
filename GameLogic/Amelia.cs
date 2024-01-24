@@ -13,7 +13,7 @@ public class Amelia : Entity
   public Amelia(float x, float y, float z, float width, float height, float length)
   {
     this.Speed = 0.05f;
-    this.Height = 10;
+    this.Height = height;
     this.Anchor3D = new(x, y, z);
     this.Length = length;
     this.Width = width;
@@ -29,8 +29,8 @@ public class Amelia : Entity
 
   public void Draw(Graphics g, float distance, float ratio)
   {
-    float k = ratio / distance;
-    RealSize = Height * k;
+    float k = distance;
+    RealSize = Height * 17 / k;
     manager.Draw(g, new PointF(X, Y), RealSize, RealSize);
   }
   public void StartLeft()

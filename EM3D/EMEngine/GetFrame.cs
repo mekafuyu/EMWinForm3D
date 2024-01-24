@@ -105,7 +105,7 @@ public partial class EMEngine
     }
 
     RenderAmelia(amelia, g, size);
-    projectPoint(amelia.Anchor3D, size);
+    // RenderPoint(Brushes.Green, g, amelia.Anchor3D, size);
     RenderWall(wall, g, size);
     
     g.DrawString("EM3D v0.0.8", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));

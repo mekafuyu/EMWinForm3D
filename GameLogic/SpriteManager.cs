@@ -20,7 +20,7 @@ public class SpriteManager
   public void Draw(Graphics g, PointF centerPoint, float sx = 1f, float sy = 1f)
   {
     var size = new SizeF(91 * sx, 91 * sy);
-    var left = new PointF(centerPoint.X - size.Width / 2, centerPoint.Y - size.Height / 2);
+    var left = new PointF(centerPoint.X - size.Width / 2, centerPoint.Y - size.Height);
     var rec = new RectangleF(left, size);
     g.DrawImage(spritesheet,
       rec,

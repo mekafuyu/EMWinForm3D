@@ -43,6 +43,16 @@ public partial class EMEngine
     return (pClone, distance);
   }
 
+  public void RenderPoint(Brush b, Graphics g, Vertex point, (float h, float w) size)
+  {
+    var (newPoint, d) = projectPoint(point, size);
+    g.FillEllipse(b, new RectangleF(newPoint.X, newPoint.Y, 5, 5));
+  }
+  public void RenderPoint(Brush b, Graphics g, PointF point, (float h, float w) size)
+  {
+    g.FillEllipse(b, new RectangleF(point.X, point.Y, 5, 5));
+  }
+
   public (PointF[], bool) ProjectHitbox(Entity e, (float h, float w) size)
   {
     PointF[] points2D = new PointF[4];
@@ -73,8 +83,8 @@ public partial class EMEngine
 
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
   {
-    Vertex ameliaNP = new(amelia.Anchor3D.X, amelia.Anchor3D.Y + amelia.Height / 2, amelia.Anchor3D.Z);
-    var (newPAmelia, ameliaResize) = projectPoint(ameliaNP, size);
+    // Vertex ameliaNP = new(amelia.Anchor3D.X, amelia.Anchor3D.Y + amelia.RealSize / 2, amelia.Anchor3D.Z);
+    var (newPAmelia, ameliaResize) = projectPoint(amelia.Anchor3D, size);
 
     if(ameliaResize > 0)
     {
@@ -83,6 +93,7 @@ public partial class EMEngine
       var d = Vector3.Distance(VirtualCamera.VCamera, amelia.Anchor3D.V3);
       amelia.Draw(g, d, fAspectRatio);
     }
+    RenderPoint(Brushes.Yellow, g, new PointF(newPAmelia.X, newPAmelia.Y), size);
     
     var (pointsHitbox, draw) = ProjectHitbox(amelia, size);
     if(draw)
