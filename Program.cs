@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using EM3D;
 using EM3D.EMUtils;
 
-Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
-Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh floor = EMFile.LoadObjectFile("chao.obj");
+// Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
+// Mesh spc = EMFile.LoadObjectFile("example.obj");
+Mesh floor = EMFile.LoadObjectFile("plano.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
