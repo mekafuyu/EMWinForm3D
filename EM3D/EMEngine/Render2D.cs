@@ -11,7 +11,7 @@ namespace EM3D;
 
 public partial class EMEngine
 {
-  private (Vertex, float) renderPoint(
+  private (Vertex, float) projectPoint(
       Vertex p,
       (float width, float height) size
     )
@@ -47,18 +47,17 @@ public partial class EMEngine
   {
     PointF[] points2D = new PointF[4];
     Vertex[] points3D = new Vertex[]{
-      new(e.Hitbox.Right, e.Anchor3D.Y,  e.Hitbox.Top),
+      new(e.Hitbox.Right, e.Anchor3D.Y, e.Hitbox.Top),
       new(e.Hitbox.Left, e.Anchor3D.Y, e.Hitbox.Top),
       new(e.Hitbox.Left, e.Anchor3D.Y, e.Hitbox.Bottom),
-      new(e.Hitbox.Right, e.Anchor3D.Y,  e.Hitbox.Bottom),
+      new(e.Hitbox.Right, e.Anchor3D.Y, e.Hitbox.Bottom),
     };
-
 
     bool notClipping = true;
 
     for (int i = 0; i < 4; i++)
     {
-      var (vProj, r) = renderPoint(points3D[i], size);
+      var (vProj, r) = projectPoint(points3D[i], size);
       points2D[i] = new(vProj.X, vProj.Y);
 
       if(TriangleMath.distancePointPlane(
@@ -74,7 +73,7 @@ public partial class EMEngine
 
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
   {
-    var (newPAmelia, ameliaResize) = renderPoint(amelia.Anchor3D, size);
+    var (newPAmelia, ameliaResize) = projectPoint(amelia.Anchor3D, size);
 
     if(ameliaResize > 0)
     {
@@ -85,7 +84,7 @@ public partial class EMEngine
     }
     
     var (pointsHitbox, draw) = ProjectHitbox(amelia, size);
-    if(true)
+    if(draw)
     {
       var path = new GraphicsPath();
 
@@ -96,17 +95,17 @@ public partial class EMEngine
     }
   }
 
-  // public void RenderWall(Wall wall, Graphics g, (float h, float w) size)
-  // {
-  //   var (points2D, draw) = project2Points(wall.vRec3D, size);
-  //   if(draw)
-  //   {
-  //     var path = new GraphicsPath();
+  public void RenderWall(Wall wall, Graphics g, (float h, float w) size)
+  {
+    var (pointsHitbox, draw) = ProjectHitbox(wall, size);
+    if(draw)
+    {
+      var path = new GraphicsPath();
 
-  //     path.AddLines(points2D);
-  //     path.CloseFigure();
+      path.AddLines(pointsHitbox);
+      path.CloseFigure();
 
-  //     g.DrawPath(Pens.Red, path);
-  //   }
-  // }
+      g.DrawPath(Pens.Red, path);
+    }
+  }
 }

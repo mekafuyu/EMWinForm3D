@@ -72,17 +72,15 @@ timer.Tick += (o, e) =>
   // amelia.Draw(g);
 
   // Point mouseP = form.Cursor.Position;
-  g.DrawString("T = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z, SystemFonts.DefaultFont, Brushes.White, 0, 30);
-  g.DrawString("R = " + thetaX + " | " + eng.VirtualCamera.Yaw + " | " + thetaZ, SystemFonts.DefaultFont, Brushes.White, 0, 40);
-  g.DrawString("F = " + form.Width + " | " + form.Height, SystemFonts.DefaultFont, Brushes.White, 0, 50);
-  g.DrawString("MM = " + pitchMove + " | " + yawMove, SystemFonts.DefaultFont, Brushes.White, 0, 60);
-  g.DrawString("MP = " + Cursor.Position.X + " | " + Cursor.Position.Y, SystemFonts.DefaultFont, Brushes.White, 0, 70);
-  g.DrawString("CP = " + cursorReset.X + " | " + cursorReset.Y, SystemFonts.DefaultFont, Brushes.White, 0, 80);
-  g.DrawString("PB = " + bolinha.X + " | " + bolinha.Y, SystemFonts.DefaultFont, Brushes.White, 0, 90);
-  g.DrawString("PA = " + amelia.Anchor3D.X + " | " + amelia.Anchor3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 100);
-  g.DrawString("PA = " + amelia.X + " | " + amelia.Y, SystemFonts.DefaultFont, Brushes.White, 0, 110);
-  g.DrawString("SPI = " + amelia.manager.SpriteIndex + " | " + amelia.manager.QuantSprite, SystemFonts.DefaultFont, Brushes.White, 0, 120);
-  g.DrawString("SZ = " + amelia.Size + " | " + amelia.RealSize, SystemFonts.DefaultFont, Brushes.White, 0, 130);
+  g.DrawString("ScreenSize = " + form.Width + " | " + form.Height, SystemFonts.DefaultFont, Brushes.White, 0, 50);
+  g.DrawString("CPos = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z, SystemFonts.DefaultFont, Brushes.White, 0, 60);
+  g.DrawString("CPitchYaw = " + pitchMove + " | " + yawMove, SystemFonts.DefaultFont, Brushes.White, 0, 70);
+  g.DrawString("Cursor = " + Cursor.Position.X + " | " + Cursor.Position.Y, SystemFonts.DefaultFont, Brushes.White, 0, 80);
+  g.DrawString("A3D = " + amelia.Anchor3D.X + " | "  + amelia.Anchor3D.Y + " | " + amelia.Anchor3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 90);
+  g.DrawString("A2D = " + amelia.X + " | " + amelia.Y, SystemFonts.DefaultFont, Brushes.White, 0, 100);
+  g.DrawString("Sprite = " + amelia.manager.SpriteIndex + " | " + amelia.manager.QuantSprite, SystemFonts.DefaultFont, Brushes.White, 0, 110);
+  g.DrawString("ASiz = " + amelia.Height + " | " + amelia.RealSize, SystemFonts.DefaultFont, Brushes.White, 0, 120);
+  g.DrawString("WPos = " + parede.Anchor3D.X + " | " + parede.Anchor3D.Y + " | " + parede.Anchor3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 130);
   cursorReset = new Point(form.Width / 2, form.Height / 2);
   if(form.Focused)
     Cursor.Position = cursorReset;
