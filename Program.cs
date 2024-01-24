@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EM3D;
@@ -23,6 +24,7 @@ var timer = new Timer { Interval = 1 };
 var form = new Form
 {
   WindowState = FormWindowState.Maximized,
+  // FormBorderStyle = FormBorderStyle.None,
   Controls = { pb }
 };
 var eng = new EMEngine(form.Width, form.Height);
@@ -31,8 +33,8 @@ var eng = new EMEngine(form.Width, form.Height);
 form.Load += (o, e) =>
 {
   parede = new Wall(0, -1, -20, 10, 10);
-  amelia = new Amelia(0, -1, -5, 5, 5);
-  Cursor.Hide();
+  amelia = new Amelia(0, -1, -5, 5, 10, 5);
+  // Cursor.Hide();
   Cursor.Position = new Point(form.Width / 2, form.Height / 2);
   bmp = new Bitmap(pb.Width, pb.Height);
   g = Graphics.FromImage(bmp);
@@ -74,13 +76,18 @@ timer.Tick += (o, e) =>
   // Point mouseP = form.Cursor.Position;
   g.DrawString("ScreenSize = " + form.Width + " | " + form.Height, SystemFonts.DefaultFont, Brushes.White, 0, 50);
   g.DrawString("CPos = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z, SystemFonts.DefaultFont, Brushes.White, 0, 60);
-  g.DrawString("CPitchYaw = " + pitchMove + " | " + yawMove, SystemFonts.DefaultFont, Brushes.White, 0, 70);
+  g.DrawString("CPitchYaw = " + eng.VirtualCamera.Pitch + " | " + eng.VirtualCamera.Yaw, SystemFonts.DefaultFont, Brushes.White, 0, 70);
   g.DrawString("Cursor = " + Cursor.Position.X + " | " + Cursor.Position.Y, SystemFonts.DefaultFont, Brushes.White, 0, 80);
   g.DrawString("A3D = " + amelia.Anchor3D.X + " | "  + amelia.Anchor3D.Y + " | " + amelia.Anchor3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 90);
   g.DrawString("A2D = " + amelia.X + " | " + amelia.Y, SystemFonts.DefaultFont, Brushes.White, 0, 100);
   g.DrawString("Sprite = " + amelia.manager.SpriteIndex + " | " + amelia.manager.QuantSprite, SystemFonts.DefaultFont, Brushes.White, 0, 110);
   g.DrawString("ASiz = " + amelia.Height + " | " + amelia.RealSize, SystemFonts.DefaultFont, Brushes.White, 0, 120);
   g.DrawString("WPos = " + parede.Anchor3D.X + " | " + parede.Anchor3D.Y + " | " + parede.Anchor3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 130);
+  g.DrawString("VCT = " + eng.VirtualCamera.VTarget, SystemFonts.DefaultFont, Brushes.White, 0, 140);
+  g.DrawString("VCLD = " + eng.VirtualCamera.VLookDirection, SystemFonts.DefaultFont, Brushes.White, 0, 150);
+  g.DrawString("YawM = " + eng.VirtualCamera.YawMove, SystemFonts.DefaultFont, Brushes.White, 0, 160);
+  g.DrawString("PitM = " + eng.VirtualCamera.PitchMove, SystemFonts.DefaultFont, Brushes.White, 0, 170);
+  // g.DrawString(" = " + eng.VirtualCamera.VLookDirection, SystemFonts.DefaultFont, Brushes.White, 0, 150);
   cursorReset = new Point(form.Width / 2, form.Height / 2);
   if(form.Focused)
     Cursor.Position = cursorReset;
@@ -107,22 +114,18 @@ form.KeyDown += (o, e) =>
   switch (e.KeyCode)
   {
     case Keys.W:
-      // bolinha.Z += 0.1f;
       amelia.StartUp();
       break;
 
     case Keys.A:
-      // bolinha.X += 0.1f;
       amelia.StartLeft();
       break;
 
     case Keys.S:
-      // bolinha.Z -= 0.1f;
       amelia.StartDown();
       break;
 
     case Keys.D:
-      // bolinha.X -= 0.1f;
       amelia.StartRight();
       break;
 
@@ -165,6 +168,31 @@ form.KeyDown += (o, e) =>
       break;
     case Keys.Enter:
       showMesh = !showMesh;
+      break;
+
+    case Keys.NumPad8:
+      eng.VirtualCamera.VCamera = new(0,0,0);
+      eng.VirtualCamera.VLookDirection = new(0,0,1);
+      eng.VirtualCamera.Yaw = 0;
+      eng.VirtualCamera.Pitch = 0;
+      break;
+    case Keys.NumPad2:
+      eng.VirtualCamera.VCamera = new(0,0,0);
+      eng.VirtualCamera.VLookDirection = new(0,0,-1);
+      eng.VirtualCamera.Yaw = MathF.PI;
+      eng.VirtualCamera.Pitch = 0;
+      break;
+    case Keys.NumPad4:
+      eng.VirtualCamera.VCamera = new(0,0,0);
+      eng.VirtualCamera.VLookDirection = new(1,0,0);
+      eng.VirtualCamera.Yaw = MathF.PI / 2;
+      eng.VirtualCamera.Pitch = 0;
+      break;
+    case Keys.NumPad6:
+      eng.VirtualCamera.VCamera = new(0,0,0);
+      eng.VirtualCamera.VLookDirection = new(-1,0,0);
+      eng.VirtualCamera.Yaw = 3 * MathF.PI / 2;
+      eng.VirtualCamera.Pitch = 0;
       break;
 
     default:

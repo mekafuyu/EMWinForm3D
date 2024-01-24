@@ -73,7 +73,8 @@ public partial class EMEngine
 
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
   {
-    var (newPAmelia, ameliaResize) = projectPoint(amelia.Anchor3D, size);
+    Vertex ameliaNP = new(amelia.Anchor3D.X, amelia.Anchor3D.Y + amelia.Height / 2, amelia.Anchor3D.Z);
+    var (newPAmelia, ameliaResize) = projectPoint(ameliaNP, size);
 
     if(ameliaResize > 0)
     {

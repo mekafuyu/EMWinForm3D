@@ -3,17 +3,17 @@ using EM3D;
 
 public class Amelia : Entity
 {
-  public float RealSize { get; set; } = 0;
+  public Triangle Tr { get; set; }
   public float RealMoveX { get; set; } = 0f;
   public float FalseMoveX { get; set; } = 0f;
   public float RealMoveZ { get; set; } = 0f;
   public float FalseMoveZ { get; set; } = 0f;
   public SpriteManager manager;
 
-  public Amelia(float x, float y, float z, float length, float width)
+  public Amelia(float x, float y, float z, float width, float height, float length)
   {
     this.Speed = 0.05f;
-    this.Height = 100;
+    this.Height = 10;
     this.Anchor3D = new(x, y, z);
     this.Length = length;
     this.Width = width;
@@ -29,9 +29,9 @@ public class Amelia : Entity
 
   public void Draw(Graphics g, float distance, float ratio)
   {
-    float k = ratio * distance;
-    RealSize = Height / k;
-    manager.Draw(g, new PointF(X, Y), Height / k, Height / k);
+    float k = ratio / distance;
+    RealSize = Height * k;
+    manager.Draw(g, new PointF(X, Y), RealSize, RealSize);
   }
   public void StartLeft()
   {

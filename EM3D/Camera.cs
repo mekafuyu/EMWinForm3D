@@ -44,18 +44,23 @@ public class Camera
   public Matrix4x4 ViewMatrix;
   public Matrix4x4 ProjectionMatrix;
   public float Yaw;
+  public Vector4 YawMove;
   public float Pitch;
+  public Vector4 PitchMove;
 
   public void RefreshVTarget()
   {
     // this.VTarget = VCamera + VLookDirection;
-    this.VTarget = Vector3.UnitZ;
-    Matrix4x4 cameraRotMat = MatrixMath.GetRotateInYMatrix(Yaw) * MatrixMath.GetRotateInXMatrix(Pitch);
+    Vector4 front = new(0,0,1,1);
+    Matrix4x4 cameraRotMatYaw = MatrixMath.GetRotateInYMatrix(Yaw);
+    Matrix4x4 cameraRotMatPitch = MatrixMath.GetRotateInXMatrix(Pitch);
 
-    var temp = Vector4.Transform(new Vector4(this.VTarget, 1), cameraRotMat);
-    VLookDirection.X = temp.X;
-    VLookDirection.Y = temp.Y;
-    VLookDirection.Z = temp.Z;
+    YawMove = Vector4.Transform(front, cameraRotMatYaw);
+    PitchMove = Vector4.Transform(front, cameraRotMatPitch);
+
+    VLookDirection.X = YawMove.X;
+    VLookDirection.Z = YawMove.Z;
+    VLookDirection.Y = PitchMove.Y;
 
     VTarget = VCamera + VLookDirection;
   }

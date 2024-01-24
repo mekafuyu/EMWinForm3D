@@ -6,6 +6,7 @@ public class Entity
   public float Width { get; set; }
   public float Height { get; set; }
   public float Length { get; set; }
+  public float RealSize { get; set; }
   public float X { get; set; }
   public float Y { get; set; }
   public float Speed { get; set; }

@@ -23,15 +23,15 @@ public class SpriteManager
     var left = new PointF(centerPoint.X - size.Width / 2, centerPoint.Y - size.Height / 2);
     var rec = new RectangleF(left, size);
     g.DrawImage(spritesheet,
-        rec,
-        getRectanglesInterval(this.StartIndex, this.QuantSprite), GraphicsUnit.Pixel
+      rec,
+      getRectanglesInterval(this.StartIndex, this.QuantSprite),
+      GraphicsUnit.Pixel
     );
+    g.DrawRectangle(Pens.Blue, rec);
   }
 
   private Rectangle getRectanglesInterval(int index, int quantitySprites)
   {
-    // for(int i = indexA; i <  indexA + quantitySprites; i++)
-    // {
     this.SpriteIndex++;
     if (this.SpriteIndex + 1 > quantitySprites * this.Speed)
       this.SpriteIndex = 0;
