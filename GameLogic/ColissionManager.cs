@@ -21,7 +21,12 @@ public class ColissionManager
     }
     return false;
   }
-
+  public bool IsColliding(Entity entity, Entity colisedEntity)
+  {
+    if (entity.Hitbox.IntersectsWith(colisedEntity.Hitbox))
+      return true;
+    return false;
+  }
   public void AddEntity(Entity entity)
   {
     entities.Add(entity);
