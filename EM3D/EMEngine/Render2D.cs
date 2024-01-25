@@ -11,6 +11,7 @@ namespace EM3D;
 
 public partial class EMEngine
 {
+  
   private (Vertex, float) projectPoint(
       Vertex p,
       (float width, float height) size

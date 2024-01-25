@@ -6,7 +6,7 @@ using EM3D.EMUtils;
 
 // Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 // Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh floor = EMFile.LoadObjectFile("sala1.obj");
+Mesh floor = EMFile.LoadObjectFile("chao.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -70,11 +70,7 @@ timer.Tick += (o, e) =>
     parede
   );
 
-  //amelia 
-  // amelia.Draw(g);
-
-  // Point mouseP = form.Cursor.Position;
-  EM3D.EMUtils.Debugger.ShowOnScreen(g, new string[]{
+  Debugger.ShowOnScreen(g, new string[]{
     "ScreenSize = " + form.Width + " | " + form.Height,
     "CPos = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z,
     "CPitchYaw = " + eng.VirtualCamera.Pitch + " | " + eng.VirtualCamera.Yaw,
@@ -91,12 +87,11 @@ timer.Tick += (o, e) =>
     "LightSource = " + eng.NLightDirection,
     "Darkest/Brightest = " + eng.Darkest + " / " + eng.Brightest,
   });
-  // g.DrawString(" = " + eng.VirtualCamera.VLookDirection, SystemFonts.DefaultFont, Brushes.White, 0, 150);
+
   cursorReset = new Point(form.Width / 2, form.Height / 2);
   if (form.Focused)
     Cursor.Position = cursorReset;
 
-  // thetaY += 0.001f;
   pb.Refresh();
 };
 
@@ -215,6 +210,9 @@ form.KeyDown += (o, e) =>
       eng.VirtualCamera.VLookDirection = new(0, 0, -1);
       eng.VirtualCamera.Yaw = MathF.PI;
       eng.VirtualCamera.Pitch = 0;
+      break;
+    case Keys.NumPad5:
+      amelia.Jump();
       break;
     case Keys.NumPad4:
       eng.VirtualCamera.VCamera = new(0, 0, 0);

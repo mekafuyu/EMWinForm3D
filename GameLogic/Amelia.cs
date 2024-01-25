@@ -9,6 +9,8 @@ public class Amelia : Entity
   public float FalseMoveX { get; set; } = 0f;
   public float RealMoveZ { get; set; } = 0f;
   public float FalseMoveZ { get; set; } = 0f;
+  private float floor = 0f;
+  public float YSpeed = 0f;
   public SpriteManager manager;
 
   public Amelia(float x, float y, float z, float width, float height, float length)
@@ -18,6 +20,7 @@ public class Amelia : Entity
     this.Anchor3D = new(x, y, z);
     this.Length = length;
     this.Width = width;
+    this.floor = y;
     SetHitbox();
 
     manager = new SpriteManager("Amelia bonita de todos.png", 8, 16)
@@ -59,8 +62,22 @@ public class Amelia : Entity
     manager.StartIndex = 0;
     manager.QuantSprite = 4;
   }
+  public void Jump()
+  {
+    this.YSpeed = 0.5f;
+  }
+
+
   public void Move(int xmin, int xmax, int zmin, int zmax)
   {
+    this.Anchor3D = new(Anchor3D.X, Anchor3D.Y + YSpeed, Anchor3D.Z);
+    YSpeed -= 0.025f;
+    if(Anchor3D.Y <= this.floor)
+    {
+      YSpeed = 0;
+      this.Anchor3D = new(Anchor3D.X, this.floor, Anchor3D.Z);
+    }
+
     if (FalseMoveX != 0)
     {
       this.Anchor3D = new(Anchor3D.X + FalseMoveX, Anchor3D.Y, Anchor3D.Z);
