@@ -14,11 +14,16 @@ public class ColissionManager
   {
     foreach (var anotherEntity in entities)
     {
-      if (entity.Hitbox.Contains(anotherEntity.Hitbox))
-        return true;
-      if (anotherEntity.Hitbox.Contains(entity.Hitbox))
+      if (entity == anotherEntity)
+        continue;
+      if (entity.Hitbox.IntersectsWith(anotherEntity.Hitbox))
         return true;
     }
     return false;
+  }
+
+  public void AddEntity(Entity entity)
+  {
+    entities.Add(entity);
   }
 }
