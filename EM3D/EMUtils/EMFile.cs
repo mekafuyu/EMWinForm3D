@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Numerics;
@@ -39,13 +40,12 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
 
           if (buffer[i] == 'v' && buffer[i + 1] == ' ')
             vecCount++;
-          if (buffer[i] == 'f')
+          if (buffer[i] == 'f' && buffer[i + 1] == ' ')
             faceCount++;
         }
       }
       while (bytesRead > 0);
     }
-
     return (vecCount, faceCount);
   }
 
@@ -54,6 +54,8 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
     var (vCount, tCount) = CountVectorsAndTrianglesInObjFile(filepath);
     Vector3[] vertexes = new Vector3[vCount];
     Triangle[] triangles = new Triangle[tCount];
+    List<Triangle> trList = new();
+    trList.ToArray();
 
     using(FileStream fs = File.Open(filepath, FileMode.Open))
     {
@@ -72,9 +74,12 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
           {
             var vItems = line.Split(' ');
             vertexes[countv] = new(){
-              X = float.Parse(vItems[1], CultureInfo.InvariantCulture.NumberFormat),
-              Y = float.Parse(vItems[2], CultureInfo.InvariantCulture.NumberFormat),
-              Z = float.Parse(vItems[3], CultureInfo.InvariantCulture.NumberFormat),
+              X = float.Parse(vItems[1].Replace('.',',')),
+              Y = float.Parse(vItems[2].Replace('.',',')),
+              Z = float.Parse(vItems[3].Replace('.',',')),
+              // X = float.Parse(vItems[1], CultureInfo.InvariantCulture.NumberFormat),
+              // Y = float.Parse(vItems[2], CultureInfo.InvariantCulture.NumberFormat),
+              // Z = float.Parse(vItems[3], CultureInfo.InvariantCulture.NumberFormat),
             };
             countv++;
             continue;
@@ -83,16 +88,41 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
           if(line[0] == 'f')
           {
             var tItems = line.Split(' ');
-            triangles[countf] = new Triangle((
-              vertexes[int.Parse(tItems[1].Split('/')[0]) - 1],
-              vertexes[int.Parse(tItems[2].Split('/')[0]) - 1],
-              vertexes[int.Parse(tItems[3].Split('/')[0]) - 1]
-            ));
+
+            var vertexes1 = tItems[1].Split('/');
+            var vertexes2 = tItems[2].Split('/');
+            var vertexes3 = tItems[3].Split('/');
+
+            trList.Add(
+              new Triangle((
+                vertexes[int.Parse(vertexes1[0]) - 1],
+                vertexes[int.Parse(vertexes2[0]) - 1],
+                vertexes[int.Parse(vertexes3[0]) - 1]
+              ))
+            );
+
+            if(tItems.Length > 4)
+            {
+              var vertexes4 = tItems[4].Split('/');
+              trList.Add(
+                new Triangle((
+                  vertexes[int.Parse(vertexes1[0]) - 1],
+                  vertexes[int.Parse(vertexes3[0]) - 1],
+                  vertexes[int.Parse(vertexes4[0]) - 1]
+                ))
+              );
+            }
+
+            // triangles[countf] = new Triangle((
+            //   vertexes[int.Parse(vertexes1[0]) - 1],
+            //   vertexes[int.Parse(vertexes2[1]) - 1],
+            //   vertexes[int.Parse(vertexes3[2]) - 1]
+            // ));
             countf++;
           }
         }
       }
     }
-    return new(triangles);
+    return new(trList.ToArray());
   }
 }
