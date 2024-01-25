@@ -13,7 +13,7 @@ public class Amelia : Entity
 
   public Amelia(float x, float y, float z, float width, float height, float length)
   {
-    this.Speed = 2f;
+    this.Speed = 0.01f;
     this.Height = height;
     this.Anchor3D = new(x, y, z);
     this.Length = length;

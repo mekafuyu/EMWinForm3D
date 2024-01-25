@@ -91,7 +91,8 @@ public partial class EMEngine
       amelia.X = newPAmelia.X;
       amelia.Y = newPAmelia.Y;
       var d = Vector3.Distance(VirtualCamera.VCamera, amelia.Anchor3D.V3);
-      amelia.Draw(g, d, fAspectRatio);
+      if(d > 5)
+        amelia.Draw(g, d, fAspectRatio);
     }
     RenderPoint(Brushes.Yellow, g, new PointF(newPAmelia.X, newPAmelia.Y), size);
     

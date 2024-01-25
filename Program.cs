@@ -6,7 +6,7 @@ using EM3D.EMUtils;
 
 // Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 // Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh floor = EMFile.LoadObjectFile("plano.obj");
+Mesh floor = EMFile.LoadObjectFile("sala1.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -74,19 +74,23 @@ timer.Tick += (o, e) =>
   // amelia.Draw(g);
 
   // Point mouseP = form.Cursor.Position;
-  g.DrawString("ScreenSize = " + form.Width + " | " + form.Height, SystemFonts.DefaultFont, Brushes.White, 0, 50);
-  g.DrawString("CPos = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z, SystemFonts.DefaultFont, Brushes.White, 0, 60);
-  g.DrawString("CPitchYaw = " + eng.VirtualCamera.Pitch + " | " + eng.VirtualCamera.Yaw, SystemFonts.DefaultFont, Brushes.White, 0, 70);
-  g.DrawString("Cursor = " + Cursor.Position.X + " | " + Cursor.Position.Y, SystemFonts.DefaultFont, Brushes.White, 0, 80);
-  g.DrawString("A3D = " + amelia.Anchor3D.X + " | " + amelia.Anchor3D.Y + " | " + amelia.Anchor3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 90);
-  g.DrawString("A2D = " + amelia.X + " | " + amelia.Y, SystemFonts.DefaultFont, Brushes.White, 0, 100);
-  g.DrawString("Sprite = " + amelia.manager.SpriteIndex + " | " + amelia.manager.QuantSprite, SystemFonts.DefaultFont, Brushes.White, 0, 110);
-  g.DrawString("ASiz = " + amelia.Height + " | " + amelia.RealSize, SystemFonts.DefaultFont, Brushes.White, 0, 120);
-  g.DrawString("WPos = " + parede.Anchor3D.X + " | " + parede.Anchor3D.Y + " | " + parede.Anchor3D.Z, SystemFonts.DefaultFont, Brushes.White, 0, 130);
-  g.DrawString("VCT = " + eng.VirtualCamera.VTarget, SystemFonts.DefaultFont, Brushes.White, 0, 140);
-  g.DrawString("VCLD = " + eng.VirtualCamera.VLookDirection, SystemFonts.DefaultFont, Brushes.White, 0, 150);
-  g.DrawString("YawM = " + eng.VirtualCamera.YawMove, SystemFonts.DefaultFont, Brushes.White, 0, 160);
-  g.DrawString("PitM = " + eng.VirtualCamera.PitchMove, SystemFonts.DefaultFont, Brushes.White, 0, 170);
+  EM3D.EMUtils.Debugger.ShowOnScreen(g, new string[]{
+    "ScreenSize = " + form.Width + " | " + form.Height,
+    "CPos = " + eng.VirtualCamera.VCamera.X + " | " + eng.VirtualCamera.VCamera.Y + " | " + eng.VirtualCamera.VCamera.Z,
+    "CPitchYaw = " + eng.VirtualCamera.Pitch + " | " + eng.VirtualCamera.Yaw,
+    "Cursor = " + Cursor.Position.X + " | " + Cursor.Position.Y,
+    "A3D = " + amelia.Anchor3D.X + " | " + amelia.Anchor3D.Y + " | " + amelia.Anchor3D.Z,
+    "A2D = " + amelia.X + " | " + amelia.Y, 
+    "Sprite = " + amelia.manager.SpriteIndex + " | " + amelia.manager.QuantSprite, 
+    "ASiz = " + amelia.Height + " | " + amelia.RealSize, 
+    "WPos = " + parede.Anchor3D.X + " | " + parede.Anchor3D.Y + " | " + parede.Anchor3D.Z, 
+    "VCT = " + eng.VirtualCamera.VTarget, 
+    "VCLD = " + eng.VirtualCamera.VLookDirection, 
+    "YawM = " + eng.VirtualCamera.YawMove, 
+    "PitM = " + eng.VirtualCamera.PitchMove,
+    "LightSource = " + eng.NLightDirection,
+    "Darkest/Brightest = " + eng.Darkest + " / " + eng.Brightest,
+  });
   // g.DrawString(" = " + eng.VirtualCamera.VLookDirection, SystemFonts.DefaultFont, Brushes.White, 0, 150);
   cursorReset = new Point(form.Width / 2, form.Height / 2);
   if (form.Focused)

@@ -51,17 +51,19 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
 
   public static Mesh LoadObjectFile(string filepath)
   {
-    var (vCount, tCount) = CountVectorsAndTrianglesInObjFile(filepath);
-    Vector3[] vertexes = new Vector3[vCount];
-    Triangle[] triangles = new Triangle[tCount];
+    // var (vCount, tCount) = CountVectorsAndTrianglesInObjFile(filepath);
+    // Vector3[] vertexes = new Vector3[vCount];
+    // Triangle[] triangles = new Triangle[tCount];
+    List<Vertex> vertexes = new();
     List<Triangle> trList = new();
     trList.ToArray();
 
     using(FileStream fs = File.Open(filepath, FileMode.Open))
     {
-      byte[] buffer = new byte[1024 * 1024];
+      byte[] buffer = new byte[1024 * 1024 * 10];
       int countv = 0;
       int countf = 0;
+      int countl = 0;
 
       UTF8Encoding temp = new UTF8Encoding(true);
 
@@ -70,17 +72,18 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
         var lines = tempstr.Split('\n');
         foreach (var line in lines)
         {
+
           if(line[0] == 'v' && line[1] == ' ')
           {
             var vItems = line.Split(' ');
-            vertexes[countv] = new(){
+            vertexes.Add(new(){
               X = float.Parse(vItems[1].Replace('.',',')),
               Y = float.Parse(vItems[2].Replace('.',',')),
               Z = float.Parse(vItems[3].Replace('.',',')),
               // X = float.Parse(vItems[1], CultureInfo.InvariantCulture.NumberFormat),
               // Y = float.Parse(vItems[2], CultureInfo.InvariantCulture.NumberFormat),
               // Z = float.Parse(vItems[3], CultureInfo.InvariantCulture.NumberFormat),
-            };
+            });
             countv++;
             continue;
           }
@@ -120,6 +123,7 @@ public static (int vecCount, int faceCount) CountVectorsAndTrianglesInObjFile(st
             // ));
             countf++;
           }
+          countl++;
         }
       }
     }

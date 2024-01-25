@@ -8,6 +8,9 @@ namespace EM3D;
 
 public partial class EMEngine
 {
+  public float Darkest = 0f;
+  public float Brightest = 1f;
+
   private int renderTriangle(
     Triangle tr,
     (float width, float height) size,
@@ -38,8 +41,16 @@ public partial class EMEngine
     
     // Calculate light intensity
     float dp = Vector3.Dot(normal, this.LightDirection);
-    if (dp < 0.3 || dp is float.NaN)
-      dp = 0.3f;
+
+    if(dp > Brightest)
+      Brightest = dp;
+    if(dp < Darkest)
+      Darkest = dp;
+
+    if (dp < 0.2 || dp is float.NaN)
+      dp = 0.2f;
+    if (dp > 1f)
+      dp = 1f;
       
     for (int i = 0; i < clippedTrCount; i++)
     {
