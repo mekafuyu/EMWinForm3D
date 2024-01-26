@@ -6,7 +6,7 @@ using EM3D.EMUtils;
 
 // Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 // Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh floor = EMFile.LoadObjectFile("cube.obj");
+Mesh floor = EMFile.LoadObjectFile("girl OBJ.obj");
 
 Bitmap bmp = null;
 Graphics g = null;

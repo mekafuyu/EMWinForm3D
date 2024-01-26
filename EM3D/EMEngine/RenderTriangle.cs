@@ -63,7 +63,7 @@ public partial class EMEngine
 
       trProjected.lightIntensity = dp;
       trProjected.N = normal;
-      trProjected.T = tr.T;
+      trProjected.T = trs[i].T;
       trianglesToRasterBuffer.Add(trProjected);
     }
     return clippedTrCount; 
