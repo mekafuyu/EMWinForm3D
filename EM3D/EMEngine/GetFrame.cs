@@ -20,9 +20,7 @@ public partial class EMEngine
    (float x, float y, float z) translation,
    bool fillShape,
    bool showMesh,
-   Vertex p,
-   Amelia amelia,
-   Wall wall
+   List<Entity> entities
    )
   {
     int totalTriangles = 0;
@@ -104,9 +102,13 @@ public partial class EMEngine
       }
     }
 
-    RenderAmelia(amelia, g, size);
+
+    foreach (var e in entities)
+      RenderEntitity(g, e, size);
+    // RenderAmelia(amelia, g, size);
     // RenderPoint(Brushes.Green, g, amelia.Anchor3D, size);
-    RenderWall(wall, g, size);
+    // RenderWall(wall, g, size);
+    // RenderDoor(door, g, size);
     
     g.DrawString("EM3D v0.0.8", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
     g.DrawString("FPS: " + fpsCalculator().ToString(), SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 10f));

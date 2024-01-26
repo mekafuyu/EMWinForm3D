@@ -81,6 +81,25 @@ public partial class EMEngine
     return (points2D, notClipping);
   }
 
+  public void RenderEntitity(Graphics g, Entity entity, (float h, float w) size)
+  {
+    if(entity is Wall wall)
+    {
+      RenderWall(wall, g, size);
+      return;
+    }
+    if(entity is Door door)
+    {
+      RenderDoor(door, g, size);
+      return;
+    }
+    if(entity is Amelia amelia)
+    {
+      RenderAmelia(amelia, g, size);
+      return;
+    }
+  }
+
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
   {
     // Vertex ameliaNP = new(amelia.Anchor3D.X, amelia.Anchor3D.Y + amelia.RealSize / 2, amelia.Anchor3D.Z);
@@ -118,6 +137,24 @@ public partial class EMEngine
       path.CloseFigure();
 
       g.DrawPath(Pens.Red, path);
+    }
+  }
+
+  public void RenderDoor(Door door, Graphics g, (float h, float w) size)
+  {
+    var (pointsHitbox, draw) = ProjectHitbox(door, size);
+    if(draw)
+    {
+      var path = new GraphicsPath();
+
+      path.AddLines(pointsHitbox);
+      path.CloseFigure();
+
+      if(door.IsOpen)
+        g.DrawPath(Pens.Green, path);
+      else
+        g.DrawPath(Pens.Yellow, path);
+
     }
   }
 }

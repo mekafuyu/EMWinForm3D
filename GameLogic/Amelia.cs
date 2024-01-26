@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using EM3D;
@@ -5,22 +6,20 @@ using EM3D;
 public class Amelia : Entity
 {
   public Triangle Tr { get; set; }
-  public float RealMoveX { get; set; } = 0f;
-  public float FalseMoveX { get; set; } = 0f;
-  public float RealMoveZ { get; set; } = 0f;
-  public float FalseMoveZ { get; set; } = 0f;
+  public float SpeedX { get; set; } = 0f;
+  public float SpeedZ { get; set; } = 0f;
   public SpriteManager manager;
 
   public Amelia(float x, float y, float z, float width, float height, float length)
   {
-    this.Speed = 2f;
+    this.Speed = 0.09f;
     this.Height = height;
     this.Anchor3D = new(x, y, z);
     this.Length = length;
     this.Width = width;
     SetHitbox();
 
-    manager = new SpriteManager("Amelia bonita de todos.png", 8, 16)
+    manager = new SpriteManager("Amelia bonita de todos.png", 4, 16, 38, 90)
     {
       QuantSprite = 4
     };
@@ -36,63 +35,67 @@ public class Amelia : Entity
   }
   public void StartLeft()
   {
-    FalseMoveX = -Speed;
+    SpeedX = -Speed;
     manager.StartIndex = 12;
     manager.QuantSprite = 4;
   }
   public void StartRight()
   {
-    FalseMoveX = Speed;
+    SpeedX = Speed;
     manager.StartIndex = 8;
     manager.QuantSprite = 4;
   }
   public void StartUp()
   {
- 
-    FalseMoveZ = -Speed;
+    SpeedZ = -Speed;
     manager.StartIndex = 4;
     manager.QuantSprite = 4;
   }
   public void StartDown()
   {
-    FalseMoveZ = Speed;
+    SpeedZ = Speed;
     manager.StartIndex = 0;
     manager.QuantSprite = 4;
   }
   public void Move(int xmin, int xmax, int zmin, int zmax)
   {
-    if (FalseMoveX != 0)
+    this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
+    SetHitbox();
+    var list = ColissionManager.Current.IsColliding(this);
+    if (list.Count > 0)
     {
-      this.Anchor3D = new(Anchor3D.X + FalseMoveX, Anchor3D.Y, Anchor3D.Z);
-      FalseMoveX *= 0.9f;
-      SetHitbox();
-    }
-    if (FalseMoveZ != 0)
-    {
-      this.Anchor3D = new(Anchor3D.X, Anchor3D.Y, Anchor3D.Z + FalseMoveZ);
-      FalseMoveZ *= 0.9f;
-      SetHitbox();
+      foreach (var obj in list)
+      {
+        if (obj is Wall)
+        {
+          this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+        }
+
+        if (obj is Door door && door.IsOpen == false)
+        {
+          this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+        }
+        if (obj is Door door2 && door2.IsOpen)
+        {
+          door2.TeleportEntity(this, 5, 10);
+        }
+      }
     }
 
-    if (FalseMoveX != 0 && ColissionManager.Current.IsColliding(this) == false)
-      RealMoveX = FalseMoveX;
-
-    if (FalseMoveZ != 0 && ColissionManager.Current.IsColliding(this) == false)
-      RealMoveZ = FalseMoveZ;
+    SpeedX *= 0.9f;
+    SpeedZ *= 0.9f;
 
     if (
-      FalseMoveX < (0.1f * Speed) &&
-      FalseMoveX > -(0.1f * Speed) &&
-      FalseMoveZ < (0.1f * Speed) &&
-      FalseMoveZ > -(0.1f * Speed)
+      SpeedX < (0.1f * Speed) &&
+      SpeedX > -(0.1f * Speed) &&
+      SpeedZ < (0.1f * Speed) &&
+      SpeedZ > -(0.1f * Speed)
       )
     {
-      FalseMoveX = 0;
-      FalseMoveZ = 0;
+      SpeedX = 0;
+      SpeedZ = 0;
       manager.StartIndex = 0;
       manager.QuantSprite = 0;
     }
-
-
   }
 }

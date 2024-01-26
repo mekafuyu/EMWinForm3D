@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class ColissionManager
 {
-  private List<Entity> entities = new List<Entity>();
+  public List<Entity> entities = new List<Entity>();
   private static ColissionManager crr = new ColissionManager();
   public static ColissionManager Current => crr;
 
@@ -10,15 +10,22 @@ public class ColissionManager
   public void Reset()
     => crr = new ColissionManager();
 
-  public bool IsColliding(Entity entity)
+  public List<Entity> IsColliding(Entity entity)
   {
+    List<Entity> collidingEntities = new List<Entity>();
+
     foreach (var anotherEntity in entities)
-    {
-      if (entity.Hitbox.Contains(anotherEntity.Hitbox))
-        return true;
-      if (anotherEntity.Hitbox.Contains(entity.Hitbox))
-        return true;
+    { 
+      if (entity == anotherEntity)
+        continue;
+      if (entity.Hitbox.IntersectsWith(anotherEntity.Hitbox))
+        collidingEntities.Add(anotherEntity);
     }
-    return false;
+    return collidingEntities;
+  }
+
+  public void AddEntity(Entity entity)
+  {
+    entities.Add(entity);
   }
 }

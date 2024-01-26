@@ -12,6 +12,9 @@ Bitmap bmp = null;
 Graphics g = null;
 Amelia amelia = null;
 Wall parede = null;
+Door porta = null;
+
+ColissionManager.Current.Reset();
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
 
@@ -33,7 +36,13 @@ var eng = new EMEngine(form.Width, form.Height);
 form.Load += (o, e) =>
 {
   parede = new Wall(0, -1, -20, 10, 10);
-  amelia = new Amelia(0, -1, -5, 5, 10, 5);
+  amelia = new Amelia(0, -1, -5, 1, 10, 1);
+  porta = new Door(0,-1, 20, 5, 10, false);
+  porta = new Door(0,-1, 50, 5, 10, false);
+
+  ColissionManager.Current.AddEntity(amelia);
+  ColissionManager.Current.AddEntity(parede);
+  ColissionManager.Current.AddEntity(porta);
   // Cursor.Hide();
   Cursor.Position = new Point(form.Width / 2, form.Height / 2);
   bmp = new Bitmap(pb.Width, pb.Height);
@@ -65,9 +74,7 @@ timer.Tick += (o, e) =>
     (transX, transY, transZ),
     true,
     showMesh,
-    bolinha,
-    amelia,
-    parede
+    ColissionManager.Current.entities
   );
 
   //amelia 
@@ -87,6 +94,8 @@ timer.Tick += (o, e) =>
   g.DrawString("VCLD = " + eng.VirtualCamera.VLookDirection, SystemFonts.DefaultFont, Brushes.White, 0, 150);
   g.DrawString("YawM = " + eng.VirtualCamera.YawMove, SystemFonts.DefaultFont, Brushes.White, 0, 160);
   g.DrawString("PitM = " + eng.VirtualCamera.PitchMove, SystemFonts.DefaultFont, Brushes.White, 0, 170);
+  g.DrawString("AMH = " + amelia.Hitbox.X + " | " + amelia.Hitbox.Y, SystemFonts.DefaultFont, Brushes.White, 0, 180);
+  g.DrawString("WAH = " + parede.Hitbox.X + " | " + parede.Hitbox.Y, SystemFonts.DefaultFont, Brushes.White, 0, 190);
   // g.DrawString(" = " + eng.VirtualCamera.VLookDirection, SystemFonts.DefaultFont, Brushes.White, 0, 150);
   cursorReset = new Point(form.Width / 2, form.Height / 2);
   if (form.Focused)
@@ -117,7 +126,6 @@ form.KeyDown += (o, e) =>
   {
     case Keys.W:
       amelia.StartUp();
-
       if (zSpeed > 0)
         amelia.StartRight();
       if (zSpeed < 0)
@@ -199,6 +207,9 @@ form.KeyDown += (o, e) =>
     case Keys.Enter:
       showMesh = !showMesh;
       break;
+    case Keys.Tab:
+      porta.ToggleDoor();
+      break;
 
     case Keys.NumPad8:
       eng.VirtualCamera.VCamera = new(0, 0, 0);
@@ -253,5 +264,5 @@ form.KeyUp += (o, e) =>
             break;
     }
 };
-
+  
 Application.Run(form);
