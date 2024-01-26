@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class ColissionManager
 {
-  private List<Entity> entities = new List<Entity>();
+  public List<Entity> entities = new List<Entity>();
   private static ColissionManager crr = new ColissionManager();
   public static ColissionManager Current => crr;
 

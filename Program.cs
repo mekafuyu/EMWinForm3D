@@ -38,6 +38,7 @@ form.Load += (o, e) =>
   parede = new Wall(0, -1, -20, 10, 10);
   amelia = new Amelia(0, -1, -5, 1, 10, 1);
   porta = new Door(0,-1, 20, 5, 10, false);
+  porta = new Door(0,-1, 50, 5, 10, false);
 
   ColissionManager.Current.AddEntity(amelia);
   ColissionManager.Current.AddEntity(parede);
@@ -73,10 +74,7 @@ timer.Tick += (o, e) =>
     (transX, transY, transZ),
     true,
     showMesh,
-    bolinha,
-    amelia,
-    parede,
-    porta
+    ColissionManager.Current.entities
   );
 
   //amelia 

@@ -81,6 +81,25 @@ public partial class EMEngine
     return (points2D, notClipping);
   }
 
+  public void RenderEntitity(Graphics g, Entity entity, (float h, float w) size)
+  {
+    if(entity is Wall wall)
+    {
+      RenderWall(wall, g, size);
+      return;
+    }
+    if(entity is Door door)
+    {
+      RenderDoor(door, g, size);
+      return;
+    }
+    if(entity is Amelia amelia)
+    {
+      RenderAmelia(amelia, g, size);
+      return;
+    }
+  }
+
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
   {
     // Vertex ameliaNP = new(amelia.Anchor3D.X, amelia.Anchor3D.Y + amelia.RealSize / 2, amelia.Anchor3D.Z);
