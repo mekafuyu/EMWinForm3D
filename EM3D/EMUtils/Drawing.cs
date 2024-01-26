@@ -11,8 +11,11 @@ public static class Drawing
   {
     var path = new GraphicsPath();
 
+    
+
     PointF[] pts = TriangleToPointFs(tr);
     path.AddLines(pts);
+
     path.CloseFigure();
 
     g.SetClip(path);

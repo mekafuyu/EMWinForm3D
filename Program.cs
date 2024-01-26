@@ -6,7 +6,7 @@ using EM3D.EMUtils;
 
 // Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 // Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh floor = EMFile.LoadObjectFile("chao.obj");
+Mesh floor = EMFile.LoadObjectFile("cube.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -159,10 +159,10 @@ form.KeyDown += (o, e) =>
       break;
 
     case Keys.J:
-      eng.VirtualCamera.Yaw -= speed;
+      eng.VirtualCamera.MoveLeft(tspeed);
       break;
     case Keys.L:
-      eng.VirtualCamera.Yaw += speed;
+      eng.VirtualCamera.MoveRight(tspeed);
       break;
     case Keys.U:
       eng.VirtualCamera.Pitch -= speed;

@@ -29,7 +29,8 @@ public partial class EMEngine
     var trPoints = Utils.TriangleToPointFs(tr);
 
     if (fillPoly)
-      Drawing.FillTriangleWithTexture(g, tr, Txt);
+      // Drawing.FillTriangleWithTexture(g, tr, Txt);
+      Drawing.FillTriangleWithGraphics(b, g, trPoints);
     if (drawPolly)
       Drawing.DrawTriangleWithGraphics(PenLine, g, trPoints);
   }
