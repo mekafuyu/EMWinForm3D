@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using EM3D;
@@ -60,8 +61,17 @@ public class Amelia : Entity
   {
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
     SetHitbox();
-    if (ColissionManager.Current.IsColliding(this))
-      this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+    var list = ColissionManager.Current.IsColliding(this);
+    if (list.Count > 0)
+    {
+      foreach (var obj in list)
+      {
+        if (obj is Wall)
+        {
+          this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+        }
+      }
+    }
 
     SpeedX *= 0.9f;
     SpeedZ *= 0.9f;

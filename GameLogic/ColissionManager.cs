@@ -10,23 +10,20 @@ public class ColissionManager
   public void Reset()
     => crr = new ColissionManager();
 
-  public bool IsColliding(Entity entity)
+  public List<Entity> IsColliding(Entity entity)
   {
+    List<Entity> collidingEntities = new List<Entity>();
+
     foreach (var anotherEntity in entities)
-    {
+    { 
       if (entity == anotherEntity)
         continue;
       if (entity.Hitbox.IntersectsWith(anotherEntity.Hitbox))
-        return true;
+        collidingEntities.Add(anotherEntity);
     }
-    return false;
+    return collidingEntities;
   }
-  public bool IsColliding(Entity entity, Entity colisedEntity)
-  {
-    if (entity.Hitbox.IntersectsWith(colisedEntity.Hitbox))
-      return true;
-    return false;
-  }
+
   public void AddEntity(Entity entity)
   {
     entities.Add(entity);
