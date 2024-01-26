@@ -120,4 +120,22 @@ public partial class EMEngine
       g.DrawPath(Pens.Red, path);
     }
   }
+
+  public void RenderDoor(Door door, Graphics g, (float h, float w) size)
+  {
+    var (pointsHitbox, draw) = ProjectHitbox(door, size);
+    if(draw)
+    {
+      var path = new GraphicsPath();
+
+      path.AddLines(pointsHitbox);
+      path.CloseFigure();
+
+      if(door.IsOpen)
+        g.DrawPath(Pens.Green, path);
+      else
+        g.DrawPath(Pens.Yellow, path);
+
+    }
+  }
 }

@@ -12,6 +12,8 @@ Bitmap bmp = null;
 Graphics g = null;
 Amelia amelia = null;
 Wall parede = null;
+Door porta = null;
+
 ColissionManager.Current.Reset();
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
@@ -35,8 +37,11 @@ form.Load += (o, e) =>
 {
   parede = new Wall(0, -1, -20, 10, 10);
   amelia = new Amelia(0, -1, -5, 1, 10, 1);
+  porta = new Door(0,-1, 20, 5, 10, false);
+
   ColissionManager.Current.AddEntity(amelia);
   ColissionManager.Current.AddEntity(parede);
+  ColissionManager.Current.AddEntity(porta);
   // Cursor.Hide();
   Cursor.Position = new Point(form.Width / 2, form.Height / 2);
   bmp = new Bitmap(pb.Width, pb.Height);
@@ -70,7 +75,8 @@ timer.Tick += (o, e) =>
     showMesh,
     bolinha,
     amelia,
-    parede
+    parede,
+    porta
   );
 
   //amelia 
@@ -202,6 +208,9 @@ form.KeyDown += (o, e) =>
       break;
     case Keys.Enter:
       showMesh = !showMesh;
+      break;
+    case Keys.Tab:
+      porta.ToggleDoor();
       break;
 
     case Keys.NumPad8:

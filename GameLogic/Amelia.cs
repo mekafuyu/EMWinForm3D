@@ -70,6 +70,15 @@ public class Amelia : Entity
         {
           this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
         }
+
+        if (obj is Door door && door.IsOpen == false)
+        {
+          this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+        }
+        if (obj is Door door2 && door2.IsOpen == true)
+        {
+          
+        }
       }
     }
 
