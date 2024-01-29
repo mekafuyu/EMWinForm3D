@@ -98,6 +98,10 @@ public partial class EMEngine
       RenderAmelia(amelia, g, size);
       return;
     }
+    if(entity is Portal portal)
+    {
+      RenderPortal(portal, g, size);
+    }
   }
 
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
@@ -154,6 +158,24 @@ public partial class EMEngine
         g.DrawPath(Pens.Green, path);
       else
         g.DrawPath(Pens.Yellow, path);
+
+    }
+  }
+
+  public void RenderPortal(Portal portal, Graphics g, (float h, float w) size)
+  {
+    var (pointsHitbox, draw) = ProjectHitbox(portal, size);
+    if(draw)
+    {
+      var path = new GraphicsPath();
+
+      path.AddLines(pointsHitbox);
+      path.CloseFigure();
+
+      if(portal.IsOpen)
+        g.DrawPath(Pens.Purple, path);
+      else
+        g.DrawPath(Pens.Pink, path);
 
     }
   }

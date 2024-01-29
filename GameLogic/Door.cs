@@ -21,9 +21,4 @@ public class Door : Entity
   {
     IsOpen = !IsOpen;
   }
-
-  public void TeleportEntity(Entity entity, int x, int z)
-  {
-    entity.Anchor3D = new(x, entity.Anchor3D.Y, z);    
-  }
 }

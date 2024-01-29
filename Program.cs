@@ -13,7 +13,8 @@ Graphics g = null;
 Amelia amelia = null;
 Wall parede = null;
 Door porta = null;
-
+Portal portal = null;
+Portal portal2 = null;
 ColissionManager.Current.Reset();
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
@@ -37,12 +38,17 @@ form.Load += (o, e) =>
 {
   parede = new Wall(0, -1, -20, 10, 10);
   amelia = new Amelia(0, -1, -5, 1, 10, 1);
-  porta = new Door(0,-1, 20, 5, 10, false);
-  porta = new Door(0,-1, 50, 5, 10, false);
-
+  porta = new Door(-14,-1, 20, 5, 10, false);
+  portal = new Portal(0,-1, 20, 5, 10, false);
+  portal2 = new Portal(-14,-1, -20, 5, 10, false);
+  portal.destiny = portal2;
+  portal2.destiny = portal;
+  
   ColissionManager.Current.AddEntity(amelia);
   ColissionManager.Current.AddEntity(parede);
   ColissionManager.Current.AddEntity(porta);
+  ColissionManager.Current.AddEntity(portal);
+  ColissionManager.Current.AddEntity(portal2);
   // Cursor.Hide();
   Cursor.Position = new Point(form.Width / 2, form.Height / 2);
   bmp = new Bitmap(pb.Width, pb.Height);
@@ -210,7 +216,10 @@ form.KeyDown += (o, e) =>
     case Keys.Tab:
       porta.ToggleDoor();
       break;
-
+    case Keys.M:
+      portal.TogglePortal();
+      portal2.TogglePortal();
+      break;
     case Keys.NumPad8:
       eng.VirtualCamera.VCamera = new(0, 0, 0);
       eng.VirtualCamera.VLookDirection = new(0, 0, 1);
