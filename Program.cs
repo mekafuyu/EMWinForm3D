@@ -6,7 +6,7 @@ using EM3D.EMUtils;
 
 // Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 // Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh floor = EMFile.LoadObjectFile("girl OBJ.obj");
+Mesh floor = EMFile.LoadObjectFile("./assets/models/plano.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -64,7 +64,7 @@ float pitchMove = 0;
 float yawMove = 0;
 Point cursorReset = new Point(pb.Width / 2, pb.Height / 2);
 Vertex bolinha = new(0, -1, -5);
-Image bg = Image.FromFile("./bg.png");
+Image bg = Image.FromFile("./assets/imgs/bg.png");
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
