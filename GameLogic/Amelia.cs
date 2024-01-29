@@ -57,6 +57,7 @@ public class Amelia : Entity
     manager.StartIndex = 0;
     manager.QuantSprite = 4;
   }
+  
   public void Move(int xmin, int xmax, int zmin, int zmax)
   {
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);

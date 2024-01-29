@@ -7,12 +7,15 @@ namespace EM3D.EMUtils;
 
 public static class Drawing
 {
-  public static void FillTriangleWithTexture(Brush b, Graphics g, Triangle tr, Image img)
+  public static void FillTriangleWithTexture(Graphics g, Triangle tr, Image img)
   {
     var path = new GraphicsPath();
 
+    
+
     PointF[] pts = TriangleToPointFs(tr);
     path.AddLines(pts);
+
     path.CloseFigure();
 
     g.SetClip(path);

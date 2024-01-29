@@ -28,6 +28,7 @@ public partial class EMEngine
 
     var rotationMatrix = MatrixMath.GetRotationMatrix(rotation.x, rotation.y, rotation.z);
     this.VirtualCamera.RefreshView();
+    this.LightDirection = -Vector3.Normalize(VirtualCamera.VLookDirection);
 
     List<Triangle> trianglesToRaster = new();
     foreach (var mesh in meshesToRender)

@@ -8,6 +8,9 @@ namespace EM3D;
 
 public partial class EMEngine
 {
+  public float Darkest = 0f;
+  public float Brightest = 1f;
+
   private int renderTriangle(
     Triangle tr,
     (float width, float height) size,
@@ -23,14 +26,14 @@ public partial class EMEngine
     normal = Vector3.Normalize(normal);
 
     // Test if needs to project triangle by similarity
-    if (Vector3.Dot(normal, trTranslated.P.l1.V3 - this.VirtualCamera.VCamera) > 0)
+    if (Vector3.Dot(normal, trTranslated.P.v1.V3 - this.VirtualCamera.VCamera) > 0)
       return 0;
 
     // Convert World Space to view Space
     Triangle trViewed = new((
-      Vector4.Transform(trTranslated.P.l1.V4, this.VirtualCamera.ViewMatrix),
-      Vector4.Transform(trTranslated.P.l3.V4, this.VirtualCamera.ViewMatrix),
-      Vector4.Transform(trTranslated.P.l2.V4, this.VirtualCamera.ViewMatrix)
+      Vector4.Transform(trTranslated.P.v1.V4, this.VirtualCamera.ViewMatrix),
+      Vector4.Transform(trTranslated.P.v3.V4, this.VirtualCamera.ViewMatrix),
+      Vector4.Transform(trTranslated.P.v2.V4, this.VirtualCamera.ViewMatrix)
     ));
 
     // The point to test is zNear, the plane is the Z axis, 
@@ -38,8 +41,16 @@ public partial class EMEngine
     
     // Calculate light intensity
     float dp = Vector3.Dot(normal, this.LightDirection);
-    if (dp < 0.3 || dp is float.NaN)
-      dp = 0.3f;
+
+    if(dp > Brightest)
+      Brightest = dp;
+    if(dp < Darkest)
+      Darkest = dp;
+
+    if (dp < 0.2 || dp is float.NaN)
+      dp = 0.2f;
+    if (dp > 1f)
+      dp = 1f;
       
     for (int i = 0; i < clippedTrCount; i++)
     {
@@ -51,7 +62,9 @@ public partial class EMEngine
       TriangleMath.ScaleTriangle(trProjected, size.width, size.height);
 
       trProjected.lightIntensity = dp;
-      trianglesToRasterBuffer.Add(trProjected);      
+      trProjected.N = normal;
+      trProjected.T = trs[i].T;
+      trianglesToRasterBuffer.Add(trProjected);
     }
     return clippedTrCount; 
   }

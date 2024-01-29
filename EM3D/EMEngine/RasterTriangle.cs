@@ -12,9 +12,11 @@ namespace EM3D;
 
 public partial class EMEngine
 {
+  public Image Txt = Image.FromFile("./marcoforte.jpg");
+  public Pen PenLine = new Pen(Color.FromArgb(255, 255, 255, 255), 1);
   private void RasterTriangle(Triangle tr, Graphics g, int[] rgb, bool fillPoly, bool drawPolly)
   {
-    Pen p = new Pen(Color.FromArgb(255, 0, 0, 0), 1);
+    // Pen p = new Pen(Color.FromArgb(255, 0, 0, 0), 1);
     SolidBrush b =
       new(
         Color.FromArgb(
@@ -27,8 +29,9 @@ public partial class EMEngine
     var trPoints = Utils.TriangleToPointFs(tr);
 
     if (fillPoly)
+      // Drawing.FillTriangleWithTexture(g, tr, Txt);
       Drawing.FillTriangleWithGraphics(b, g, trPoints);
     if (drawPolly)
-      Drawing.DrawTriangleWithGraphics(p, g, trPoints);
+      Drawing.DrawTriangleWithGraphics(PenLine, g, trPoints);
   }
 }
