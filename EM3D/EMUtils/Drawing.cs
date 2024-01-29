@@ -11,8 +11,6 @@ public static class Drawing
   {
     var path = new GraphicsPath();
 
-    
-
     PointF[] pts = TriangleToPointFs(tr);
     path.AddLines(pts);
 
@@ -25,10 +23,15 @@ public static class Drawing
     float scale = Math.Min(imageBounds.Width / img.Width, imageBounds.Height / img.Height);
 
     PointF imageLocation = new PointF(imageBounds.X, imageBounds.Y);
-    SizeF imageSize = new SizeF(img.Width * scale, img.Height * scale);
+    // SizeF imageSize = new SizeF(img.Width * scale, img.Height * scale);
+    SizeF imageSize = new SizeF(imageBounds.Width, imageBounds.Height);
 
     // Draw the clipped image inside the triangle
+    if(tr.lightIntensity < 0.3f)
+      tr.lightIntensity = 0.3f;
+    Brush b = new SolidBrush(Color.FromArgb(255 - (int) (255 * tr.lightIntensity),0,0,0));
     g.DrawImage(img, new RectangleF(imageLocation, imageSize));
+    g.FillPath(b, path);
     g.ResetClip();
   }
   public static void FillTriangleWithGraphics(Brush b, Graphics g, Triangle tr)

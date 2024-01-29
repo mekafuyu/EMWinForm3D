@@ -54,9 +54,6 @@ public static class EMFile
 
   public static Mesh LoadObjectFile(string filepath)
   {
-    // var (vCount, tCount) = CountVectorsAndTrianglesInObjFile(filepath);
-    // Vector3[] vertexes = new Vector3[vCount];
-    // Triangle[] triangles = new Triangle[tCount];
     List<Vertex> vertexes = new();
     List<Vector2> vertexes2D = new();
     List<Triangle> trList = new();
@@ -112,36 +109,40 @@ public static class EMFile
             var vertexes2 = tItems[2].Split('/');
             var vertexes3 = tItems[3].Split('/');
 
-            trList.Add(
-              new Triangle((
-                vertexes[int.Parse(vertexes1[0]) - 1],
-                vertexes[int.Parse(vertexes2[0]) - 1],
-                vertexes[int.Parse(vertexes3[0]) - 1]
-              ),
-              (
+            var nt1 = new Triangle((
+              vertexes[int.Parse(vertexes1[0]) - 1],
+              vertexes[int.Parse(vertexes2[0]) - 1],
+              vertexes[int.Parse(vertexes3[0]) - 1]
+            ));
+
+            if(vertexes1.Length > 1)
+              nt1.T = (
                 vertexes2D[int.Parse(vertexes1[1]) - 1],
                 vertexes2D[int.Parse(vertexes2[1]) - 1],
                 vertexes2D[int.Parse(vertexes3[1]) - 1]
-              ))
-            );
-
-            if (tItems.Length > 4)
-            {
-              var vertexes4 = tItems[4].Split('/');
-              trList.Add(
-                new Triangle((
-                  vertexes[int.Parse(vertexes1[0]) - 1],
-                  vertexes[int.Parse(vertexes3[0]) - 1],
-                  vertexes[int.Parse(vertexes4[0]) - 1]
-                ),
-                (
-                  vertexes2D[int.Parse(vertexes1[1]) - 1],
-                  vertexes2D[int.Parse(vertexes3[1]) - 1],
-                  vertexes2D[int.Parse(vertexes4[1]) - 1]
-                ))
               );
-            }
+
+            trList.Add(nt1);
             countf++;
+
+            if (tItems.Length < 5)
+              continue;
+            
+            var vertexes4 = tItems[4].Split('/');
+
+            var nt2 = new Triangle((
+              vertexes[int.Parse(vertexes1[0]) - 1],
+              vertexes[int.Parse(vertexes3[0]) - 1],
+              vertexes[int.Parse(vertexes4[0]) - 1]
+              ));
+
+            if (vertexes4.Length > 1)
+              nt2.T = ((
+                vertexes2D[int.Parse(vertexes1[1]) - 1],
+                vertexes2D[int.Parse(vertexes3[1]) - 1],
+                vertexes2D[int.Parse(vertexes4[1]) - 1]
+              ));
+            
           }
           countl++;
         }

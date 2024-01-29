@@ -12,7 +12,7 @@ namespace EM3D;
 
 public partial class EMEngine
 {
-  public Image Txt = Image.FromFile("./assets/imgs/marcoforte.jpg");
+  public Image Txt = Image.FromFile("./assets/imgs/lava.jpg");
   public Pen PenLine = new Pen(Color.FromArgb(255, 255, 255, 255), 1);
   private void RasterTriangle(Triangle tr, Graphics g, int[] rgb, bool fillPoly, bool drawPolly)
   {
@@ -29,8 +29,8 @@ public partial class EMEngine
     var trPoints = Utils.TriangleToPointFs(tr);
 
     if (fillPoly)
-      // Drawing.FillTriangleWithTexture(g, tr, Txt);
-      Drawing.FillTriangleWithGraphics(b, g, trPoints);
+      Drawing.FillTriangleWithTexture(g, tr, Txt);
+      // Drawing.FillTriangleWithGraphics(b, g, trPoints);
     if (drawPolly)
       Drawing.DrawTriangleWithGraphics(PenLine, g, trPoints);
   }

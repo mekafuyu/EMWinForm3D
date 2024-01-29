@@ -6,7 +6,7 @@ using EM3D.EMUtils;
 
 // Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 // Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh floor = EMFile.LoadObjectFile("./assets/models/plano.obj");
+Mesh floor = EMFile.LoadObjectFile("./assets/models/chao.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -64,11 +64,11 @@ float pitchMove = 0;
 float yawMove = 0;
 Point cursorReset = new Point(pb.Width / 2, pb.Height / 2);
 Vertex bolinha = new(0, -1, -5);
-Image bg = Image.FromFile("./assets/imgs/bg.png");
+// Image bg = Image.FromFile("./assets/imgs/paper.jpg");
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
-  g.DrawImage(bg, 0, 0, form.Width, form.Height);
+  // g.DrawImage(bg, 0, 0, form.Width, form.Height);
   eng.RefreshAspectRatio(form.Width, form.Height);
 
   amelia.Move(0, pb.Width, 0, pb.Height);

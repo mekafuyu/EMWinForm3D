@@ -103,14 +103,9 @@ public partial class EMEngine
       }
     }
 
-
     foreach (var e in entities)
       RenderEntitity(g, e, size);
-    // RenderAmelia(amelia, g, size);
-    // RenderPoint(Brushes.Green, g, amelia.Anchor3D, size);
-    // RenderWall(wall, g, size);
-    // RenderDoor(door, g, size);
-    
+
     g.DrawString("EM3D v0.0.8", SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 0f));
     g.DrawString("FPS: " + fpsCalculator().ToString(), SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 10f));
     g.DrawString("Triangles: " + trianglesToRaster.Count.ToString() + "/" + totalTriangles, SystemFonts.DefaultFont, Brushes.White, new PointF(0f, 20f));
