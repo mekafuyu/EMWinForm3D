@@ -1,5 +1,7 @@
+using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml;
 using EM3D;
 public class Portal : Entity
 {
@@ -7,6 +9,7 @@ public class Portal : Entity
     Image spritesheet = null;
     public bool IsOpen { get; set; }
     public bool PortalUsed { get; set; }
+    public TimeSpan Cooldown { get; set; } = TimeSpan.Zero;
 
     public Portal(float x, float y, float z, float length, float width, bool isOpen)
     {
@@ -25,14 +28,27 @@ public class Portal : Entity
         IsOpen = !IsOpen;
     }
 
-    public void TeleportEntity(Entity entity)
+    DateTime? start = null;
+    public void TryTeleportEntity(Entity entity)
     {
-        if (PortalUsed && this.Hitbox.IntersectsWith(entity.Hitbox))
+        if (start is null)
+        {
+            start = DateTime.Now;
+            return;
+        }
+
+        var timePassed = DateTime.Now - start.Value;
+        if (timePassed < Cooldown)
             return;
         
-        entity.Anchor3D = new(destiny.Anchor3D.X, destiny.Anchor3D.Y, destiny.Anchor3D.Z);
-        destiny.PortalUsed = true;
+        Reset();
+        destiny.Reset();
 
+        Cooldown = TimeSpan.Zero;
+        destiny.Cooldown = TimeSpan.FromSeconds(2);
+        entity.Anchor3D = new(destiny.Anchor3D.X, destiny.Anchor3D.Y, destiny.Anchor3D.Z);
     }
 
+    public void Reset()
+        => start = null;
 }

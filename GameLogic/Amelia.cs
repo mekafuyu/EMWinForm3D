@@ -80,9 +80,9 @@ public class Amelia : Entity
         {
           if(portal.IsOpen)
           {
-            portal.TeleportEntity(this);
-            // if(this.Anchor3D.X != portal.destiny.Anchor3D.X ||  this.Anchor3D.Z != portal.destiny.Anchor3D.Z)
-            //   portal.destiny.PortalUsed = false;
+            portal.TryTeleportEntity(this);
+            if(this.Anchor3D.X != portal.destiny.Anchor3D.X ||  this.Anchor3D.Z != portal.destiny.Anchor3D.Z)
+              portal.destiny.PortalUsed = false;
             continue;
           }
           this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
