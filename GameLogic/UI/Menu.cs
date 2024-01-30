@@ -9,7 +9,6 @@ public class Menu
   public Title TitleGame;
   public MenuAmelia Amelia;
   public SizeF Size;
-  private bool btnPressed = false;
 
   public Menu(SizeF screenSize)
   {

@@ -16,6 +16,7 @@ public partial class EMEngine
         continue;
 
       var moddedTri = (Triangle)tri.Clone();
+      moddedTri.Color = m.Color;
 
       moddedTri = TriangleMath
         .ScaledTriangleTransformation(moddedTri, rotationMatrix);
@@ -28,11 +29,6 @@ public partial class EMEngine
         size,
         bufferList
       );
-
-      // if (triProj is null)
-      //   continue;
-
-      // bufferList.Add(triProj);
     }
     return countTr;
   }

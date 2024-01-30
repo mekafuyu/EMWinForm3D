@@ -8,9 +8,12 @@ namespace EM3D.EMUtils;
 
 public static class Drawing
 {
-  private static int gifIndex = 0;
+  public static int gifIndex = 0;
   public static void FillTriangleWithTexture(Graphics g, Triangle tr, Image img)
   {
+    if(gifIndex > 69)
+      gifIndex = 0;
+
     var path = new GraphicsPath();
 
     PointF[] pts = TriangleToPointFs(tr);
@@ -32,10 +35,6 @@ public static class Drawing
       new RectangleF(imageLocation, imageSize),
       new RectangleF(220 * gifIndex, 0, 220, 220),
       GraphicsUnit.Pixel);
-
-    gifIndex++;
-    if(gifIndex > 69)
-      gifIndex = 0;
 
     g.FillPath(b, path);
     g.ResetClip();

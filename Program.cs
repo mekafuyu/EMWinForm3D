@@ -7,7 +7,11 @@ using GameLogic;
 
 // Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 // Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh floor = EMFile.LoadObjectFile("./assets/models/cube.obj");
+Mesh cube1 = EMFile.LoadObjectFile("./assets/models/cube.obj");
+Mesh.TranslateMesh(cube1, 5, 0, 0);
+cube1.Color = new byte[]{0, 0, 255};
+Mesh cube2 = EMFile.LoadObjectFile("./assets/models/cube.obj");
+cube2.Color = new byte[]{0, 255, 0};
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -25,7 +29,7 @@ ColissionManager.Current.Reset();
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
 
-Mesh[] meshesToRender = new Mesh[] { floor };
+Mesh[] meshesToRender = new Mesh[] { cube1, cube2 };
 
 PictureBox pb = new PictureBox { Dock = DockStyle.Fill };
 

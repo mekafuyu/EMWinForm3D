@@ -24,11 +24,10 @@ public partial class EMEngine
    )
   {
     int totalTriangles = 0;
-    int[] rgb = new int[] { 128, 128, 255 };
-
     var rotationMatrix = MatrixMath.GetRotationMatrix(rotation.x, rotation.y, rotation.z);
     this.VirtualCamera.RefreshView();
     this.LightDirection = -Vector3.Normalize(VirtualCamera.VLookDirection);
+    // var rgb = new byte[] { 128, 128, 255 };
 
     List<Triangle> trianglesToRaster = new();
     foreach (var mesh in meshesToRender)
@@ -62,28 +61,24 @@ public partial class EMEngine
                 new(0.0f, 0.0f, 0.0f),
                 new(0.0f, 1.0f, 0.0f),
                 trToTest);
-              // trisToAdd += sum;
               break;
             case 1:
               (trisToAdd, clipped) = TriangleMath.ClipAgainstPlane(
                 new(0.0f, size.height - 1, 0.0f),
                 new(0.0f, -1.0f, 0.0f),
                 trToTest);
-              // trisToAdd += sum;
               break;
             case 2:
               (trisToAdd, clipped) = TriangleMath.ClipAgainstPlane(
                 new(0.0f, 0.0f, 0.0f),
                 new(1.0f, 0.0f, 0.0f),
                 trToTest);
-              // trisToAdd += sum;
               break;
             case 3:
               (trisToAdd, clipped) = TriangleMath.ClipAgainstPlane(
                 new(size.width - 1, 0.0f, 0.0f),
                 new(-1.0f, 0.0f, 0.0f),
                 trToTest);
-              // trisToAdd += sum;
               break;
             default:
               break;
@@ -91,6 +86,7 @@ public partial class EMEngine
 
           for (int tw = 0; tw < trisToAdd; tw++)
           {
+            clipped[tw].Color = triangle.Color;
             listTr.Add(clipped[tw]);
           }
         }
@@ -99,9 +95,10 @@ public partial class EMEngine
 
       foreach (var clippedTr in listTr)
       {
-        RasterTriangle(clippedTr, g, rgb, fillShape, showMesh);
+        RasterTriangle(clippedTr, g, fillShape, showMesh);
       }
     }
+    Drawing.gifIndex++;
 
     foreach (var e in entities)
       RenderEntitity(g, e, size);

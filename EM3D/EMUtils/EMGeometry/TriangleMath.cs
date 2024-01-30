@@ -26,7 +26,8 @@ public static partial class EMGeometry
     }
     public static Triangle ScaledTriangleTransformation(Triangle tr, Matrix4x4 tMatrix)
     {
-      var newTr = (Triangle)tr.Clone();
+      // var newTr = (Triangle)tr.Clone();
+      var newTr = tr;
       newTr.P.v1.V4 = Vector4.Transform(newTr.P.v1.V4, tMatrix);
       newTr.P.v2.V4 = Vector4.Transform(newTr.P.v2.V4, tMatrix);
       newTr.P.v3.V4 = Vector4.Transform(newTr.P.v3.V4, tMatrix);

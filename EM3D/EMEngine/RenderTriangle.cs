@@ -18,7 +18,7 @@ public partial class EMEngine
   )
   {
     // Move farther
-    Triangle trTranslated = (Triangle)tr.Clone();
+    Triangle trTranslated = tr;
     trTranslated = TriangleMath.TranslateTriangle3D(trTranslated, (0f, 0f, 8f));
 
     // Find normal vector and normalize
@@ -64,6 +64,7 @@ public partial class EMEngine
       trProjected.lightIntensity = dp;
       trProjected.N = normal;
       trProjected.T = trs[i].T;
+      trProjected.Color = tr.Color;
       trianglesToRasterBuffer.Add(trProjected);
     }
     return clippedTrCount; 
