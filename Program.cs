@@ -3,10 +3,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using EM3D;
 using EM3D.EMUtils;
+using GameLogic;
 
 // Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 // Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh floor = EMFile.LoadObjectFile("./assets/models/chao.obj");
+Mesh floor = EMFile.LoadObjectFile("./assets/models/cube.obj");
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -15,6 +16,11 @@ Wall parede = null;
 Door porta = null;
 Portal portal = null;
 Portal portal2 = null;
+Menu menu = null;
+
+PointF cursor = new();
+bool isDown = false;
+
 ColissionManager.Current.Reset();
 float thetaX = 0, thetaY = 0, thetaZ = 0;
 float transX = 0, transY = 0, transZ = 0;
@@ -41,6 +47,7 @@ form.Load += (o, e) =>
   porta = new Door(-14,-1, 20, 5, 10, false);
   portal = new Portal(0,-1, 20, 5, 10, false);
   portal2 = new Portal(-14,-1, -20, 5, 10, false);
+  menu = new(pb.Size);
   portal.destiny = portal2;
   portal2.destiny = portal;
   
@@ -65,10 +72,31 @@ float yawMove = 0;
 Point cursorReset = new Point(pb.Width / 2, pb.Height / 2);
 Vertex bolinha = new(0, -1, -5);
 // Image bg = Image.FromFile("./assets/imgs/paper.jpg");
+bool menuOpen = false;
+bool lastState = false;
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
   // g.DrawImage(bg, 0, 0, form.Width, form.Height);
+  if(menuOpen)
+  {
+    menu.Draw(g, pb.Width, pb.Height);
+    pb.Refresh();
+
+    if(menu.ButtonStart.ButtonPosition.Contains(cursor) && isDown)
+    {
+      menu.ButtonStart.Click = true;
+      lastState = true;
+    }
+    else
+      menu.ButtonStart.Click = false;
+
+    if(lastState && !menu.ButtonStart.Click)
+      menuOpen = false;
+
+    return;
+  }
+
   eng.RefreshAspectRatio(form.Width, form.Height);
 
   amelia.Move(0, pb.Width, 0, pb.Height);
@@ -95,12 +123,12 @@ timer.Tick += (o, e) =>
     "WPos = " + parede.Anchor3D.X + " | " + parede.Anchor3D.Y + " | " + parede.Anchor3D.Z, 
     "VCT = " + eng.VirtualCamera.VTarget, 
     "VCLD = " + eng.VirtualCamera.VLookDirection, 
-    "YawM = " + eng.VirtualCamera.YawMove, 
-    "PitM = " + eng.VirtualCamera.PitchMove,
+    "Yaw = " + eng.VirtualCamera.Yaw,
+    "Pit = " + eng.VirtualCamera.Pitch,
     "LightSource = " + eng.NLightDirection,
     "Darkest/Brightest = " + eng.Darkest + " / " + eng.Brightest,
   });
-  cursorReset = new Point(form.Width / 2, form.Height / 2);
+  cursorReset = new Point(pb.Width / 2, pb.Height / 2);
   if (form.Focused)
     Cursor.Position = cursorReset;
 
@@ -115,7 +143,12 @@ pb.MouseMove += (o, e) =>
   yawMove = (e.Location.X - cursorReset.X) * sense;
   eng.VirtualCamera.Yaw += yawMove;
   eng.VirtualCamera.Pitch -= pitchMove;
+  cursor = e.Location;
 };
+pb.MouseDown += (o, e) =>
+  isDown = true;
+pb.MouseUp += (o, e) =>
+  isDown = false;
 
 // OnKey
 float speed = 0.01f;
@@ -240,7 +273,16 @@ form.KeyDown += (o, e) =>
       eng.VirtualCamera.Yaw = 3 * MathF.PI / 2;
       eng.VirtualCamera.Pitch = 0;
       break;
-
+    
+    case Keys.Z:
+      MessageBox.Show(eng.VirtualCamera.VCamera.ToString());
+      break;
+    case Keys.X:
+      eng.VirtualCamera.VCamera = new(0, 0, 75);
+      eng.VirtualCamera.VLookDirection = new(0, 0, -1);
+      eng.VirtualCamera.Yaw = 9.5f;
+      eng.VirtualCamera.Pitch = 0f;
+      break;
     default:
       break;
   }
@@ -269,5 +311,7 @@ form.KeyUp += (o, e) =>
             break;
     }
 };
+
+
   
 Application.Run(form);
