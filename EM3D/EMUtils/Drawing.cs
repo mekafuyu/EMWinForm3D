@@ -1,12 +1,14 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using static EM3D.EMUtils.Utils;
 
 namespace EM3D.EMUtils;
 
 public static class Drawing
 {
+  private static int gifIndex = 0;
   public static void FillTriangleWithTexture(Graphics g, Triangle tr, Image img)
   {
     var path = new GraphicsPath();
@@ -19,18 +21,22 @@ public static class Drawing
     g.SetClip(path);
 
     RectangleF imageBounds = path.GetBounds();
-    
-    float scale = Math.Min(imageBounds.Width / img.Width, imageBounds.Height / img.Height);
-
     PointF imageLocation = new PointF(imageBounds.X, imageBounds.Y);
-    // SizeF imageSize = new SizeF(img.Width * scale, img.Height * scale);
     SizeF imageSize = new SizeF(imageBounds.Width, imageBounds.Height);
-
-    // Draw the clipped image inside the triangle
     if(tr.lightIntensity < 0.3f)
       tr.lightIntensity = 0.3f;
+
     Brush b = new SolidBrush(Color.FromArgb(255 - (int) (255 * tr.lightIntensity),0,0,0));
-    g.DrawImage(img, new RectangleF(imageLocation, imageSize));
+
+    g.DrawImage(img,
+      new RectangleF(imageLocation, imageSize),
+      new RectangleF(220 * gifIndex, 0, 220, 220),
+      GraphicsUnit.Pixel);
+
+    gifIndex++;
+    if(gifIndex > 69)
+      gifIndex = 0;
+
     g.FillPath(b, path);
     g.ResetClip();
   }
