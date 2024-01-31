@@ -28,4 +28,11 @@ public class ColissionManager
   {
     entities.Add(entity);
   }
+  public void AddEntity(params Entity[] entity)
+  {
+    foreach (var e in entity)
+    {
+      this.entities.Add(e);
+    }
+  }
 }

@@ -11,11 +11,11 @@ Mesh cube1 = EMFile.LoadObjectFile("./assets/models/longRoom.obj");
 // Mesh.TranslateMesh(cube1, 5, 0, 0);
 Mesh.Scale(cube1, 0.1f);
 // Mesh.Translate(cube1, 0, -0.1f * 128f, 0);
-cube1.Color = new byte[]{255, 255, 255};
+cube1.Color = new byte[] { 255, 255, 255 };
 
 Mesh cube2 = EMFile.LoadObjectFile("./assets/models/cube.obj");
 // Mesh.Replace(cube2, 5, 0, 0);
-cube2.Color = new byte[]{0, 255, 0};
+cube2.Color = new byte[] { 0, 255, 0 };
 
 Bitmap bmp = null;
 Graphics g = null;
@@ -57,17 +57,20 @@ form.Load += (o, e) =>
   portal = new Portal(0, 0, 20, 5, 10, false);
   portal2 = new Portal(-14, 0, -20, 5, 10, false);
   floor = new Floor(-64f * 0.1f, 0, -256f * 0.1f, 256 * 0.1f, 128f * 0.1f);
-  
+
   menu = new(pb.Size);
   portal.destiny = portal2;
   portal2.destiny = portal;
+
+  ColissionManager.Current.AddEntity(
+    amelia,
+    parede,
+    porta,
+    portal,
+    portal2,
+    floor
+  );
   
-  ColissionManager.Current.AddEntity(amelia);
-  ColissionManager.Current.AddEntity(parede);
-  ColissionManager.Current.AddEntity(porta);
-  ColissionManager.Current.AddEntity(portal);
-  ColissionManager.Current.AddEntity(portal2);
-  ColissionManager.Current.AddEntity(floor);
   // Cursor.Hide();
   Cursor.Position = new Point(form.Width / 2, form.Height / 2);
   bmp = new Bitmap(pb.Width, pb.Height);
@@ -90,12 +93,12 @@ timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
   g.DrawImage(bg, 0, 0, form.Width, form.Height);
-  if(menuOpen)
+  if (menuOpen)
   {
     menu.Draw(g, pb.Width, pb.Height);
     pb.Refresh();
 
-    if(menu.ButtonStart.ButtonPosition.Contains(cursor) && isDown)
+    if (menu.ButtonStart.ButtonPosition.Contains(cursor) && isDown)
     {
       menu.ButtonStart.Click = true;
       lastState = true;
@@ -103,7 +106,7 @@ timer.Tick += (o, e) =>
     else
       menu.ButtonStart.Click = false;
 
-    if(lastState && !menu.ButtonStart.Click)
+    if (lastState && !menu.ButtonStart.Click)
       menuOpen = false;
 
     return;
@@ -118,8 +121,6 @@ timer.Tick += (o, e) =>
     meshesToRender,
     (thetaX, thetaY, thetaZ),
     (transX, transY, transZ),
-    true,
-    showMesh,
     ColissionManager.Current.entities
   );
 
@@ -129,12 +130,12 @@ timer.Tick += (o, e) =>
     "CPitchYaw = " + eng.VirtualCamera.Pitch + " | " + eng.VirtualCamera.Yaw,
     "Cursor = " + Cursor.Position.X + " | " + Cursor.Position.Y,
     "A3D = " + amelia.Anchor3D.X + " | " + amelia.Anchor3D.Y + " | " + amelia.Anchor3D.Z,
-    "A2D = " + amelia.X + " | " + amelia.Y, 
-    "Sprite = " + amelia.manager.SpriteIndex + " | " + amelia.manager.QuantSprite, 
-    "ASiz = " + amelia.Height + " | " + amelia.RealSize, 
-    "WPos = " + parede.Anchor3D.X + " | " + parede.Anchor3D.Y + " | " + parede.Anchor3D.Z, 
-    "VCT = " + eng.VirtualCamera.VTarget, 
-    "VCLD = " + eng.VirtualCamera.VLookDirection, 
+    "A2D = " + amelia.X + " | " + amelia.Y,
+    "Sprite = " + amelia.manager.SpriteIndex + " | " + amelia.manager.QuantSprite,
+    "ASiz = " + amelia.Height + " | " + amelia.RealSize,
+    "WPos = " + parede.Anchor3D.X + " | " + parede.Anchor3D.Y + " | " + parede.Anchor3D.Z,
+    "VCT = " + eng.VirtualCamera.VTarget,
+    "VCLD = " + eng.VirtualCamera.VLookDirection,
     "Yaw = " + eng.VirtualCamera.Yaw,
     "Pit = " + eng.VirtualCamera.Pitch,
     "LightSource = " + eng.NLightDirection,
@@ -285,7 +286,7 @@ form.KeyDown += (o, e) =>
       eng.VirtualCamera.Yaw = 3 * MathF.PI / 2;
       eng.VirtualCamera.Pitch = 0;
       break;
-    
+
     case Keys.Z:
       MessageBox.Show(eng.VirtualCamera.VCamera.ToString());
       break;
@@ -302,28 +303,28 @@ form.KeyDown += (o, e) =>
 
 form.KeyUp += (o, e) =>
 {
-    switch (e.KeyCode)
-    {
-        case Keys.W:
-            xSpeed = 0;
-            break;
-        case Keys.A:
-            zSpeed = 0;
-            break;
+  switch (e.KeyCode)
+  {
+    case Keys.W:
+      xSpeed = 0;
+      break;
+    case Keys.A:
+      zSpeed = 0;
+      break;
 
-        case Keys.S:
-            xSpeed = 0;
-            break;
+    case Keys.S:
+      xSpeed = 0;
+      break;
 
-        case Keys.D:
-            zSpeed = 0;
-            break;
+    case Keys.D:
+      zSpeed = 0;
+      break;
 
-        default:
-            break;
-    }
+    default:
+      break;
+  }
 };
 
 
-  
+
 Application.Run(form);
