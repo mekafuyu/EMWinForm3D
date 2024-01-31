@@ -63,10 +63,15 @@ public class Amelia : Entity
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
     SetHitbox();
     var list = ColissionManager.Current.IsColliding(this);
+    bool onFloor = false;
     if (list.Count > 0)
     {
       foreach (var obj in list)
       {
+        if (obj is Floor)
+        {
+          onFloor = true;
+        }
         if (obj is Wall)
         {
           this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
@@ -89,7 +94,9 @@ public class Amelia : Entity
         }
       }
     }
-
+    if(!onFloor)
+      this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+      
     SpeedX *= 0.9f;
     SpeedZ *= 0.9f;
 

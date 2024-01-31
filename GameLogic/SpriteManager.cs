@@ -31,7 +31,7 @@ public class SpriteManager
       getRectanglesInterval(this.StartIndex, this.QuantSprite),
       GraphicsUnit.Pixel
     );
-    g.DrawRectangle(Pens.Blue, rec);
+    // g.DrawRectangle(Pens.Blue, rec);
   }
 
   private Rectangle getRectanglesInterval(int index, int quantitySprites)

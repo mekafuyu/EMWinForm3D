@@ -7,10 +7,14 @@ using GameLogic;
 
 // Mesh obj3D = EMFile.LoadObjectFile("mountains.obj");
 // Mesh spc = EMFile.LoadObjectFile("example.obj");
-Mesh cube1 = EMFile.LoadObjectFile("./assets/models/cube.obj");
-Mesh.TranslateMesh(cube1, 5, 0, 0);
-cube1.Color = new byte[]{0, 0, 255};
+Mesh cube1 = EMFile.LoadObjectFile("./assets/models/longRoom.obj");
+// Mesh.TranslateMesh(cube1, 5, 0, 0);
+Mesh.Scale(cube1, 0.1f);
+// Mesh.Translate(cube1, 0, -0.1f * 128f, 0);
+cube1.Color = new byte[]{255, 255, 255};
+
 Mesh cube2 = EMFile.LoadObjectFile("./assets/models/cube.obj");
+// Mesh.Replace(cube2, 5, 0, 0);
 cube2.Color = new byte[]{0, 255, 0};
 
 Bitmap bmp = null;
@@ -21,6 +25,7 @@ Door porta = null;
 Portal portal = null;
 Portal portal2 = null;
 Menu menu = null;
+Floor floor = null;
 
 PointF cursor = new();
 bool isDown = false;
@@ -46,11 +51,13 @@ var eng = new EMEngine(form.Width, form.Height);
 // OnStart
 form.Load += (o, e) =>
 {
-  parede = new Wall(0, -1, -20, 10, 10);
-  amelia = new Amelia(0, -1, -5, 1, 10, 1);
-  porta = new Door(-14,-1, 20, 5, 10, false);
-  portal = new Portal(0,-1, 20, 5, 10, false);
-  portal2 = new Portal(-14,-1, -20, 5, 10, false);
+  parede = new Wall(0, 0, -20, 10, 10);
+  amelia = new Amelia(0, 0, -5, 1, 10, 1);
+  porta = new Door(-14, 0, 20, 5, 10, false);
+  portal = new Portal(0, 0, 20, 5, 10, false);
+  portal2 = new Portal(-14, 0, -20, 5, 10, false);
+  floor = new Floor(-64f * 0.1f, 0, -256f * 0.1f, 256 * 0.1f, 128f * 0.1f);
+  
   menu = new(pb.Size);
   portal.destiny = portal2;
   portal2.destiny = portal;
@@ -60,6 +67,7 @@ form.Load += (o, e) =>
   ColissionManager.Current.AddEntity(porta);
   ColissionManager.Current.AddEntity(portal);
   ColissionManager.Current.AddEntity(portal2);
+  ColissionManager.Current.AddEntity(floor);
   // Cursor.Hide();
   Cursor.Position = new Point(form.Width / 2, form.Height / 2);
   bmp = new Bitmap(pb.Width, pb.Height);
@@ -75,13 +83,13 @@ float pitchMove = 0;
 float yawMove = 0;
 Point cursorReset = new Point(pb.Width / 2, pb.Height / 2);
 Vertex bolinha = new(0, -1, -5);
-// Image bg = Image.FromFile("./assets/imgs/paper.jpg");
-bool menuOpen = false;
+Image bg = Image.FromFile("./assets/imgs/bg.png");
+bool menuOpen = true;
 bool lastState = false;
 timer.Tick += (o, e) =>
 {
   g.Clear(Color.Gray);
-  // g.DrawImage(bg, 0, 0, form.Width, form.Height);
+  g.DrawImage(bg, 0, 0, form.Width, form.Height);
   if(menuOpen)
   {
     menu.Draw(g, pb.Width, pb.Height);
