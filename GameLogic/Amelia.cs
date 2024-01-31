@@ -10,6 +10,8 @@ public class Amelia : Entity
   public float SpeedZ { get; set; } = 0f;
   public SpriteManager manager;
 
+   public GameSound gameSound = new GameSound();
+
   public Amelia(float x, float y, float z, float width, float height, float length)
   {
     this.Speed = 0.1f;
@@ -62,6 +64,7 @@ public class Amelia : Entity
   {
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
     SetHitbox();
+    gameSound.PlayMusic("./assets/sounds/pistolaFuturista.wav");
     var list = ColissionManager.Current.IsColliding(this);
     if (list.Count > 0)
     {
