@@ -58,11 +58,11 @@ public class Amelia : Entity
     manager.QuantSprite = 4;
   }
 
-  public void Move(int xmin, int xmax, int zmin, int zmax)
+  public void Move(ColissionManager colissionManager, int xmin, int xmax, int zmin, int zmax)
   {
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
     SetHitbox();
-    var list = ColissionManager.Current.IsColliding(this);
+    var list = colissionManager.IsColliding(this);
     bool onFloor = false;
     if (list.Count > 0)
     {

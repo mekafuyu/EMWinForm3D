@@ -18,7 +18,7 @@ public class Title
     this.RecDefault = new(0, 0, i.Width, i.Height);
   }
 
-  public void Draw(Graphics g)
+  public void Draw(Graphics g, SizeF size)
   {
     if(Math.Abs(displace) > 10)
       increase = -increase;

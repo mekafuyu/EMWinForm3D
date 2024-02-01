@@ -3,12 +3,12 @@ using System.Collections.Generic;
 public class ColissionManager
 {
   public List<Entity> entities = new List<Entity>();
-  private static ColissionManager crr = new ColissionManager();
-  public static ColissionManager Current => crr;
+  // private static ColissionManager crr = new ColissionManager();
+  // public static ColissionManager Current => crr;
 
-  private ColissionManager() { }
-  public void Reset()
-    => crr = new ColissionManager();
+  // private ColissionManager() { }
+  // public void Reset()
+  //   => crr = new ColissionManager();
 
   public List<Entity> IsColliding(Entity entity)
   {

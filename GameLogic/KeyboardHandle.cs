@@ -1,14 +1,14 @@
-
 using System;
 using System.Windows.Forms;
+using EM3D;
 
-public partial class Game
+public class KeyboardHandle
 {
   float speed = 0.01f;
   float tspeed = 0.5f;
   int xSpeed = 0;
   int zSpeed = 0;
-  public void KeyDown(KeyEventArgs e, Amelia amelia)
+  public void KeyDown(KeyEventArgs e, EMEngine eng, Amelia amelia)
   {
     switch (e.KeyCode)
     {
@@ -56,79 +56,79 @@ public partial class Game
         break;
 
       case Keys.J:
-        Engine.VirtualCamera.MoveLeft(tspeed);
+        eng.VirtualCamera.MoveLeft(tspeed);
         break;
       case Keys.L:
-        Engine.VirtualCamera.MoveRight(tspeed);
+        eng.VirtualCamera.MoveRight(tspeed);
         break;
       case Keys.U:
-        Engine.VirtualCamera.Pitch -= speed;
+        eng.VirtualCamera.Pitch -= speed;
         break;
       case Keys.O:
-        Engine.VirtualCamera.Pitch += speed;
+        eng.VirtualCamera.Pitch += speed;
         break;
       case Keys.I:
-        Engine.VirtualCamera.MoveFront(tspeed);
+        eng.VirtualCamera.MoveFront(tspeed);
         break;
       case Keys.K:
-        Engine.VirtualCamera.MoveBack(tspeed);
+        eng.VirtualCamera.MoveBack(tspeed);
         break;
 
 
       case Keys.Right:
-        Engine.VirtualCamera.MoveRight(tspeed);
+        eng.VirtualCamera.MoveRight(tspeed);
         break;
       case Keys.Left:
-        Engine.VirtualCamera.MoveLeft(tspeed);
+        eng.VirtualCamera.MoveLeft(tspeed);
         break;
       case Keys.Space:
-        Engine.VirtualCamera.MoveUp(tspeed);
+        eng.VirtualCamera.MoveUp(tspeed);
         break;
       case Keys.ShiftKey:
-        Engine.VirtualCamera.MoveDown(tspeed);
+        eng.VirtualCamera.MoveDown(tspeed);
         break;
 
 
-      case Keys.Escape:
-        GameForm.Close();
-        break;
+      // case Keys.Escape:
+      //   GameForm.Close();
+      //   break;
       case Keys.Enter:
-        Engine.ShowMesh = !Engine.ShowMesh;
+        eng.ShowMesh = !eng.ShowMesh;
         break;
 
       case Keys.NumPad8:
-        Engine.VirtualCamera.VCamera = new(0, 0, 0);
-        Engine.VirtualCamera.VLookDirection = new(0, 0, 1);
-        Engine.VirtualCamera.Yaw = 0;
-        Engine.VirtualCamera.Pitch = 0;
+        eng.VirtualCamera.VCamera = new(0, 0, 0);
+        eng.VirtualCamera.VLookDirection = new(0, 0, 1);
+        eng.VirtualCamera.Yaw = 0;
+        eng.VirtualCamera.Pitch = 0;
         break;
       case Keys.NumPad2:
-        Engine.VirtualCamera.VCamera = new(0, 0, 0);
-        Engine.VirtualCamera.VLookDirection = new(0, 0, -1);
-        Engine.VirtualCamera.Yaw = MathF.PI;
-        Engine.VirtualCamera.Pitch = 0;
+        eng.VirtualCamera.VCamera = new(0, 0, 0);
+        eng.VirtualCamera.VLookDirection = new(0, 0, -1);
+        eng.VirtualCamera.Yaw = MathF.PI;
+        eng.VirtualCamera.Pitch = 0;
         break;
       case Keys.NumPad4:
-        Engine.VirtualCamera.VCamera = new(0, 0, 0);
-        Engine.VirtualCamera.VLookDirection = new(1, 0, 0);
-        Engine.VirtualCamera.Yaw = MathF.PI / 2;
-        Engine.VirtualCamera.Pitch = 0;
+        eng.VirtualCamera.VCamera = new(0, 0, 0);
+        eng.VirtualCamera.VLookDirection = new(1, 0, 0);
+        eng.VirtualCamera.Yaw = MathF.PI / 2;
+        eng.VirtualCamera.Pitch = 0;
         break;
       case Keys.NumPad6:
-        Engine.VirtualCamera.VCamera = new(0, 0, 0);
-        Engine.VirtualCamera.VLookDirection = new(-1, 0, 0);
-        Engine.VirtualCamera.Yaw = 3 * MathF.PI / 2;
-        Engine.VirtualCamera.Pitch = 0;
+        eng.VirtualCamera.VCamera = new(0, 0, 0);
+        eng.VirtualCamera.VLookDirection = new(-1, 0, 0);
+        eng.VirtualCamera.Yaw = 3 * MathF.PI / 2;
+        eng.VirtualCamera.Pitch = 0;
         break;
 
       case Keys.Z:
-        MessageBox.Show(Engine.VirtualCamera.VCamera.ToString());
+        MessageBox.Show(eng.VirtualCamera.VCamera.ToString());
         break;
       case Keys.X:
-        Engine.VirtualCamera.VCamera = new(0, 0, 75);
-        Engine.VirtualCamera.VLookDirection = new(0, 0, -1);
-        Engine.VirtualCamera.Yaw = 9.5f;
-        Engine.VirtualCamera.Pitch = 0f;
+        eng.VirtualCamera.VCamera = new(0, 0, 75);
+        eng.VirtualCamera.VLookDirection = new(0, 0, -1);
+        eng.VirtualCamera.Yaw = 9.5f;
+        eng.VirtualCamera.Pitch = 0f;
         break;
       default:
         break;

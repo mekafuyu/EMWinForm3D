@@ -18,7 +18,10 @@ public class Menu
     float scaleBt = 4f;
     this.ButtonStart =new(
       Image.FromFile("./assets/imgs/menuButton.png"),
-      new RectangleF(500f, 500f, 52f * scaleBt, 46f * scaleBt)
+      new PointF(
+        0.25f,
+        0.45f
+      )
     );
 
     float scaleTitle = 4f;
@@ -28,23 +31,21 @@ public class Menu
       new RectangleF(475f, 250f, 67f * scaleTitle, 37f * scaleTitle)
     );
 
-    float scaleAmelia = 4.5f;
     this.Amelia = new(
       Image.FromFile("./assets/imgs/menuAmeliaSprite.png"),
-      new RectangleF(
-        Size.Width / 2 - 96f * scaleAmelia / 2,
-        Size.Height / 2 - 146f * scaleAmelia / 2,
-        96f * scaleAmelia,
-        146f * scaleAmelia)
+      new PointF(
+        0.5f,
+        0.5f
+      )
     );
   }
 
-  public void Draw(Graphics g, float width, float height)
+  public void Draw(Graphics g, SizeF size)
   {
-    g.DrawImage(Background, 0, 0, width, height);
-    TitleGame.Draw(g);
-    ButtonStart.Draw(g);
-    Amelia.Draw(g);
+    g.DrawImage(Background, 0, 0, size.Width, size.Height);
+    TitleGame.Draw(g, size);
+    ButtonStart.Draw(g, size);
+    Amelia.Draw(g, size);
   }
 
   public void ClickMenu()

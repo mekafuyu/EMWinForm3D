@@ -9,6 +9,7 @@ using GameLogic;
 public partial class Game
 {
   public List<Level> Levels;
+  private Level currLevel;
   public EMEngine Engine;
   public Graphics GameGraphics;
   public Bitmap Bmp;
@@ -20,11 +21,21 @@ public partial class Game
   public bool LastState = false;
   public PointF CursorPos = new();
   public bool IsDown;
-  public Amelia currPlayer;
-
 
   public Game()
   {
+    Levels = new();
+    Engine = new();
+  }
+
+  public void SelectLevel(int level)
+    => currLevel = Levels[level];
+
+  public void Run()
+  {
+    Menu menu = null;
+
+    ApplicationConfiguration.Initialize();
     this.Pb = new PictureBox { Dock = DockStyle.Fill };
     this.timer = new Timer { Interval = 2 };
     this.GameForm = new Form
@@ -34,45 +45,74 @@ public partial class Game
       Controls = { Pb }
     };
     this.cursorReset = new Point(Pb.Width / 2, Pb.Height / 2);
+
+    GameForm.Load += (o, e) =>
+    {
+      menu = new(Pb.Size);
+      Cursor.Position = new Point(GameForm.Width / 2, GameForm.Height / 2);
+      Bmp = new Bitmap(Pb.Width, Pb.Height);
+      GameGraphics = Graphics.FromImage(Bmp);
+      GameGraphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      Pb.Image = Bmp;
+      this.SelectLevel(0);
+      timer.Start();
+    };
+
+    timer.Tick += (o, e) =>
+    {
+      GameGraphics.Clear(Color.Gray);
+      // GameGraphics.DrawImage(Bmp, 0, 0, Pb.Width, Pb.Height);
+      if (MenuOpen)
+      {
+        menu.Draw(GameGraphics, Pb.Size);
+        Pb.Refresh();
+
+        if (menu.ButtonStart.Rec.Contains(CursorPos) && IsDown)
+        {
+          menu.ButtonStart.Click = true;
+          LastState = true;
+        }
+        else
+          menu.ButtonStart.Click = false;
+
+        if (LastState && !menu.ButtonStart.Click)
+          MenuOpen = false;
+
+        return;
+      }
+      RenderLevel(GameGraphics);
+    };
+
+    GameForm.KeyDown += (o, e)
+      => this.currLevel.KeyboardMap.KeyDown(e, Engine, currLevel.Amelia);
+    GameForm.KeyUp += (o, e)
+      => this.currLevel.KeyboardMap.KeyUp(e);
+    initMouseHandle();
+
+
+
+    Application.Run(GameForm);
   }
 
 
-  public void RenderLevel(Graphics g, Level level)
+  public void RenderLevel(Graphics g)
   {
-    g.Clear(Color.Gray);
-
-    if (MenuOpen)
-    {
-      StartMenu.Draw(g, Pb.Width, Pb.Height);
-      Pb.Refresh();
-
-      if (StartMenu.ButtonStart.ButtonPosition.Contains(CursorPos) && IsDown)
-      {
-        StartMenu.ButtonStart.Click = true;
-        LastState = true;
-      }
-      else
-        StartMenu.ButtonStart.Click = false;
-
-      if (LastState && !StartMenu.ButtonStart.Click)
-      {
-        MenuOpen = false;
-        Cursor.Hide();
-      }
-
-      return;
-    }
-
     Engine.RefreshAspectRatio(GameForm.Width, GameForm.Height);
-        Debugger.ShowOnScreen(g, new string[]{
+    currLevel.Refresh(g, Pb, Engine);
+
+    cursorReset = new Point(Pb.Width / 2, Pb.Height / 2);
+    if (GameForm.Focused)
+      Cursor.Position = cursorReset;
+
+    Debugger.ShowOnScreen(g, new string[]{
       "ScreenSize = " + GameForm.Width + " | " + GameForm.Height,
       "CPos = " + Engine.VirtualCamera.VCamera.X + " | " + Engine.VirtualCamera.VCamera.Y + " | " + Engine.VirtualCamera.VCamera.Z,
       "CPitchYaw = " + Engine.VirtualCamera.Pitch + " | " + Engine.VirtualCamera.Yaw,
       "Cursor = " + Cursor.Position.X + " | " + Cursor.Position.Y,
-      "A3D = " + level.Amelia.Anchor3D.X + " | " + level.Amelia.Anchor3D.Y + " | " + level.Amelia.Anchor3D.Z,
-      "A2D = " + level.Amelia.X + " | " + level.Amelia.Y,
-      "Sprite = " + level.Amelia.manager.SpriteIndex + " | " + level.Amelia.manager.QuantSprite,
-      "ASiz = " + level.Amelia.Height + " | " + level.Amelia.RealSize,
+      "A3D = " + currLevel.Amelia.Anchor3D.X + " | " + currLevel.Amelia.Anchor3D.Y + " | " + currLevel.Amelia.Anchor3D.Z,
+      "A2D = " + currLevel.Amelia.X + " | " + currLevel.Amelia.Y,
+      "Sprite = " + currLevel.Amelia.manager.SpriteIndex + " | " + currLevel.Amelia.manager.QuantSprite,
+      "ASiz = " + currLevel.Amelia.Height + " | " + currLevel.Amelia.RealSize,
       "VCT = " + Engine.VirtualCamera.VTarget,
       "VCLD = " + Engine.VirtualCamera.VLookDirection,
       "Yaw = " + Engine.VirtualCamera.Yaw,
@@ -80,5 +120,6 @@ public partial class Game
       "LightSource = " + Engine.NLightDirection,
       "Darkest/Brightest = " + Engine.Darkest + " / " + Engine.Brightest,
     });
+    Pb.Refresh();
   }
 }
