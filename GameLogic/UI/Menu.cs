@@ -15,28 +15,23 @@ public class Menu
     this.Size = screenSize;
 
     this.Background = Image.FromFile("./assets/imgs/menuBackgroundFinal.png");
-    float scaleBt = 4f;
-    this.ButtonStart =new(
+    this.ButtonStart = new(
       Image.FromFile("./assets/imgs/menuButton.png"),
-      new PointF(
-        0.25f,
-        0.45f
-      )
+      new PointF(.25f, .45f),
+      .125f,
+      .1875f
     );
-
-    float scaleTitle = 4f;
 
     this.TitleGame = new(
       Image.FromFile("./assets/imgs/menuTitle.png"),
-      new RectangleF(475f, 250f, 67f * scaleTitle, 37f * scaleTitle)
+      new PointF(.325f, .3f),
+      .15f,
+      .15f
     );
 
     this.Amelia = new(
       Image.FromFile("./assets/imgs/menuAmeliaSprite.png"),
-      new PointF(
-        0.5f,
-        0.5f
-      )
+      new PointF(0.5f, 0.5f)
     );
   }
 

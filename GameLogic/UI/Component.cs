@@ -8,4 +8,6 @@ public class Component
   public PointF Position;
   public RectangleF SpriteRec;
   public RectangleF Rec;
+  public float Width;
+  public float Height;
 }

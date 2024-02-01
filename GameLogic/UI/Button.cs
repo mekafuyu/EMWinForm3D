@@ -9,21 +9,21 @@ public class Button : Component
   public RectangleF RecClick = new(0, 46, 52, 46);
   public bool Click = false;
 
-  public Button(Image i, PointF position)
+  public Button(Image i, PointF position, float width, float height)
   {
     this.Sprite = i;
     this.Position = position;
+    this.Width = width;
+    this.Height = height;
   }
 
   public void Draw(Graphics g, SizeF size)
   {
-    float ratio = size.Width / size.Height;
-    
     Rec = new(
       Position.X * size.Width,
       Position.Y * size.Height,
-      size.Width * 0.125f,
-      size.Height * 0.1f
+      Width * size.Width,
+      Height * size.Height
     );
 
     if(Click)
