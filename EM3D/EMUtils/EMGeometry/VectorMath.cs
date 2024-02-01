@@ -8,17 +8,17 @@ public static partial class EMGeometry
   {
     public static Vector3 FindNormal(Triangle t)
     {
-      Vertex l1 = VertexMath.VertexSub(t.P.l2, t.P.l1);
-      Vertex l2 = VertexMath.VertexSub(t.P.l3, t.P.l1);
-      return FindNormal(l1, l2);
+      Vertex v1 = VertexMath.VertexSub(t.P.v2, t.P.v1);
+      Vertex v2 = VertexMath.VertexSub(t.P.v3, t.P.v1);
+      return FindNormal(v1, v2);
     }
-    public static Vector3 FindNormal(Vertex l1, Vertex l2)
+    public static Vector3 FindNormal(Vertex v1, Vertex v2)
     {
       return new()
       {
-        X = l1.Y * l2.Z - l1.Z * l2.Y,
-        Y = l1.Z * l2.X - l1.X * l2.Z,
-        Z = l1.X * l2.Y - l1.Y * l2.X
+        X = v1.Y * v2.Z - v1.Z * v2.Y,
+        Y = v1.Z * v2.X - v1.X * v2.Z,
+        Z = v1.X * v2.Y - v1.Y * v2.X
       };
     }
     public static Vector3 Normalize(Vertex v)
@@ -26,7 +26,7 @@ public static partial class EMGeometry
       return Vector3.Normalize(v.V3);
     }
 
-    public static Vector3 IntersectPlane(Vertex planePoint, Vector3 planeNormal, Vertex lineStartP, Vertex lineEndP)
+    public static (Vector3 intercept, float interceptDistance) IntersectPlane(Vertex planePoint, Vector3 planeNormal, Vertex lineStartP, Vertex lineEndP)
     {
       // Transform to unit 
       planeNormal = Vector3.Normalize(planeNormal);
@@ -46,7 +46,7 @@ public static partial class EMGeometry
       Vector3 lineStartToEnd = lineEndP.V3 - lineStartP.V3;
       Vector3 lineToIntersect = lineStartToEnd * t;
 
-      return lineStartP.V3 + lineToIntersect;
+      return (lineStartP.V3 + lineToIntersect, t);
     }
   }
 }

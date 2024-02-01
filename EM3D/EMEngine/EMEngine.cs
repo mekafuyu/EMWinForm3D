@@ -17,7 +17,7 @@ public partial class EMEngine
     new()
     {
       X = 0,
-      Y = 0,
+      Y = 1,
       Z = -1f
     };
   public Vector3 NLightDirection;

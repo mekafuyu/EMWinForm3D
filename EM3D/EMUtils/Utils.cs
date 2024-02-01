@@ -12,9 +12,9 @@ public static class Utils
   {
     PointF[] points = new PointF[]
     {
-      new(tr.P.l1.X, tr.P.l1.Y),
-      new(tr.P.l2.X, tr.P.l2.Y),
-      new(tr.P.l3.X, tr.P.l3.Y),
+      new(tr.P.v1.X, tr.P.v1.Y),
+      new(tr.P.v2.X, tr.P.v2.Y),
+      new(tr.P.v3.X, tr.P.v3.Y),
     };
     return points;
   }

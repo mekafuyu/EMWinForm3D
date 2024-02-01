@@ -10,16 +10,18 @@ public class Amelia : Entity
   public float SpeedZ { get; set; } = 0f;
   public SpriteManager manager;
 
+   public GameSound gameSound = new GameSound();
+
   public Amelia(float x, float y, float z, float width, float height, float length)
   {
-    this.Speed = 0.09f;
+    this.Speed = 0.1f;
     this.Height = height;
     this.Anchor3D = new(x, y, z);
     this.Length = length;
     this.Width = width;
     SetHitbox();
 
-    manager = new SpriteManager("Amelia bonita de todos.png", 4, 16, 38, 90)
+    manager = new SpriteManager("./assets/imgs/Amelia bonita de todos.png", 9, 16, 38, 90)
     {
       QuantSprite = 4
     };
@@ -57,10 +59,12 @@ public class Amelia : Entity
     manager.StartIndex = 0;
     manager.QuantSprite = 4;
   }
+
   public void Move(int xmin, int xmax, int zmin, int zmax)
   {
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
     SetHitbox();
+    gameSound.PlayMusic("./assets/sounds/andando.wav");
     var list = ColissionManager.Current.IsColliding(this);
     if (list.Count > 0)
     {
@@ -71,13 +75,20 @@ public class Amelia : Entity
           this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
         }
 
-        if (obj is Door door && door.IsOpen == false)
+        if (obj is Door door && !door.IsOpen)
         {
           this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
         }
-        if (obj is Door door2 && door2.IsOpen)
+        if (obj is Portal portal)
         {
-          door2.TeleportEntity(this, 5, 10);
+          if(portal.IsOpen)
+          {
+            portal.TryTeleportEntity(this);
+            if(this.Anchor3D.X != portal.destiny.Anchor3D.X ||  this.Anchor3D.Z != portal.destiny.Anchor3D.Z)
+              portal.destiny.PortalUsed = false;
+            continue;
+          }
+          this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
         }
       }
     }
@@ -92,6 +103,7 @@ public class Amelia : Entity
       SpeedZ > -(0.1f * Speed)
       )
     {
+      gameSound.StopMusic();
       SpeedX = 0;
       SpeedZ = 0;
       manager.StartIndex = 0;

@@ -79,13 +79,11 @@ public class Camera
 
   public void MoveLeft(float step)
   {
-    var right = new Vector3(VLookDirection.X * step, VLookDirection.Y * step, 0);
-    this.VCamera -= right;
+    VCamera += Vector3.Cross(VUp, VLookDirection) * step;
   }
   public void MoveRight(float step)
   {
-    var right = new Vector3(VLookDirection.X * step, VLookDirection.Y * step, 0);
-    this.VCamera += right;
+    VCamera -= Vector3.Cross(VUp, VLookDirection) * step;
   }
   public void MoveUp(float step)
   {

@@ -11,6 +11,7 @@ namespace EM3D;
 
 public partial class EMEngine
 {
+  
   private (Vertex, float) projectPoint(
       Vertex p,
       (float width, float height) size
@@ -98,6 +99,10 @@ public partial class EMEngine
       RenderAmelia(amelia, g, size);
       return;
     }
+    if(entity is Portal portal)
+    {
+      RenderPortal(portal, g, size);
+    }
   }
 
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
@@ -110,7 +115,8 @@ public partial class EMEngine
       amelia.X = newPAmelia.X;
       amelia.Y = newPAmelia.Y;
       var d = Vector3.Distance(VirtualCamera.VCamera, amelia.Anchor3D.V3);
-      amelia.Draw(g, d, fAspectRatio);
+      if(d > 5)
+        amelia.Draw(g, d, fAspectRatio);
     }
     RenderPoint(Brushes.Yellow, g, new PointF(newPAmelia.X, newPAmelia.Y), size);
     
@@ -154,6 +160,24 @@ public partial class EMEngine
         g.DrawPath(Pens.Green, path);
       else
         g.DrawPath(Pens.Yellow, path);
+
+    }
+  }
+
+  public void RenderPortal(Portal portal, Graphics g, (float h, float w) size)
+  {
+    var (pointsHitbox, draw) = ProjectHitbox(portal, size);
+    if(draw)
+    {
+      var path = new GraphicsPath();
+
+      path.AddLines(pointsHitbox);
+      path.CloseFigure();
+
+      if(portal.IsOpen)
+        g.DrawPath(Pens.Purple, path);
+      else
+        g.DrawPath(Pens.Pink, path);
 
     }
   }
