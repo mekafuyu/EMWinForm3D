@@ -10,6 +10,8 @@ public class Amelia : Entity
   public float SpeedZ { get; set; } = 0f;
   public SpriteManager manager;
 
+   public GameSound gameSound = new GameSound();
+
   public Amelia(float x, float y, float z, float width, float height, float length)
   {
     this.Speed = 0.1f;
@@ -19,7 +21,7 @@ public class Amelia : Entity
     this.Width = width;
     SetHitbox();
 
-    manager = new SpriteManager("./assets/imgs/Amelia bonita de todos.png", 4, 16, 38, 90)
+    manager = new SpriteManager("./assets/imgs/Amelia bonita de todos.png", 9, 16, 38, 90)
     {
       QuantSprite = 4
     };
@@ -62,6 +64,7 @@ public class Amelia : Entity
   {
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
     SetHitbox();
+    gameSound.PlayMusic("./assets/sounds/andando.wav");
     var list = ColissionManager.Current.IsColliding(this);
     bool onFloor = false;
     if (list.Count > 0)
@@ -107,6 +110,7 @@ public class Amelia : Entity
       SpeedZ > -(0.1f * Speed)
       )
     {
+      gameSound.StopMusic();
       SpeedX = 0;
       SpeedZ = 0;
       manager.StartIndex = 0;
