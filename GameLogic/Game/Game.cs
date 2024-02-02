@@ -10,6 +10,7 @@ public partial class Game
 {
   public List<Level> Levels;
   private Level currLevel;
+  private int levelNumber = -1;
   public EMEngine Engine;
   public Graphics GameGraphics;
   public Bitmap Bmp;
@@ -83,8 +84,18 @@ public partial class Game
       RenderLevel(GameGraphics);
     };
 
-    GameForm.KeyDown += (o, e)
-      => this.currLevel.KeyboardMap.KeyDown(e, Engine, currLevel.Amelia);
+    GameForm.KeyDown += (o, e) => 
+    {
+      this.currLevel.KeyboardMap.KeyDown(e, Engine, currLevel.Amelia);
+      if(e.KeyCode == Keys.Escape)
+        GameForm.Close();
+      if(e.KeyCode == Keys.Tab)
+      {
+        levelNumber = -levelNumber;
+        this.SelectLevel((int) (levelNumber / 2f + 0.5f));
+      }
+
+    };
     GameForm.KeyUp += (o, e)
       => this.currLevel.KeyboardMap.KeyUp(e);
     initMouseHandle();
@@ -119,6 +130,7 @@ public partial class Game
       "Pit = " + Engine.VirtualCamera.Pitch,
       "LightSource = " + Engine.NLightDirection,
       "Darkest/Brightest = " + Engine.Darkest + " / " + Engine.Brightest,
+      "Level = " + this.levelNumber
     });
     Pb.Refresh();
   }
