@@ -11,6 +11,9 @@ public partial class Game
   {
     Pb.MouseMove += (o, e) =>
     {
+      if(!GameForm.Focused)
+        return;
+
       pitchMove = (e.Location.Y - cursorReset.Y) * sense + 23 * sense;
       yawMove = (e.Location.X - cursorReset.X) * sense;
       if(MathF.Abs(yawMove) > sense * 5)

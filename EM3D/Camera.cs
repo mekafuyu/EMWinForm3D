@@ -1,4 +1,5 @@
 
+using System;
 using System.Numerics;
 using static EM3D.EMUtils.EMGeometry;
 
@@ -102,6 +103,15 @@ public class Camera
   {
     var foward = VLookDirection * step;
     this.VCamera -= foward;
+  }
+
+  public void RotateAroundPoint(float step, float centerX, float centerY)
+  {
+    VCamera += new Vector3(
+      centerX + MathF.Cos(step),
+      0f,
+      centerY + MathF.Sin(step) 
+    );
   }
 
 

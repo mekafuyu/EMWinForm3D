@@ -42,10 +42,18 @@ Bitmap bg1 = (Bitmap) Bitmap.FromFile("./assets/imgs/bggen.jpg");
 Level level1 = new();
 level1.Initialize(level1Entity, level1Mesh, bg1);
 
+
+var lvl2Mesh = EMFile.LoadObjectFile("./assets/models/FirstMap2.obj");
+Mesh.Scale(lvl2Mesh, 1.5f);
+var lvl2Floor = new Floor(-1.5f, 1.5f, 0, -24, 3);
+var lvl2Door = new Door(-1.5f, 1.5f, -14.5f, -2.5f, 3, false);
+var lvl2Entities = new List<Entity> { lvl2Floor, lvl2Door };
+
+float xCenter = (lvl2Floor.Hitbox.X + lvl2Floor.Hitbox.Width) / 2;
+float zCenter = (lvl2Floor.Hitbox.Y - lvl2Floor.Hitbox.Height) / 2;
 Level level2 = new();
-var meshmapa = EMFile.LoadObjectFile("./assets/models/FirstMap2.obj");
-Mesh.Scale(meshmapa, 1.5f);
-level2.Initialize(new(), new List<Mesh>{meshmapa}, bg1);
-game.Levels.Add(level1);
+level2.Initialize(lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
+level2.Amelia.Anchor3D = new(-xCenter, 1.5f, lvl2Floor.Hitbox.Height);
 game.Levels.Add(level2);
+game.Levels.Add(level1);
 game.Run();

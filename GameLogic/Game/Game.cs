@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using EM3D;
 using EM3D.EMUtils;
@@ -130,7 +131,9 @@ public partial class Game
       "Pit = " + Engine.VirtualCamera.Pitch,
       "LightSource = " + Engine.NLightDirection,
       "Darkest/Brightest = " + Engine.Darkest + " / " + Engine.Brightest,
-      "Level = " + this.levelNumber
+      "Level = " + this.levelNumber,
+      "Wall = " + (currLevel.CM.IsColliding(currLevel.Amelia).Count()),
+      "Amelia = " + currLevel.Amelia.Hitbox.ToString(),
     });
     Pb.Refresh();
   }

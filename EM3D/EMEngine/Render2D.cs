@@ -135,7 +135,7 @@ public partial class EMEngine
       g.FillEllipse(b,
         new RectangleF(imageLocation, imageSize));
 
-      // g.DrawPath(Pens.Red, path);
+      g.DrawPath(Pens.Red, path);
     }
     if (ameliaResize > 0)
     {

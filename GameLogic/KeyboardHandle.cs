@@ -120,6 +120,13 @@ public class KeyboardHandle
         eng.VirtualCamera.Yaw = 3 * MathF.PI / 2;
         eng.VirtualCamera.Pitch = 0;
         break;
+      case Keys.NumPad5:
+        // eng.VirtualCamera.VCamera = new(-60.8391f, 40.6396f, -93.1818f);
+        eng.VirtualCamera.VCamera = new(-60.6316f, 39.9060f, -92.4080f);
+        eng.VirtualCamera.VLookDirection = new(-1, 0, 0);
+        eng.VirtualCamera.Yaw = -0.57f;
+        eng.VirtualCamera.Pitch = -0.26f;
+        break;
 
       case Keys.Z:
         MessageBox.Show(eng.VirtualCamera.VCamera.ToString());

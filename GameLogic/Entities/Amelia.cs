@@ -70,6 +70,7 @@ public class Amelia : Entity
       {
         if (obj is Floor)
         {
+          // MessageBox.Show("coringa");
           onFloor = true;
         }
         if (obj is Wall)
@@ -95,7 +96,10 @@ public class Amelia : Entity
       }
     }
     if(!onFloor)
+    {
+      // MessageBox.Show("a");
       this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+    }
       
     SpeedX *= 0.9f;
     SpeedZ *= 0.9f;
