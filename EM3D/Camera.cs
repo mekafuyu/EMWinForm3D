@@ -136,7 +136,36 @@ public class Camera
     Vector3 center = new(centerX, 0, centerZ);
     Vector3 vDirection = new(VCamera.X - centerX, 0, VCamera.Z - centerZ);
 
-    var move = Vector3.Cross(VUp, vDirection) * step;
+    float stepSize = 1e-4f;
+    UInt32 iterations = (UInt32)(MathF.Abs(step) / stepSize);
+
+    Vector3 move;
+
+    float sumX = 0f;
+    float cX = 0f;
+
+    float sumZ = 0f;
+    float cZ = 0f;
+
+    for (UInt32 i = 0; i < iterations; ++i)
+    {
+      move = Vector3.Cross(VUp, vDirection) * MathF.Sign(step) * stepSize;
+
+      var yX = move.X - cX;
+      var tX = sumX + yX;
+      cX = (tX - sumX) - yX;
+      sumX = tX;
+
+      var yZ = move.Z - cZ;
+      var tZ = sumZ + yZ;
+      cZ = (tZ - sumZ) - yZ;
+      sumZ = tZ;
+    }
+
+    VCamera.X += sumX;
+    VCamera.Z += sumZ;
+
+    move = Vector3.Cross(VUp, vDirection) * MathF.Sign(step) * (MathF.Abs(step) - iterations * stepSize);
     VCamera.X += move.X;
     VCamera.Z += move.Z;
 
