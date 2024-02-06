@@ -139,6 +139,6 @@ public class Camera
     VCamera.X += move.X;
     VCamera.Z += move.Z;
 
-    Yaw = MathF.Acos(Vector3.Dot(Vector3.Normalize(VRight), VCamera - center) / (VRight.Length() * (VCamera - center).Length())) - MathF.PI; 
+    Yaw = -(MathF.Acos(Vector3.Dot(Vector3.Normalize(VRight), VCamera - center) / (VRight.Length() * (VCamera - center).Length())) - MathF.PI / 2); 
   }
 }
