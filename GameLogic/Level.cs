@@ -31,7 +31,7 @@ public class Level
   {
     g.DrawImage(Background, 0, 0, pb.Width, pb.Height);
 
-    Amelia.Move(CM, 0, pb.Width, 0, pb.Height);
+    Amelia.Move(CM, eng.VirtualCamera.VCamera);
     eng.GetFrame(
       (pb.Width, pb.Height),
       g,

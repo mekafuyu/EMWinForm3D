@@ -105,14 +105,25 @@ public class Camera
     this.VCamera -= foward;
   }
 
-  public void RotateAroundPoint(float step, float centerX, float centerY)
+  public void RotateAroundPoint(float step, float centerX, float centerZ)
   {
-    VCamera += new Vector3(
-      centerX + MathF.Cos(step),
-      0f,
-      centerY + MathF.Sin(step) 
+    // X = Xc + R * Cos(t)
+    // (X - Xc) / R = Cos(t)
+    // ACos((X - Xc) / R) = t
+
+    float radius = Vector2.Distance(new(VCamera.X, VCamera.Z), new(centerX, centerZ));
+    float currPosC = MathF.Acos((VCamera.X - centerX) / radius);
+    float currPosS = MathF.Asin((VCamera.Z - centerZ) / radius);
+
+    VCamera = new Vector3(
+      centerX + radius * MathF.Cos(currPosC + step),
+      VCamera.Y,
+      centerZ + radius * MathF.Sin(currPosS + step) 
     );
+    // VCamera = new Vector3(
+    //   VCamera.X * MathF.Cos(currPos + step),
+    //   VCamera.Y,
+    //   VCamera.Z * MathF.Sin(currPos + step) 
+    // );
   }
-
-
 }

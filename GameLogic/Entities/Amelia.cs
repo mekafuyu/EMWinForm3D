@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using System.Numerics;
 using System.Windows.Forms;
 using EM3D;
 
@@ -58,7 +59,7 @@ public class Amelia : Entity
     manager.QuantSprite = 4;
   }
 
-  public void Move(ColissionManager colissionManager, int xmin, int xmax, int zmin, int zmax)
+  public void Move(ColissionManager colissionManager, Vector3 cameraPos)
   {
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
     SetHitbox();
@@ -82,6 +83,12 @@ public class Amelia : Entity
         {
           this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
         }
+
+        if (obj is PerspectiveObstacle perspectiveObstacle && !perspectiveObstacle.IsOpen(cameraPos))
+        {
+          this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+        }
+        
         if (obj is Portal portal)
         {
           if(portal.IsOpen)

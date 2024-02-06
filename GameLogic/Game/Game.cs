@@ -106,7 +106,6 @@ public partial class Game
     Application.Run(GameForm);
   }
 
-
   public void RenderLevel(Graphics g)
   {
     Engine.RefreshAspectRatio(GameForm.Width, GameForm.Height);

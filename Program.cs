@@ -43,17 +43,17 @@ Level level1 = new();
 level1.Initialize(level1Entity, level1Mesh, bg1);
 
 
-var lvl2Mesh = EMFile.LoadObjectFile("./assets/models/FirstMap2.obj");
+var lvl2Mesh = EMFile.LoadObjectFile("./assets/models/blender/FirstMapCenter.obj");
 Mesh.Scale(lvl2Mesh, 1.5f);
-var lvl2Floor = new Floor(-1.5f, 1.5f, 0, -24, 3);
-var lvl2Door = new Door(-1.5f, 1.5f, -14.5f, -2.5f, 3, false);
-var lvl2Entities = new List<Entity> { lvl2Floor, lvl2Door };
+var lvl2Floor = new Floor(-1.5f, 1.5f, 12, -24, 3);
+var lvl2Persp = new PerspectiveObstacle(-1.5f, 1.5f, -2.5f, -2.5f, 3, new(-57.1899f, 37.6654f, -75.0576f));
+var lvl2Entities = new List<Entity> { lvl2Floor, lvl2Persp };
 
 float xCenter = (lvl2Floor.Hitbox.X + lvl2Floor.Hitbox.Width) / 2;
 float zCenter = (lvl2Floor.Hitbox.Y - lvl2Floor.Hitbox.Height) / 2;
 Level level2 = new();
 level2.Initialize(lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
-level2.Amelia.Anchor3D = new(-xCenter, 1.5f, lvl2Floor.Hitbox.Height);
+level2.Amelia.Anchor3D = new(-xCenter, 1.5f, lvl2Floor.Hitbox.Height + lvl2Floor.Hitbox.Y);
 game.Levels.Add(level2);
 game.Levels.Add(level1);
 game.Run();
