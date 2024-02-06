@@ -132,13 +132,15 @@ public class Camera
     //   VCamera.Y,
     //   VCamera.Z * MathF.Sin(currPos + step) 
     // );
-    
-    Vector3 center = new Vector3(centerX, 0, centerZ);
 
-    var move = Vector3.Cross(VUp, VCamera - center) * step;
+    Vector3 center = new(centerX, 0, centerZ);
+    Vector3 vDirection = new(VCamera.X - centerX, 0, VCamera.Z - centerZ);
+
+    var move = Vector3.Cross(VUp, vDirection) * step;
     VCamera.X += move.X;
     VCamera.Z += move.Z;
 
-    Yaw = -(MathF.Acos(Vector3.Dot(Vector3.Normalize(VRight), VCamera - center) / (VRight.Length() * (VCamera - center).Length())) - MathF.PI / 2); 
+    vDirection = new((VCamera - center).X, 0, (VCamera - center).Z);
+    Yaw = MathF.Atan2(-vDirection.Z, -vDirection.X) - MathF.PI / 2f;
   }
 }

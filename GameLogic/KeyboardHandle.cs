@@ -123,9 +123,9 @@ public class KeyboardHandle
         break;
       case Keys.NumPad5:
         // eng.VirtualCamera.VCamera = new(-60.8391f, 40.6396f, -93.1818f);
-        eng.VirtualCamera.VCamera = new(-57.1899f, 37.6654f, -75.0576f);
+        eng.VirtualCamera.VCamera = new(-57.904022f, 37.6654f, -76.06976f);
         eng.VirtualCamera.VLookDirection = new(-1, 0, 0);
-        eng.VirtualCamera.Yaw = -0.57f;
+        eng.VirtualCamera.Yaw = -0.6506284f;
         eng.VirtualCamera.Pitch = -0.26f;
         break;
       case Keys.NumPad0:
