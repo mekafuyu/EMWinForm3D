@@ -34,6 +34,13 @@ public class Camera
       Y = 1,
       Z = 0
     };
+  public Vector3 VRight =
+    new()
+    {
+      X = 1,
+      Y = 0,
+      Z = 0
+    };
   public Vector3 VFoward =
     new()
     {
@@ -111,19 +118,27 @@ public class Camera
     // (X - Xc) / R = Cos(t)
     // ACos((X - Xc) / R) = t
 
-    float radius = Vector2.Distance(new(VCamera.X, VCamera.Z), new(centerX, centerZ));
-    float currPosC = MathF.Acos((VCamera.X - centerX) / radius);
-    float currPosS = MathF.Asin((VCamera.Z - centerZ) / radius);
+    // float radius = Vector2.Distance(new(VCamera.X, VCamera.Z), new(centerX, centerZ));
+    // float currPosC = MathF.Acos((VCamera.X - centerX) / radius);
+    // float currPosS = MathF.Asin((VCamera.Z - centerZ) / radius);
 
-    VCamera = new Vector3(
-      centerX + radius * MathF.Cos(currPosC + step),
-      VCamera.Y,
-      centerZ + radius * MathF.Sin(currPosS + step) 
-    );
+    // VCamera = new Vector3(
+    //   centerX + radius * MathF.Cos(currPosC + step),
+    //   VCamera.Y,
+    //   centerZ - radius * MathF.Sin(currPosS + step) 
+    // );
     // VCamera = new Vector3(
     //   VCamera.X * MathF.Cos(currPos + step),
     //   VCamera.Y,
     //   VCamera.Z * MathF.Sin(currPos + step) 
     // );
+    
+    Vector3 center = new Vector3(centerX, 0, centerZ);
+
+    var move = Vector3.Cross(VUp, VCamera - center) * step;
+    VCamera.X += move.X;
+    VCamera.Z += move.Z;
+
+    Yaw = MathF.Acos(Vector3.Dot(Vector3.Normalize(VRight), VCamera - center) / (VRight.Length() * (VCamera - center).Length())) - MathF.PI; 
   }
 }

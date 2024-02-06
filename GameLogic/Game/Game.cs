@@ -115,6 +115,7 @@ public partial class Game
     if (GameForm.Focused)
       Cursor.Position = cursorReset;
 
+    Mapper.Map(g, Engine.VirtualCamera);
     Debugger.ShowOnScreen(g, new string[]{
       "ScreenSize = " + GameForm.Width + " | " + GameForm.Height,
       "CPos = " + Engine.VirtualCamera.VCamera.X + " | " + Engine.VirtualCamera.VCamera.Y + " | " + Engine.VirtualCamera.VCamera.Z,
