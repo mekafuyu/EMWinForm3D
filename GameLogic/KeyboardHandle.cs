@@ -6,7 +6,6 @@ public class KeyboardHandle
 {
   float speed = 0.01f;
   float tspeed = 0.5f;
-  float rotate = 0f;
   int xSpeed = 0;
   int zSpeed = 0;
   public void KeyDown(KeyEventArgs e, EMEngine eng, Amelia amelia)
@@ -123,10 +122,10 @@ public class KeyboardHandle
         break;
       case Keys.NumPad5:
         // eng.VirtualCamera.VCamera = new(-60.8391f, 40.6396f, -93.1818f);
-        eng.VirtualCamera.VCamera = new(-57.1899f, 37.6654f, -75.0576f);
+        eng.VirtualCamera.VCamera = new(-68.1943f, 44.6857f, -92.3641f);
         eng.VirtualCamera.VLookDirection = new(-1, 0, 0);
-        eng.VirtualCamera.Yaw = -0.57f;
-        eng.VirtualCamera.Pitch = -0.26f;
+        eng.VirtualCamera.Yaw = -0.59f;
+        eng.VirtualCamera.Pitch = -0.24f;
         break;
       case Keys.NumPad0:
         eng.VirtualCamera.Yaw = MathF.PI / 2;

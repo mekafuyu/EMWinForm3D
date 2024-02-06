@@ -21,13 +21,13 @@ public class Mesh
     Vector3 d = newPlace - m.t[0].P.v1.V3;
     Mesh.Translate(m, d.X, d.Y, d.Z);
   }
-  public static void Scale(Mesh m, float x)
+  public static void Scale(Mesh m, float scale)
   {
     foreach (var tr in m.t)
     {
-      tr.P.v1.V3 *= x;
-      tr.P.v2.V3 *= x;
-      tr.P.v3.V3 *= x;
+      tr.P.v1.V3 *= scale;
+      tr.P.v2.V3 *= scale;
+      tr.P.v3.V3 *= scale;
     }
   }
 

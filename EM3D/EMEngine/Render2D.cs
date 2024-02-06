@@ -223,10 +223,10 @@ public partial class EMEngine
       path.AddLines(pointsHitbox);
       path.CloseFigure();
 
-      if (portal.IsOpen)
-        g.DrawPath(Pens.Purple, path);
-      else
-        g.DrawPath(Pens.Pink, path);
+      // if (portal.IsOpen)
+      //   g.DrawPath(Pens.Purple, path);
+      // else
+      //   g.DrawPath(Pens.Pink, path);
 
     }
   }
