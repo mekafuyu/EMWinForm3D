@@ -17,9 +17,9 @@ public partial class Game
       pitchMove = (e.Location.Y - cursorReset.Y) * sense + 23 * sense;
       yawMove = (e.Location.X - cursorReset.X) * sense;
       if(MathF.Abs(yawMove) > sense * 5)
-        Engine.VirtualCamera.Yaw += yawMove;
+        currLevel.VirtualCamera.Yaw += yawMove;
       if(MathF.Abs(pitchMove) > sense * 5)
-      Engine.VirtualCamera.Pitch -= pitchMove;
+      currLevel.VirtualCamera.Pitch -= pitchMove;
       CursorPos = e.Location;
     };
     Pb.MouseDown += (o, e) =>

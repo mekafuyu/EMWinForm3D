@@ -87,7 +87,7 @@ public partial class Game
 
     GameForm.KeyDown += (o, e) => 
     {
-      this.currLevel.KeyboardMap.KeyDown(e, Engine, currLevel.Amelia);
+      this.currLevel.KeyboardMap.KeyDown(e, Engine, currLevel, currLevel.Amelia);
       if(e.KeyCode == Keys.Escape)
         GameForm.Close();
       if(e.KeyCode == Keys.Tab)
@@ -109,6 +109,11 @@ public partial class Game
   public void RenderLevel(Graphics g)
   {
     Engine.RefreshAspectRatio(GameForm.Width, GameForm.Height);
+
+    Engine.VirtualCamera.VCamera = currLevel.VirtualCamera.VCamera;
+    Engine.VirtualCamera.Yaw = currLevel.VirtualCamera.Yaw;
+    Engine.VirtualCamera.Pitch = currLevel.VirtualCamera.Pitch;
+
     currLevel.Refresh(g, Pb, Engine);
 
     cursorReset = new Point(Pb.Width / 2, Pb.Height / 2);

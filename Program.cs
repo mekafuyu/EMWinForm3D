@@ -83,14 +83,16 @@ Level level2 = new();
 level2.Initialize(lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
 level2.Amelia.Anchor3D = new(-xCenter, 1.5f, lvl2Floor1.Hitbox.Height + lvl2Floor1.Hitbox.Y);
 
+var lvl3Floor1 = new Floor(-1.5f, 0, 12, -24, 3);
+var lvl3Entities = new List<Entity> { lvl3Floor1 };
 Level level3 = new();
 List<Mesh> level3Mesh = new List<Mesh>{labirinto};
-level3.Initialize(new(), level3Mesh, bg1);
+level3.Initialize(new(9.6073f, 98.134.587f, 168.5965f), -9.4f, -0.6f, lvl3Entities, level3Mesh, bg1);
 
 Level level4 = new();
 List<Mesh> level4Mesh = new List<Mesh>{chaoPortas, portas, objetivoPortas};
 level4.Initialize(new(), level4Mesh, bg2);
 
 game.Levels.Add(level2);
-game.Levels.Add(level4);
+game.Levels.Add(level3);
 game.Run();
