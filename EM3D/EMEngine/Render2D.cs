@@ -174,7 +174,7 @@ public partial class EMEngine
       path.AddLines(pointsHitbox);
       path.CloseFigure();
 
-      // g.DrawPath(Pens.Cyan, path);
+      g.DrawPath(Pens.Cyan, path);
     }
   }
 
@@ -205,10 +205,10 @@ public partial class EMEngine
       path.AddLines(pointsHitbox);
       path.CloseFigure();
 
-      // if (perspObs.IsOpen(VirtualCamera.VCamera))
-      //   g.DrawPath(Pens.Red, path);
-      // else
-      //   g.DrawPath(Pens.Green, path);
+      if (perspObs.IsOpen(VirtualCamera.VCamera))
+        g.DrawPath(Pens.Red, path);
+      else
+        g.DrawPath(Pens.Green, path);
 
     }
   }

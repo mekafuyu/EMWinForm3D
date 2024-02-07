@@ -6,10 +6,9 @@ public class KeyboardHandle
 {
   float speed = 0.01f;
   float tspeed = 0.5f;
-  float rotate = 0f;
   int xSpeed = 0;
   int zSpeed = 0;
-  public void KeyDown(KeyEventArgs e, EMEngine eng, Amelia amelia)
+  public void KeyDown(KeyEventArgs e, EMEngine eng ,Level lvl, Amelia amelia)
   {
     switch (e.KeyCode)
     {
@@ -57,36 +56,36 @@ public class KeyboardHandle
         break;
 
       case Keys.J:
-        eng.VirtualCamera.MoveLeft(tspeed);
+        lvl.VirtualCamera.MoveLeft(tspeed);
         break;
       case Keys.L:
-        eng.VirtualCamera.MoveRight(tspeed);
+        lvl.VirtualCamera.MoveRight(tspeed);
         break;
       case Keys.U:
-        eng.VirtualCamera.Pitch -= speed;
+        lvl.VirtualCamera.Pitch -= speed;
         break;
       case Keys.O:
-        eng.VirtualCamera.Pitch += speed;
+        lvl.VirtualCamera.Pitch += speed;
         break;
       case Keys.I:
-        eng.VirtualCamera.MoveFront(tspeed);
+        lvl.VirtualCamera.MoveFront(tspeed);
         break;
       case Keys.K:
-        eng.VirtualCamera.MoveBack(tspeed);
+        lvl.VirtualCamera.MoveBack(tspeed);
         break;
 
 
       case Keys.Right:
-        eng.VirtualCamera.MoveRight(tspeed);
+        lvl.VirtualCamera.MoveRight(tspeed);
         break;
       case Keys.Left:
-        eng.VirtualCamera.MoveLeft(tspeed);
+        lvl.VirtualCamera.MoveLeft(tspeed);
         break;
       case Keys.Space:
-        eng.VirtualCamera.MoveUp(tspeed);
+        lvl.VirtualCamera.MoveUp(tspeed);
         break;
       case Keys.ShiftKey:
-        eng.VirtualCamera.MoveDown(tspeed);
+        lvl.VirtualCamera.MoveDown(tspeed);
         break;
 
 
@@ -98,52 +97,52 @@ public class KeyboardHandle
         break;
 
       case Keys.NumPad8:
-        eng.VirtualCamera.VCamera = new(0, 0, 0);
-        eng.VirtualCamera.VLookDirection = new(0, 0, 1);
-        eng.VirtualCamera.Yaw = 0;
-        eng.VirtualCamera.Pitch = 0;
+        lvl.VirtualCamera.VCamera = new(0, 0, 0);
+        lvl.VirtualCamera.VLookDirection = new(0, 0, 1);
+        lvl.VirtualCamera.Yaw = 0;
+        lvl.VirtualCamera.Pitch = 0;
         break;
       case Keys.NumPad2:
-        eng.VirtualCamera.VCamera = new(0, 0, 0);
-        eng.VirtualCamera.VLookDirection = new(0, 0, -1);
-        eng.VirtualCamera.Yaw = MathF.PI;
-        eng.VirtualCamera.Pitch = 0;
+        lvl.VirtualCamera.VCamera = new(0, 0, 0);
+        lvl.VirtualCamera.VLookDirection = new(0, 0, -1);
+        lvl.VirtualCamera.Yaw = MathF.PI;
+        lvl.VirtualCamera.Pitch = 0;
         break;
       case Keys.NumPad4:
-        eng.VirtualCamera.VCamera = new(0, 0, 0);
-        eng.VirtualCamera.VLookDirection = new(1, 0, 0);
-        eng.VirtualCamera.Yaw = MathF.PI / 2;
-        eng.VirtualCamera.Pitch = 0;
+        lvl.VirtualCamera.VCamera = new(0, 0, 0);
+        lvl.VirtualCamera.VLookDirection = new(1, 0, 0);
+        lvl.VirtualCamera.Yaw = MathF.PI / 2;
+        lvl.VirtualCamera.Pitch = 0;
         break;
       case Keys.NumPad6:
-        eng.VirtualCamera.VCamera = new(0, 0, 0);
-        eng.VirtualCamera.VLookDirection = new(-1, 0, 0);
-        eng.VirtualCamera.Yaw = 3 * MathF.PI / 2;
-        eng.VirtualCamera.Pitch = 0;
+        lvl.VirtualCamera.VCamera = new(0, 0, 0);
+        lvl.VirtualCamera.VLookDirection = new(-1, 0, 0);
+        lvl.VirtualCamera.Yaw = 3 * MathF.PI / 2;
+        lvl.VirtualCamera.Pitch = 0;
         break;
       case Keys.NumPad5:
         // eng.VirtualCamera.VCamera = new(-60.8391f, 40.6396f, -93.1818f);
-        eng.VirtualCamera.VCamera = new(-57.904022f, 37.6654f, -76.06976f);
-        eng.VirtualCamera.VLookDirection = new(-1, 0, 0);
-        eng.VirtualCamera.Yaw = -0.6506284f;
-        eng.VirtualCamera.Pitch = -0.26f;
+        lvl.VirtualCamera.VCamera = new(-68.1943f, 44.6857f, -92.3641f);
+        lvl.VirtualCamera.VLookDirection = new(-1, 0, 0);
+        lvl.VirtualCamera.Yaw = -0.59f;
+        lvl.VirtualCamera.Pitch = -0.24f;
         break;
       case Keys.NumPad0:
-        eng.VirtualCamera.Yaw = MathF.PI / 2;
+        lvl.VirtualCamera.Yaw = MathF.PI / 2;
         break;
       case Keys.Z:
-        eng.VirtualCamera.RotateAroundPoint(0.01f, 0, 0);
+        lvl.VirtualCamera.RotateAroundPoint(0.01f, 0, 0);
         // rotate += 0.001f;
         break;
       case Keys.C:
-        eng.VirtualCamera.RotateAroundPoint(-0.01f, 0, 0);
+        lvl.VirtualCamera.RotateAroundPoint(-0.01f, 0, 0);
         // rotate -= 0.001f;
         break;
       case Keys.X:
-        eng.VirtualCamera.VCamera = new(0, 0, 75);
-        eng.VirtualCamera.VLookDirection = new(0, 0, -1);
-        eng.VirtualCamera.Yaw = 9.5f;
-        eng.VirtualCamera.Pitch = 0f;
+        lvl.VirtualCamera.VCamera = new(0, 0, 75);
+        lvl.VirtualCamera.VLookDirection = new(0, 0, -1);
+        lvl.VirtualCamera.Yaw = 9.5f;
+        lvl.VirtualCamera.Pitch = 0f;
         break;
       default:
         break;

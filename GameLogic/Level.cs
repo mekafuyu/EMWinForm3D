@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Drawing;
+using System.Numerics;
 using System.Windows.Forms;
 using EM3D;
 
@@ -14,6 +15,7 @@ public class Level
   public (float x, float y, float z) GlobalTranslation;
   public ColissionManager CM;
   public KeyboardHandle KeyboardMap = new();
+  public Camera VirtualCamera = new();
 
   public void Initialize(List<Entity> e, List<Mesh> m, Bitmap bg)
   {
@@ -26,7 +28,16 @@ public class Level
     {
       entities = Entities
     };
-    }
+  }
+  public void Initialize(Vector3 pos, float yaw, float pitch, List<Entity> e, List<Mesh> m, Bitmap bg)
+  {
+    Initialize(e, m, bg);
+    VirtualCamera.VCamera = pos;
+    VirtualCamera.Yaw = yaw;
+    VirtualCamera.Pitch = pitch;
+
+  }
+
   public void Refresh(Graphics g, PictureBox pb, EMEngine eng)
   {
     g.DrawImage(Background, 0, 0, pb.Width, pb.Height);
