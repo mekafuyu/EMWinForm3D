@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using System.Numerics;
 using System.Windows.Forms;
 using EM3D;
 
@@ -60,12 +61,11 @@ public class Amelia : Entity
     manager.QuantSprite = 4;
   }
 
-  public void Move(int xmin, int xmax, int zmin, int zmax)
+  public void Move(ColissionManager colissionManager, Vector3 cameraPos)
   {
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
     SetHitbox();
-    gameSound.PlayMusic("./assets/sounds/andando.wav");
-    var list = ColissionManager.Current.IsColliding(this);
+    var list = colissionManager.IsColliding(this);
     bool onFloor = false;
     if (list.Count > 0)
     {
@@ -73,6 +73,7 @@ public class Amelia : Entity
       {
         if (obj is Floor)
         {
+          // MessageBox.Show("coringa");
           onFloor = true;
         }
         if (obj is Wall)
@@ -84,6 +85,12 @@ public class Amelia : Entity
         {
           this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
         }
+
+        if (obj is PerspectiveObstacle perspectiveObstacle && !perspectiveObstacle.IsOpen(cameraPos))
+        {
+          this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+        }
+        
         if (obj is Portal portal)
         {
           if(portal.IsOpen)
@@ -98,7 +105,10 @@ public class Amelia : Entity
       }
     }
     if(!onFloor)
+    {
+      // MessageBox.Show("a");
       this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+    }
       
     SpeedX *= 0.9f;
     SpeedZ *= 0.9f;

@@ -107,6 +107,10 @@ public partial class EMEngine
     {
       RenderFloor(floor, g, size);
     }
+    if (entity is PerspectiveObstacle persp)
+    {
+      RenderPersp(persp, g, size);
+    }
   }
 
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
@@ -135,7 +139,7 @@ public partial class EMEngine
       g.FillEllipse(b,
         new RectangleF(imageLocation, imageSize));
 
-      // g.DrawPath(Pens.Red, path);
+      g.DrawPath(Pens.Red, path);
     }
     if (ameliaResize > 0)
     {
@@ -170,7 +174,7 @@ public partial class EMEngine
       path.AddLines(pointsHitbox);
       path.CloseFigure();
 
-      g.DrawPath(Pens.Cyan, path);
+      // g.DrawPath(Pens.Cyan, path);
     }
   }
 
@@ -188,6 +192,23 @@ public partial class EMEngine
         g.DrawPath(Pens.Green, path);
       else
         g.DrawPath(Pens.Yellow, path);
+
+    }
+  }
+  public void RenderPersp(PerspectiveObstacle perspObs, Graphics g, (float h, float w) size)
+  {
+    var (pointsHitbox, draw) = ProjectHitbox(perspObs, size);
+    if (draw)
+    {
+      var path = new GraphicsPath();
+
+      path.AddLines(pointsHitbox);
+      path.CloseFigure();
+
+      // if (perspObs.IsOpen(VirtualCamera.VCamera))
+      //   g.DrawPath(Pens.Red, path);
+      // else
+      //   g.DrawPath(Pens.Green, path);
 
     }
   }

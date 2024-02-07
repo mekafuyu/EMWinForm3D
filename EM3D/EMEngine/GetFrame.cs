@@ -12,14 +12,15 @@ namespace EM3D;
 
 public partial class EMEngine
 {
+  public bool ShowMesh = false;
+  public bool FillShape = true;
+
   public void GetFrame(
    (float width, float height) size,
    Graphics g,
    IEnumerable<Mesh> meshesToRender,
    (float x, float y, float z) rotation,
    (float x, float y, float z) translation,
-   bool fillShape,
-   bool showMesh,
    List<Entity> entities
    )
   {
@@ -95,7 +96,7 @@ public partial class EMEngine
 
       foreach (var clippedTr in listTr)
       {
-        RasterTriangle(clippedTr, g, fillShape, showMesh);
+        RasterTriangle(clippedTr, g, FillShape, ShowMesh);
       }
     }
     Drawing.gifIndex++;

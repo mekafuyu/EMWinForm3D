@@ -1,4 +1,5 @@
 
+using System;
 using System.Numerics;
 using static EM3D.EMUtils.EMGeometry;
 
@@ -31,6 +32,13 @@ public class Camera
     {
       X = 0,
       Y = 1,
+      Z = 0
+    };
+  public Vector3 VRight =
+    new()
+    {
+      X = 1,
+      Y = 0,
       Z = 0
     };
   public Vector3 VFoward =
@@ -104,5 +112,64 @@ public class Camera
     this.VCamera -= foward;
   }
 
+  public void RotateAroundPoint(float step, float centerX, float centerZ)
+  {
+    // X = Xc + R * Cos(t)
+    // (X - Xc) / R = Cos(t)
+    // ACos((X - Xc) / R) = t
 
+    // float radius = Vector2.Distance(new(VCamera.X, VCamera.Z), new(centerX, centerZ));
+    // float currPosC = MathF.Acos((VCamera.X - centerX) / radius);
+    // float currPosS = MathF.Asin((VCamera.Z - centerZ) / radius);
+
+    // VCamera = new Vector3(
+    //   centerX + radius * MathF.Cos(currPosC + step),
+    //   VCamera.Y,
+    //   centerZ - radius * MathF.Sin(currPosS + step) 
+    // );
+    // VCamera = new Vector3(
+    //   VCamera.X * MathF.Cos(currPos + step),
+    //   VCamera.Y,
+    //   VCamera.Z * MathF.Sin(currPos + step) 
+    // );
+
+    Vector3 center = new(centerX, 0, centerZ);
+    Vector3 vDirection = new(VCamera.X - centerX, 0, VCamera.Z - centerZ);
+
+    float stepSize = 1e-4f;
+    UInt32 iterations = (UInt32)(MathF.Abs(step) / stepSize);
+
+    Vector3 move;
+
+    float sumX = 0f;
+    float cX = 0f;
+
+    float sumZ = 0f;
+    float cZ = 0f;
+
+    for (UInt32 i = 0; i < iterations; ++i)
+    {
+      move = Vector3.Cross(VUp, vDirection) * MathF.Sign(step) * stepSize;
+
+      var yX = move.X - cX;
+      var tX = sumX + yX;
+      cX = (tX - sumX) - yX;
+      sumX = tX;
+
+      var yZ = move.Z - cZ;
+      var tZ = sumZ + yZ;
+      cZ = (tZ - sumZ) - yZ;
+      sumZ = tZ;
+    }
+
+    VCamera.X += sumX;
+    VCamera.Z += sumZ;
+
+    move = Vector3.Cross(VUp, vDirection) * MathF.Sign(step) * (MathF.Abs(step) - iterations * stepSize);
+    VCamera.X += move.X;
+    VCamera.Z += move.Z;
+
+    vDirection = new((VCamera - center).X, 0, (VCamera - center).Z);
+    Yaw = MathF.Atan2(-vDirection.Z, -vDirection.X) - MathF.PI / 2f;
+  }
 }

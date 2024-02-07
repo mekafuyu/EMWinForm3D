@@ -3,29 +3,24 @@ using System.Drawing;
 
 namespace GameLogic;
 
-public class MenuAmelia
+public class MenuAmelia : Component
 {
-  public Image MenuAmeliaSprite;
-  public RectangleF MenuAmeliaPosition;
-  public RectangleF RecDefault;
-  private float aceleration = 0.1f;
-  private float speed = 0;
-  private float displace = 1;
+  private float countMove = 0f;
   private int blink = 0;
 
 
-  public MenuAmelia(Image i, RectangleF position)
+  public MenuAmelia(Image i, PointF position)
   {
-    this.MenuAmeliaSprite = i;
-    this.MenuAmeliaPosition = position;
-    this.RecDefault = new(0, 0, i.Width / 4, i.Height);
+    this.Sprite = i;
+    this.Position = position;
+    this.SpriteRec = new(0, 0, i.Width / 4, i.Height);
   }
 
-  public void Draw(Graphics g)
+  public void Draw(Graphics g, SizeF size)
   {
     if(blink >= 0)
     {
-      this.RecDefault = new(MenuAmeliaSprite.Width / 4 * blink, 0, MenuAmeliaSprite.Width / 4, MenuAmeliaSprite.Height);
+      this.SpriteRec = new(Sprite.Width / 4 * blink, 0, Sprite.Width / 4, Sprite.Height);
       blink--;
     }
     else
@@ -33,25 +28,26 @@ public class MenuAmelia
       if(Random.Shared.Next(100) > 98)
         blink = 3;
     }
+    float ratio = size.Width / size.Height;
 
+    float displace = MathF.Cos(countMove) * 0.0375f - 0.05f;
+    countMove += 0.025f;
+    
+    // proporcao de 2/3, diminuido metade para centralizar
+    float newAmeliaX = size.Width * (Position.X - 0.1f);
+    float newAmeliaY = size.Height * (Position.Y + displace - (0.15f * ratio));
 
-    if(Math.Abs(speed) > 3)
-      aceleration = -aceleration;
-
-    var recToDraw = new RectangleF(
-      MenuAmeliaPosition.X,
-      MenuAmeliaPosition.Y - displace,
-      MenuAmeliaPosition.Width,
-      MenuAmeliaPosition.Height
+    Rec = new RectangleF(
+      newAmeliaX,
+      newAmeliaY,
+      size.Width * 0.2f,
+      size.Height * 0.3f * ratio
     );
 
-    speed += aceleration;
-    displace += speed;
-
     g.DrawImage(
-      MenuAmeliaSprite,
-      recToDraw,
-      RecDefault,
+      Sprite,
+      Rec,
+      SpriteRec,
       GraphicsUnit.Pixel
     );
   }
