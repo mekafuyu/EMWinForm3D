@@ -3,39 +3,35 @@ using System.Drawing;
 
 namespace GameLogic;
 
-public class Title
+public class Title : Component
 {
-  public Image TitleSprite;
-  public RectangleF TitlePosition;
-  public RectangleF RecDefault;
-  private float increase = 0.2f;
-  private float displace = 1;
+  private float countScale = 0.2f;
 
-  public Title(Image i, RectangleF position)
+  public Title(Image i, PointF position, float width, float height)
   {
-    this.TitleSprite = i;
-    this.TitlePosition = position;
-    this.RecDefault = new(0, 0, i.Width, i.Height);
+    this.Sprite = i;
+    this.Position = position;
+    this.SpriteRec = new(0, 0, i.Width, i.Height);
+    this.Width = width;
+    this.Height = height;
   }
 
-  public void Draw(Graphics g)
+  public void Draw(Graphics g, SizeF size)
   {
-    if(Math.Abs(displace) > 10)
-      increase = -increase;
+    float scale = MathF.Cos(countScale) * 0.01f;
+    countScale += 0.025f;
 
-    var recToDraw = new RectangleF(
-      TitlePosition.X - displace,
-      TitlePosition.Y - displace,
-      TitlePosition.Width + displace * 2,
-      TitlePosition.Height + displace * 2
+    Rec = new RectangleF(
+      size.Width * (Position.X + (- Width - scale) / 2),
+      size.Height * (Position.Y + ( - Height - scale) / 2),
+      size.Width * (Width + scale),
+      size.Height * (Height + scale)
     );
 
-    displace += increase;
-
     g.DrawImage(
-      TitleSprite,
-      recToDraw,
-      RecDefault,
+      Sprite,
+      Rec,
+      SpriteRec,
       GraphicsUnit.Pixel
     );
   }

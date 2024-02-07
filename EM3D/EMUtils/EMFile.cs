@@ -75,7 +75,8 @@ public static class EMFile
         var lines = tempstr.Split('\n');
         foreach (var line in lines)
         {
-
+          if (string.IsNullOrEmpty(line))
+            continue;
           if (line[0] == 'v' && line[1] == ' ')
           {
             var vItems = line.Split(' ');
@@ -142,7 +143,9 @@ public static class EMFile
                 vertexes2D[int.Parse(vertexes3[1]) - 1],
                 vertexes2D[int.Parse(vertexes4[1]) - 1]
               ));
-            
+              
+            trList.Add(nt2);
+            countf++;
           }
           countl++;
         }

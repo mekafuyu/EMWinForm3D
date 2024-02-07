@@ -12,7 +12,7 @@ namespace EM3D;
 
 public partial class EMEngine
 {
-  public Image Txt = Image.FromFile("./assets/imgs/bg/monke.png");
+  // public Image Txt = Image.FromFile("./assets/imgs/bg/monke.png");
   public Pen PenLine = new Pen(Color.FromArgb(255, 255, 255, 255), 1);
   
   private void RasterTriangle(Triangle tr, Graphics g, bool fillPoly, bool drawPolly)

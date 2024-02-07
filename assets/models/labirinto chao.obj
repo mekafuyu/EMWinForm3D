@@ -1,0 +1,18 @@
+# Export from Prisma3D 2.1.1
+mtllib labirinto.mtl
+o Plano
+v 20,01852 0 -20,30194
+v 20,01852 0 20,30194
+v -20,01852 0 20,30194
+v -20,01852 0 -20,30194
+vn 0 1 0
+vn 0 1 0
+vn 0 1 0
+vn 0 1 0
+vt 0 0
+vt 0 1
+vt 1 1
+vt 1 0
+usemtl Material
+f 3/3/3 2/2/2 1/1/1
+f 3/3/3 1/1/1 4/4/4
