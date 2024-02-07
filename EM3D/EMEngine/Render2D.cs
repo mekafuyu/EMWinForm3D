@@ -174,7 +174,7 @@ public partial class EMEngine
       path.AddLines(pointsHitbox);
       path.CloseFigure();
 
-      g.DrawPath(Pens.Cyan, path);
+      // g.DrawPath(Pens.Cyan, path);
     }
   }
 

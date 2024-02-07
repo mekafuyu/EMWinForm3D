@@ -83,8 +83,8 @@ Level level2 = new();
 level2.Initialize(lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
 level2.Amelia.Anchor3D = new(-xCenter, 1.5f, lvl2Floor1.Hitbox.Height + lvl2Floor1.Hitbox.Y);
 
-var lvl3Floor1 = new Floor(38f, 0, 45.5f, -88, 1);
-var lvl3Floor2 = new Floor(38.5f, 0, 43.5f, 1, -80);
+var lvl3Floor1 = new Floor(36.5f, 0, 45.5f, -88, 1);
+var lvl3Floor2 = new Floor(36.5f, 0, 40.5f, 1, -80);
 var lvl3Entities = new List<Entity> { lvl3Floor1, lvl3Floor2 };
 Level level3 = new();
 List<Mesh> level3Mesh = new List<Mesh>{labirinto};
