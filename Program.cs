@@ -33,7 +33,7 @@ Mesh.Scale(grama, 10f);
 Mesh.Scale(portas, 10f);
 Mesh.Scale(chaoPortas, 10f);
 Mesh.Scale(objetivoPortas, 10f);
-Mesh.Scale(labirinto, 2f);
+Mesh.Scale(labirinto, 2.1f);
 
 casa1.Color = new byte[] { 179, 125, 255 };
 casa2.Color = new byte[] { 125, 229, 255 };
@@ -43,7 +43,7 @@ cerca.Color = new byte[] { 143, 62, 0 };
 chao.Color = new byte[] { 135, 135, 135 };
 grama.Color = new byte[] { 144, 255, 140 };
 //labirinto 
-labirinto.Color = new byte[] {134, 171, 173};
+labirinto.Color = new byte[] {255, 255, 255};
 //portas
 portas.Color = new byte[] { 255, 234, 171};
 chaoPortas.Color = new byte[] { 214, 255, 251};
@@ -83,16 +83,20 @@ Level level2 = new();
 level2.Initialize(lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
 level2.Amelia.Anchor3D = new(-xCenter, 1.5f, lvl2Floor1.Hitbox.Height + lvl2Floor1.Hitbox.Y);
 
-var lvl3Floor1 = new Floor(-1.5f, 0, 12, -24, 3);
-var lvl3Entities = new List<Entity> { lvl3Floor1 };
+var lvl3Floor1 = new Floor(38f, 0, 45.5f, -88, 1);
+var lvl3Floor2 = new Floor(38.5f, 0, 43.5f, 1, -80);
+var lvl3Entities = new List<Entity> { lvl3Floor1, lvl3Floor2 };
 Level level3 = new();
 List<Mesh> level3Mesh = new List<Mesh>{labirinto};
-level3.Initialize(new(9.6073f, 98.134.587f, 168.5965f), -9.4f, -0.6f, lvl3Entities, level3Mesh, bg1);
+level3.Initialize(new(-122.6943f, 113.1857f, -122.3641f), -0.805f, -0.6668f, lvl3Entities, level3Mesh, bg2);
+xCenter = lvl3Floor1.Hitbox.X + lvl3Floor1.Hitbox.Width / 2;
+zCenter = lvl3Floor1.Hitbox.Y + lvl3Floor1.Hitbox.Height;
+level3.Amelia.Anchor3D = new(xCenter, 0, zCenter);
 
 Level level4 = new();
 List<Mesh> level4Mesh = new List<Mesh>{chaoPortas, portas, objetivoPortas};
 level4.Initialize(new(), level4Mesh, bg2);
 
-game.Levels.Add(level2);
 game.Levels.Add(level3);
+game.Levels.Add(level2);
 game.Run();

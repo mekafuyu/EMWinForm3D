@@ -20,6 +20,13 @@ public class Camera
       Y = 0,
       Z = 1
     };
+  public Vector3 VLookDirectionSnaped =
+    new()
+    {
+      X = 0,
+      Y = 0,
+      Z = 1
+    };
   public Vector3 VTarget =
     new()
     {

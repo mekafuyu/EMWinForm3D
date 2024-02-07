@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using System.Windows.Forms;
 using EM3D;
 
@@ -8,49 +9,51 @@ public class KeyboardHandle
   float tspeed = 0.5f;
   int xSpeed = 0;
   int zSpeed = 0;
-  public void KeyDown(KeyEventArgs e, EMEngine eng ,Level lvl, Amelia amelia)
+  public void KeyDown(KeyEventArgs e, EMEngine eng, Level lvl, Amelia amelia)
   {
+    Vector3 dir = Vector3.Normalize(lvl.VirtualCamera.VCamera - amelia.Anchor3D.V3);
+
     switch (e.KeyCode)
     {
       case Keys.W:
-        amelia.StartUp();
+        amelia.StartFront(dir);
         if (zSpeed > 0)
-          amelia.StartRight();
+          amelia.StartRight(dir);
         if (zSpeed < 0)
-          amelia.StartLeft();
+          amelia.StartLeft(dir);
 
         xSpeed = 20;
         break;
 
       case Keys.A:
-        amelia.StartLeft();
+        amelia.StartLeft(dir);
 
         if (xSpeed > 0)
-          amelia.StartUp();
+          amelia.StartFront(dir);
         if (xSpeed < 0)
-          amelia.StartDown();
+          amelia.StartBack(dir);
 
         zSpeed = -20;
         break;
 
       case Keys.S:
-        amelia.StartDown();
+        amelia.StartBack(dir);
 
         if (zSpeed > 0)
-          amelia.StartRight();
+          amelia.StartRight(dir);
         if (zSpeed < 0)
-          amelia.StartLeft();
+          amelia.StartLeft(dir);
 
         xSpeed = -20;
         break;
 
       case Keys.D:
-        amelia.StartRight();
+        amelia.StartRight(dir);
 
         if (xSpeed > 0)
-          amelia.StartUp();
+          amelia.StartFront(dir);
         if (xSpeed < 0)
-          amelia.StartDown();
+          amelia.StartBack(dir);
 
         zSpeed = 20;
         break;

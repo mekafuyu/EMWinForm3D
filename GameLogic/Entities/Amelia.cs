@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
@@ -36,27 +37,77 @@ public class Amelia : Entity
     RealSize = Height * 17 / k;
     manager.Draw(g, new PointF(X, Y), RealSize, RealSize);
   }
-  public void StartLeft()
+  public void StartLeft(Vector3 dir)
   {
-    SpeedX = -Speed;
+    if(MathF.Abs(dir.X) > MathF.Abs(dir.Z))
+    {
+      dir.Z = MathF.Sign(dir.X);
+      dir.X = 0;
+    }
+    else
+    {
+      dir.X = -MathF.Sign(dir.Z);
+      dir.Z = 0;
+    }
+   
+    SpeedZ = dir.Z * Speed;
+    SpeedX = dir.X * Speed;
+    
     manager.StartIndex = 12;
     manager.QuantSprite = 4;
   }
-  public void StartRight()
-  {
-    SpeedX = Speed;
+  public void StartRight(Vector3 dir)
+  { 
+    if(MathF.Abs(dir.X) > MathF.Abs(dir.Z))
+    {
+      dir.Z = -MathF.Sign(dir.X);
+      dir.X = 0;
+    }
+    else
+    {
+      dir.X = MathF.Sign(dir.Z);
+      dir.Z = 0;
+    }
+
+    SpeedZ = dir.Z * Speed;
+    SpeedX = dir.X * Speed;
+
     manager.StartIndex = 8;
     manager.QuantSprite = 4;
   }
-  public void StartUp()
+  public void StartFront(Vector3 dir)
   {
-    SpeedZ = -Speed;
+    dir *= -1;
+    if(MathF.Abs(dir.X) > MathF.Abs(dir.Z))
+    {
+      dir.X = MathF.Sign(dir.X);
+      dir.Z = 0;
+    }
+    else
+    {
+      dir.X = 0;
+      dir.Z = MathF.Sign(dir.Z);
+    }
+    SpeedZ = dir.Z * Speed;
+    SpeedX = dir.X * Speed;
+
     manager.StartIndex = 4;
     manager.QuantSprite = 4;
   }
-  public void StartDown()
+  public void StartBack(Vector3 dir)
   {
-    SpeedZ = Speed;
+    if(MathF.Abs(dir.X) > MathF.Abs(dir.Z))
+    {
+      dir.X = MathF.Sign(dir.X);
+      dir.Z = 0;
+    }
+    else
+    {
+      dir.X = 0;
+      dir.Z = MathF.Sign(dir.Z);
+    }
+    SpeedZ = dir.Z * Speed;
+    SpeedX = dir.X * Speed;
     manager.StartIndex = 0;
     manager.QuantSprite = 4;
   }

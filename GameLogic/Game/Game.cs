@@ -113,6 +113,7 @@ public partial class Game
     Engine.VirtualCamera.VCamera = currLevel.VirtualCamera.VCamera;
     Engine.VirtualCamera.Yaw = currLevel.VirtualCamera.Yaw;
     Engine.VirtualCamera.Pitch = currLevel.VirtualCamera.Pitch;
+    currLevel.VirtualCamera.RefreshVTarget();
 
     currLevel.Refresh(g, Pb, Engine);
 
@@ -132,6 +133,7 @@ public partial class Game
       "ASiz = " + currLevel.Amelia.Height + " | " + currLevel.Amelia.RealSize,
       "VCT = " + Engine.VirtualCamera.VTarget,
       "VCLD = " + Engine.VirtualCamera.VLookDirection,
+      "VCLDL = " + currLevel.VirtualCamera.VLookDirection,
       "Yaw = " + Engine.VirtualCamera.Yaw,
       "Pit = " + Engine.VirtualCamera.Pitch,
       "LightSource = " + Engine.NLightDirection,
