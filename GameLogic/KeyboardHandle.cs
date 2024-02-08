@@ -125,21 +125,19 @@ public class KeyboardHandle
         break;
       case Keys.NumPad5:
         // eng.VirtualCamera.VCamera = new(-60.8391f, 40.6396f, -93.1818f);
-        lvl.VirtualCamera.VCamera = new(-68.1943f, 44.6857f, -92.3641f);
+        lvl.VirtualCamera.VCamera = new(-68.1943f, 44.6857f, -92.364105f);
         lvl.VirtualCamera.VLookDirection = new(-1, 0, 0);
-        lvl.VirtualCamera.Yaw = -0.59f;
+        lvl.VirtualCamera.Yaw = -0.6359842f;
         lvl.VirtualCamera.Pitch = -0.24f;
         break;
       case Keys.NumPad0:
         lvl.VirtualCamera.Yaw = MathF.PI / 2;
         break;
       case Keys.Z:
-        lvl.VirtualCamera.RotateAroundPoint(0.01f, 0, 0);
-        // rotate += 0.001f;
+        lvl.VirtualCamera.RotateAroundPoint(0.001f, 0, 0);
         break;
       case Keys.C:
-        lvl.VirtualCamera.RotateAroundPoint(-0.01f, 0, 0);
-        // rotate -= 0.001f;
+        lvl.VirtualCamera.RotateAroundPoint(-0.001f, 0, 0);
         break;
       case Keys.X:
         lvl.VirtualCamera.VCamera = new(0, 0, 75);

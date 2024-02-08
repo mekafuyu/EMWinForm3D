@@ -24,13 +24,13 @@ public static class Mapper
       offsetY + (cam.VCamera.Z * ratio) - ballSize.Height / 2);
     RectangleF ball = new RectangleF(ballPoint, ballSize);
 
-    var lkdir = cam.VCamera + cam.VLookDirection;
+    var lkdir = cam.VLookDirection;
     lkdir *= 1.5f;
     g.FillEllipse(Brushes.Red, ball);
     g.DrawLine(Pens.Yellow,
     ballPoint.X + ball.Size.Width / 2,
     ballPoint.Y + ball.Size.Height / 2,
-    lkdir.X + offsetX,
-    lkdir.Z + offsetY);
+    ballPoint.X + ball.Size.Width / 2 + lkdir.X * 10,
+    ballPoint.Y + ball.Size.Height / 2 + lkdir.Z * 10);
   }
 }

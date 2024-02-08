@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
@@ -38,9 +39,16 @@ public class Level
 
   }
 
+  public float RSpeed = 0f;
   public void Refresh(Graphics g, PictureBox pb, EMEngine eng)
   {
     g.DrawImage(Background, 0, 0, pb.Width, pb.Height);
+
+    if(MathF.Abs(RSpeed) > 0.001f)
+    {
+      VirtualCamera.RotateAroundPoint(RSpeed, 0, 0);
+      RSpeed *= 0.9f;
+    }
 
     Amelia.Move(CM, eng.VirtualCamera.VCamera);
     eng.GetFrame(

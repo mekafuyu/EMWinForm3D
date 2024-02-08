@@ -119,45 +119,31 @@ public class Camera
     this.VCamera -= foward;
   }
 
+  private float reverseAcos = 1;
+  private float reverseAsin = 1;
   public void RotateAroundPoint(float step, float centerX, float centerZ)
   {
     Vector3 center = new(centerX, 0, centerZ);
-    Vector3 vDirection = new(VCamera.X - centerX, 0, VCamera.Z - centerZ);
+    Vector3 amelia2D = new(VCamera.X, 0, VCamera.Z);
+    float radius = Vector3.Distance(center, amelia2D);
+    step *= MathF.PI;
 
-    float stepSize = 1e-4f;
-    UInt32 iterations = (UInt32)(MathF.Abs(step) / stepSize);
+    // Bug when re-setting
 
-    Vector3 move;
+    float acosStep = MathF.Acos((amelia2D.X - center.X) / radius) + step * reverseAcos;
+    if (acosStep > MathF.PI || acosStep < 0)
+      reverseAcos *= -1;
 
-    float sumX = 0f;
-    float cX = 0f;
+    float asinStep = MathF.Asin((amelia2D.Z - center.Z) / radius) + step * reverseAsin;
+    if (asinStep > MathF.PI / 2 || asinStep < -MathF.PI / 2)
+      reverseAsin *= -1;
 
-    float sumZ = 0f;
-    float cZ = 0f;
+    float x = center.X + radius * MathF.Cos(acosStep);
+    float y = center.Z + radius * MathF.Sin(asinStep);
+    VCamera.X = x;
+    VCamera.Z = y;
 
-    for (UInt32 i = 0; i < iterations; ++i)
-    {
-      move = Vector3.Cross(VUp, vDirection) * MathF.Sign(step) * stepSize;
-
-      var yX = move.X - cX;
-      var tX = sumX + yX;
-      cX = (tX - sumX) - yX;
-      sumX = tX;
-
-      var yZ = move.Z - cZ;
-      var tZ = sumZ + yZ;
-      cZ = (tZ - sumZ) - yZ;
-      sumZ = tZ;
-    }
-
-    VCamera.X += sumX;
-    VCamera.Z += sumZ;
-
-    move = Vector3.Cross(VUp, vDirection) * MathF.Sign(step) * (MathF.Abs(step) - iterations * stepSize);
-    VCamera.X += move.X;
-    VCamera.Z += move.Z;
-
-    vDirection = new((VCamera - center).X, 0, (VCamera - center).Z);
+    var vDirection = VCamera - center;
     Yaw = MathF.Atan2(-vDirection.Z, -vDirection.X) - MathF.PI / 2f;
   }
 }

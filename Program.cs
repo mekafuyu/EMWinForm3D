@@ -68,7 +68,7 @@ var lvl2Mesh = EMFile.LoadObjectFile("./assets/models/blender/FirstMapBetter3.ob
 Mesh.Scale(lvl2Mesh, 1.5f);
 var lvl2Floor1 = new Floor(-1.5f, 1.5f, 12, -24, 3);
 var lvl2Floor2 = new Floor(-5.5938f * 1.5f, 13.909f * 1.5f, -9.9293f * 1.5f, 1.5f * 1.5f, -2 * 1.5f);
-var lvl2Persp = new PerspectiveObstacle(-1.5f, 1.5f, -2.5f, -2.5f, 3, new(-68.1943f, 44.6857f, -92.3641f));
+var lvl2Persp = new PerspectiveObstacle(-1.5f, 1.5f, -2.5f, -2.5f, 3, new(-68.1943f, 44.6857f, -92.364105f));
 // -0.6 12.903 0.9305  -0.6 12.903 -0.6
 var lvl2Portal1 = new Portal(-5.5938f * 1.5f, 13.909f * 1.5f, -9.9293f * 1.5f, 1.5f * 1.5f, -1 * 1.5f, true);
 var lvl2Portal2 = new Portal(-1.5f, 1.5f, 12, -2f, 3, true);
@@ -80,7 +80,7 @@ var lvl2Entities = new List<Entity> { lvl2Floor1, lvl2Floor2, lvl2Persp, lvl2Por
 float xCenter = (lvl2Floor1.Hitbox.X + lvl2Floor1.Hitbox.Width) / 2;
 float zCenter = (lvl2Floor1.Hitbox.Y - lvl2Floor1.Hitbox.Height) / 2;
 Level level2 = new();
-level2.Initialize(lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
+level2.Initialize(new(-68.1943f, 44.6857f, -92.364105f),-0.6359842f, -0.24f, lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
 level2.Amelia.Anchor3D = new(-xCenter, 1.5f, lvl2Floor1.Hitbox.Height + lvl2Floor1.Hitbox.Y);
 
 var lvl3Floor1 = new Floor(36.5f, 0, 45.5f, -88, 1);
