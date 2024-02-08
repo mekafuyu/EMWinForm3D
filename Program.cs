@@ -93,11 +93,60 @@ xCenter = lvl3Floor1.Hitbox.X + lvl3Floor1.Hitbox.Width / 2;
 zCenter = lvl3Floor1.Hitbox.Y + lvl3Floor1.Hitbox.Height;
 level3.Amelia.Anchor3D = new(xCenter, 0, zCenter);
 
-var lvl4Floor1 = new Floor(-0.8f, -0f, -0.35f, 1, 3);
-var lvl4Entities = new List<Entity> { lvl4Floor1 };
+var lvl4Floor1 = new Floor(-1.4f, -0f, -0.35f, 1, 3);
+var lvl4Floor2 = new Floor(-11.5f, -6f, 1.2f, 1, 3);
+var lvl4Floor3 = new Floor(-12f, -8.9f, -9.2f, 0.6F, 2);
+var lvl4Floor4 = new Floor(-12f, 2.3f, -5.2f, 0.6F, 2);
+var lvl4Floor5 = new Floor(-8.5f, 6.6f, -13.5f, 0.6F, 2);
+var lvl4Floor6 = new Floor(9, 6.6f, 1.2f, 0.6F, 2);
+var lvl4Floor7 = new Floor(4, 22.6f, -2.3f, 0.6F, 2);
+
+var lvl4Floor8 = new Floor(-12.5f, 22.6f, 13.7f, 0.6F, 8);
+var lvl4Floor9 = new Floor(-1.5f, -2.3f, 11.7f, 0.6F, 2);
+var lvl4Floor10 = new Floor(-6.5f, 9f, 12f, -0.6F, 2);
+var lvl4Floor11 = new Floor(3.4f, 11.5f, -8f, -0.6F, 3);
+
+
+var lvl4Portal1 = new Portal(1, 0, 0.2f, 0.4f, 1, true); //chao 1
+var lvl4Portal2 = new Portal(-1.3f, -2.3f, 11.5f, 0.4f, 1, true); //chao 9
+var lvl4Portal3 = new Portal(-12.2f, 2.3f, -5f, 0.4f, 1, true); //chao 4
+var lvl4Portal4 = new Portal(4.2f, 22.6f, -2, 0.4f, 1, true); //chao 7
+var lvl4Portal5 = new Portal(-11.3f, -6f, 1, 0.4f, 1, true); //chao 2
+var lvl4Portal6 = new Portal(-8.1f, 6.6f, -13.3f, 0.4f, 1, true); //chao 5
+var lvl4Portal7 = new Portal(-12.3f, -8.9f, -9, 0.4f, 1, true); //chao 3
+var lvl4Portal8 = new Portal(-9.3f, -6f, 1f, 0.4f, 1, true); //chao 2
+var lvl4Portal9 = new Portal(-6.6f, 9f, 12.3f, 0.4f, 1, true); //chao 10
+var lvl4Portal10 = new Portal(8.6f, 6.6f, 0.8f, 0.4f, 1, true); //chao 6
+var lvl4Portal11 = new Portal(-12.3f, 22.6f, 13.6f, 0.4f, 1, true); //chao 8
+var lvl4Portal12 = new Portal(5f, 22.6f, -2, 0.4f, 1, true); //chao 7
+var lvl4Portal13 = new Portal(4f, 11.5f, -8, 0.4f, 1, true); //chao 11
+var lvl4Portal14 = new Portal(2f, 0, 0.2f, 0.4f, 1, true); //chao 1
+
+
+lvl4Portal1.destiny = lvl4Portal2;
+lvl4Portal2.destiny = lvl4Portal3;
+lvl4Portal3.destiny = lvl4Portal4;
+lvl4Portal4.destiny = lvl4Portal5;
+lvl4Portal5.destiny = lvl4Portal6;
+lvl4Portal6.destiny = lvl4Portal7;
+lvl4Portal7.destiny = lvl4Portal8;
+lvl4Portal8.destiny = lvl4Portal9;
+lvl4Portal9.destiny = lvl4Portal10;
+lvl4Portal10.destiny = lvl4Portal4;
+lvl4Portal13.destiny = lvl4Portal14;
+
+lvl4Portal11.destiny = lvl4Portal1; //chegada
+lvl4Portal12.destiny = lvl4Portal11;
+
+var lvl4Entities = new List<Entity> { lvl4Floor1, lvl4Floor2, lvl4Floor3, lvl4Floor4, lvl4Floor5, lvl4Floor6, lvl4Floor7, lvl4Floor8, lvl4Floor9, lvl4Floor10, lvl4Floor11,
+                                      lvl4Portal1, lvl4Portal2, lvl4Portal3, lvl4Portal4, lvl4Portal5, lvl4Portal6, lvl4Portal7, lvl4Portal8, lvl4Portal9, lvl4Portal10, lvl4Portal11,
+                                      lvl4Portal12, lvl4Portal13, lvl4Portal14
+                                    };
 Level level4 = new();
 List<Mesh> level4Mesh = new List<Mesh>{chaoPortas, portas, objetivoPortas};
 level4.Initialize(new(-122.0044f, 34.5814f, 9.1700f), -1.5789f, -0.2279f, lvl4Entities, level4Mesh, bg2);
+level4.Amelia.Anchor3D = new(0.5f, 0, 0);
+level4.Amelia.Height = 5;
 
 game.Levels.Add(level4);
 game.Levels.Add(level3);
