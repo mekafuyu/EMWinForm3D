@@ -64,23 +64,50 @@ Level level1 = new();
 level1.Initialize(level1Entity, level1Mesh, bg1);
 
 
-var lvl2Mesh = EMFile.LoadObjectFile("./assets/models/blender/FirstMapBetter3.obj");
+var lvl2Mesh = EMFile.LoadObjectFile("./assets/models/FirstMapBetter4.obj");
 Mesh.Scale(lvl2Mesh, 1.5f);
-var lvl2Floor1 = new Floor(-1.5f, 1.5f, 12, -24, 3);
-var lvl2Floor2 = new Floor(-5.5938f * 1.5f, 13.909f * 1.5f, -9.9293f * 1.5f, 1.5f * 1.5f, -2 * 1.5f);
-var lvl2Persp = new PerspectiveObstacle(-1.5f, 1.5f, -2.5f, -2.5f, 3, new(-68.1943f, 44.6857f, -92.364105f));
-// -0.6 12.903 0.9305  -0.6 12.903 -0.6
-var lvl2Portal1 = new Portal(-5.5938f * 1.5f, 13.909f * 1.5f, -9.9293f * 1.5f, 1.5f * 1.5f, -1 * 1.5f, true);
-var lvl2Portal2 = new Portal(-1.5f, 1.5f, 12, -2f, 3, true);
+var lvl2Floor1 = new Floor(-1.5f, 1.5f, 12, -42, 3);
+
+var lvl2Floor2 = new Floor(-5.5938f * 1.5f, 13.909f * 1.5f, -13.929f * 1.5f, 1.5f * 1.5f, -6.2f * 1.5f);
+var lvl2Persp1 = new PerspectiveObstacle(-1.5f, 1.5f, -8.5f, -2.5f, 3, new(-79.70122f, 52.03208f, -111.0604f), false);
+
+var lvl2Portal1 = new PerspectivePortal((-5.5938f + -6.1f) * 1.5f, 13.909f * 1.5f, -13.929f * 1.5f, 1.5f * 1.5f, -0.1f * 1.5f, new(-79.70122f, 52.03208f, -111.0604f), true);
+// var lvl2Persp3 = new PerspectiveObstacle((-5.5938f + -5.9f) * 1.5f, 13.909f * 1.5f, -13.929f * 1.5f, 1.5f * 1.5f, -0.1f * 1.5f, new(-79.70122f, 52.03208f, -111.0604f), true);
+
+var lvl2Portal3 = new PerspectivePortal((-5.5938f + -3.1f) * 1.5f, 13.909f * 1.5f, -13.929f * 1.5f, 1.5f * 1.5f, -0.1f * 1.5f, new(-79.70122f, 52.03208f, -111.0604f), true);
+
+var lvl2Portal4 = new PerspectivePortal(-1 * 1.5f, 21 * 1.5f, -1 * 1.5f, -1.5f * 1.5f, 0.1f * 1.5f, new(-79.70122f, 52.03208f, -111.0604f), true);
+// var lvl2Persp6 = new PerspectiveObstacle(-1 * 1.5f, 21 * 1.5f, -1 * 1.5f, -1.5f * 1.5f, 0.3f * 1.5f, new(-79.70122f, 52.03208f, -111.0604f), true);
+
+// var lvl2Persp4 = new PerspectiveObstacle((-5.5938f + -2.9f) * 1.5f, 13.909f * 1.5f, -13.929f * 1.5f, 1.5f * 1.5f, -0.1f * 1.5f, new(-79.70122f, 52.03208f, -111.0604f), true);
+var lvl2Persp5 = new PerspectiveObstacle((-5.5938f + -3.2f) * 1.5f, 13.909f * 1.5f, -13.929f * 1.5f, 1.5f * 1.5f, -1f * 1.5f, new(-79.70122f, 52.03208f, -111.0604f), false);
+
+var lvl2Portal2 = new PerspectivePortal(-1.5f, 1.5f, 12, -2f, 3, new(-79.70122f, 52.03208f, -111.0604f), true);
+// var lvl2Persp2 = new PerspectiveObstacle(-1.5f, 1.5f, 11, -2f, 3, new(-79.70122f, 52.03208f, -111.0604f), true);
 lvl2Portal1.destiny = lvl2Portal2;
 lvl2Portal2.destiny = lvl2Portal1;
+lvl2Portal3.destiny = lvl2Portal4;
+lvl2Portal4.destiny = lvl2Portal3;
 
-var lvl2Entities = new List<Entity> { lvl2Floor1, lvl2Floor2, lvl2Persp, lvl2Portal1, lvl2Portal2 };
+
+var lvl2Entities = new List<Entity> {
+    lvl2Floor1,
+    lvl2Floor2,
+    lvl2Persp1,
+    // lvl2Persp2,
+    // lvl2Persp3,
+    // lvl2Persp4,
+    lvl2Persp5,
+    // lvl2Persp6,
+    lvl2Portal1,
+    lvl2Portal2,
+    lvl2Portal3,
+    lvl2Portal4 };
 
 float xCenter = (lvl2Floor1.Hitbox.X + lvl2Floor1.Hitbox.Width) / 2;
 float zCenter = (lvl2Floor1.Hitbox.Y - lvl2Floor1.Hitbox.Height) / 2;
 Level level2 = new();
-level2.Initialize(new(-68.1943f, 44.6857f, -92.364105f),-0.6359842f, -0.24f, lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
+level2.Initialize(new(-79.70122f, 52.03208f, -111.0604f),-0.6224661f, -0.24f, lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
 level2.Amelia.Anchor3D = new(-xCenter, 1.5f, lvl2Floor1.Hitbox.Height + lvl2Floor1.Hitbox.Y);
 
 var lvl3Floor1 = new Floor(36.5f, 0, 45.5f, -88, 1);
@@ -97,6 +124,6 @@ Level level4 = new();
 List<Mesh> level4Mesh = new List<Mesh>{chaoPortas, portas, objetivoPortas};
 level4.Initialize(new(), level4Mesh, bg2);
 
-game.Levels.Add(level3);
 game.Levels.Add(level2);
+game.Levels.Add(level3);
 game.Run();

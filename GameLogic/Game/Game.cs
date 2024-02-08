@@ -58,6 +58,15 @@ public partial class Game
       Pb.Image = Bmp;
       this.SelectLevel(0);
       timer.Start();
+
+      cursorReset = new Point(Pb.Width / 2, Pb.Height / 2);
+      Cursor.Position = cursorReset;
+      Engine.VirtualCamera.VCamera = new(-79.70122f, 52.03208f, -111.0604f);
+      Engine.VirtualCamera.Yaw = -0.6224661f;
+      Engine.VirtualCamera.Pitch = -0.24f;
+      currLevel.VirtualCamera.VCamera = new(-79.70122f, 52.03208f, -111.0604f);
+      currLevel.VirtualCamera.Yaw = -0.6224661f;
+      currLevel.VirtualCamera.Pitch = -0.24f;  
     };
 
     timer.Tick += (o, e) =>
@@ -78,7 +87,17 @@ public partial class Game
           menu.ButtonStart.Click = false;
 
         if (LastState && !menu.ButtonStart.Click)
+        {
           MenuOpen = false;
+          cursorReset = new Point(Pb.Width / 2, Pb.Height / 2);
+          Cursor.Position = cursorReset;
+          Engine.VirtualCamera.VCamera = new(-79.70122f, 52.03208f, -111.0604f);
+          Engine.VirtualCamera.Yaw = -0.6224661f;
+          Engine.VirtualCamera.Pitch = -0.24f;
+          currLevel.VirtualCamera.VCamera = new(-79.70122f, 52.03208f, -111.0604f);
+          currLevel.VirtualCamera.Yaw = -0.6224661f;
+          currLevel.VirtualCamera.Pitch = -0.24f;
+        }
 
         return;
       }

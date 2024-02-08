@@ -141,6 +141,19 @@ public class Amelia : Entity
         {
           this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
         }
+        if (obj is PerspectivePortal perspectivePortal)
+        {
+          if (this.Anchor3D.Y != perspectivePortal.Anchor3D.Y)
+            continue;
+          if (perspectivePortal.IsOpen(cameraPos))
+          {
+            perspectivePortal.TryTeleportEntity(this);
+            if(this.Anchor3D.X != perspectivePortal.destiny.Anchor3D.X ||  this.Anchor3D.Z != perspectivePortal.destiny.Anchor3D.Z)
+              perspectivePortal.destiny.PortalUsed = false;
+            continue;
+          }
+          // this.Anchor3D = new(Anchor3D.X - SpeedX, Anchor3D.Y, Anchor3D.Z - SpeedZ);
+        }
         
         if (obj is Portal portal)
         {
