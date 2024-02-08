@@ -83,8 +83,8 @@ Level level2 = new();
 level2.Initialize(new(-68.1943f, 44.6857f, -92.364105f),-0.6359842f, -0.24f, lvl2Entities, new List<Mesh>{lvl2Mesh}, bg1);
 level2.Amelia.Anchor3D = new(-xCenter, 1.5f, lvl2Floor1.Hitbox.Height + lvl2Floor1.Hitbox.Y);
 
-var lvl3Floor1 = new Floor(36.5f, 0, 45.5f, -88, 1);
-var lvl3Floor2 = new Floor(36.5f, 0, 40.5f, 1, -80);
+var lvl3Floor1 = new Floor(37.5f, 0, 46.5f, -88, 0.5f);
+var lvl3Floor2 = new Floor(36.5f, 0, 40.5f, 0.5f, -80);
 var lvl3Entities = new List<Entity> { lvl3Floor1, lvl3Floor2 };
 Level level3 = new();
 List<Mesh> level3Mesh = new List<Mesh>{labirinto};
@@ -93,10 +93,12 @@ xCenter = lvl3Floor1.Hitbox.X + lvl3Floor1.Hitbox.Width / 2;
 zCenter = lvl3Floor1.Hitbox.Y + lvl3Floor1.Hitbox.Height;
 level3.Amelia.Anchor3D = new(xCenter, 0, zCenter);
 
+var lvl4Floor1 = new Floor(-0.8f, -0f, -0.35f, 1, 3);
+var lvl4Entities = new List<Entity> { lvl4Floor1 };
 Level level4 = new();
 List<Mesh> level4Mesh = new List<Mesh>{chaoPortas, portas, objetivoPortas};
-level4.Initialize(new(), level4Mesh, bg2);
+level4.Initialize(new(-122.0044f, 34.5814f, 9.1700f), -1.5789f, -0.2279f, lvl4Entities, level4Mesh, bg2);
 
+game.Levels.Add(level4);
 game.Levels.Add(level3);
-game.Levels.Add(level2);
 game.Run();
