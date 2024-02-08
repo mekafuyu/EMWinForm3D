@@ -161,6 +161,8 @@ lvl4Portal8.destiny = lvl4Portal9;
 lvl4Portal9.destiny = lvl4Portal10;
 lvl4Portal10.destiny = lvl4Portal4;
 lvl4Portal13.destiny = lvl4Portal14;
+lvl4Portal14.destiny = lvl4Portal1;
+
 
 lvl4Portal11.destiny = lvl4Portal1; //chegada
 lvl4Portal12.destiny = lvl4Portal11;

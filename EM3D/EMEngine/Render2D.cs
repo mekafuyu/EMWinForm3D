@@ -11,7 +11,7 @@ namespace EM3D;
 
 public partial class EMEngine
 {
-
+  public bool HideHitboxes = true;
   private (Vertex, float) projectPoint(
       Vertex p,
       (float width, float height) size
@@ -84,6 +84,14 @@ public partial class EMEngine
 
   public void RenderEntitity(Graphics g, Entity entity, (float h, float w) size)
   {
+    if (entity is Amelia amelia)
+    {
+      RenderAmelia(amelia, g, size);
+      return;
+    }
+    if(HideHitboxes)
+      return;
+
     if (entity is Wall wall)
     {
       RenderWall(wall, g, size);
@@ -92,11 +100,6 @@ public partial class EMEngine
     if (entity is Door door)
     {
       RenderDoor(door, g, size);
-      return;
-    }
-    if (entity is Amelia amelia)
-    {
-      RenderAmelia(amelia, g, size);
       return;
     }
     if (entity is Portal portal)
@@ -142,8 +145,8 @@ public partial class EMEngine
 
       g.FillEllipse(b,
         new RectangleF(imageLocation, imageSize));
-
-      g.DrawPath(Pens.Red, path);
+      if(!HideHitboxes)
+        g.DrawPath(Pens.Red, path);
     }
     if (ameliaResize > 0)
     {
@@ -209,10 +212,10 @@ public partial class EMEngine
       path.AddLines(pointsHitbox);
       path.CloseFigure();
 
-      // if (perspObs.IsOpen(VirtualCamera.VCamera))
-      //   g.DrawPath(Pens.Red, path);
-      // else
-      //   g.DrawPath(Pens.Green, path);
+      if (perspObs.IsOpen(VirtualCamera.VCamera))
+        g.DrawPath(Pens.Red, path);
+      else
+        g.DrawPath(Pens.Green, path);
 
     }
   }
@@ -226,10 +229,10 @@ public partial class EMEngine
       path.AddLines(pointsHitbox);
       path.CloseFigure();
 
-      // if (perspObs.IsOpen(VirtualCamera.VCamera))
-      //   g.DrawPath(Pens.Pink, path);
-      // else
-      //   g.DrawPath(Pens.Purple, path);
+      if (perspObs.IsOpen(VirtualCamera.VCamera))
+        g.DrawPath(Pens.Pink, path);
+      else
+        g.DrawPath(Pens.Purple, path);
 
     }
   }

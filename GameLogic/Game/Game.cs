@@ -89,6 +89,7 @@ public partial class Game
         if (LastState && !menu.ButtonStart.Click)
         {
           MenuOpen = false;
+          Cursor.Hide();
           cursorReset = new Point(Pb.Width / 2, Pb.Height / 2);
           Cursor.Position = cursorReset;
           Engine.VirtualCamera.VCamera = new(-79.70122f, 52.03208f, -111.0604f);
@@ -114,6 +115,8 @@ public partial class Game
         levelNumber = -levelNumber;
         this.SelectLevel((int) (levelNumber / 2f + 0.5f));
       }
+      if(e.KeyCode == Keys.H)
+        this.Engine.HideHitboxes = !this.Engine.HideHitboxes;
 
     };
     GameForm.KeyUp += (o, e)
@@ -140,27 +143,27 @@ public partial class Game
     if (GameForm.Focused)
       Cursor.Position = cursorReset;
 
-    Mapper.Map(g, Engine.VirtualCamera);
-    Debugger.ShowOnScreen(g, new string[]{
-      "ScreenSize = " + GameForm.Width + " | " + GameForm.Height,
-      "CPos = " + Engine.VirtualCamera.VCamera.X + " | " + Engine.VirtualCamera.VCamera.Y + " | " + Engine.VirtualCamera.VCamera.Z,
-      "CPitchYaw = " + Engine.VirtualCamera.Pitch + " | " + Engine.VirtualCamera.Yaw,
-      "Cursor = " + Cursor.Position.X + " | " + Cursor.Position.Y,
-      "A3D = " + currLevel.Amelia.Anchor3D.X + " | " + currLevel.Amelia.Anchor3D.Y + " | " + currLevel.Amelia.Anchor3D.Z,
-      "A2D = " + currLevel.Amelia.X + " | " + currLevel.Amelia.Y,
-      "Sprite = " + currLevel.Amelia.manager.SpriteIndex + " | " + currLevel.Amelia.manager.QuantSprite,
-      "ASiz = " + currLevel.Amelia.Height + " | " + currLevel.Amelia.RealSize,
-      "VCT = " + Engine.VirtualCamera.VTarget,
-      "VCLD = " + Engine.VirtualCamera.VLookDirection,
-      "VCLDL = " + currLevel.VirtualCamera.VLookDirection,
-      "Yaw = " + Engine.VirtualCamera.Yaw,
-      "Pit = " + Engine.VirtualCamera.Pitch,
-      "LightSource = " + Engine.NLightDirection,
-      "Darkest/Brightest = " + Engine.Darkest + " / " + Engine.Brightest,
-      "Level = " + this.levelNumber,
-      "Wall = " + (currLevel.CM.IsColliding(currLevel.Amelia).Count()),
-      "Amelia = " + currLevel.Amelia.Hitbox.ToString(),
-    });
+    // Mapper.Map(g, Engine.VirtualCamera);
+    // Debugger.ShowOnScreen(g, new string[]{
+    //   "ScreenSize = " + GameForm.Width + " | " + GameForm.Height,
+    //   "CPos = " + Engine.VirtualCamera.VCamera.X + " | " + Engine.VirtualCamera.VCamera.Y + " | " + Engine.VirtualCamera.VCamera.Z,
+    //   "CPitchYaw = " + Engine.VirtualCamera.Pitch + " | " + Engine.VirtualCamera.Yaw,
+    //   "Cursor = " + Cursor.Position.X + " | " + Cursor.Position.Y,
+    //   "A3D = " + currLevel.Amelia.Anchor3D.X + " | " + currLevel.Amelia.Anchor3D.Y + " | " + currLevel.Amelia.Anchor3D.Z,
+    //   "A2D = " + currLevel.Amelia.X + " | " + currLevel.Amelia.Y,
+    //   "Sprite = " + currLevel.Amelia.manager.SpriteIndex + " | " + currLevel.Amelia.manager.QuantSprite,
+    //   "ASiz = " + currLevel.Amelia.Height + " | " + currLevel.Amelia.RealSize,
+    //   "VCT = " + Engine.VirtualCamera.VTarget,
+    //   "VCLD = " + Engine.VirtualCamera.VLookDirection,
+    //   "VCLDL = " + currLevel.VirtualCamera.VLookDirection,
+    //   "Yaw = " + Engine.VirtualCamera.Yaw,
+    //   "Pit = " + Engine.VirtualCamera.Pitch,
+    //   "LightSource = " + Engine.NLightDirection,
+    //   "Darkest/Brightest = " + Engine.Darkest + " / " + Engine.Brightest,
+    //   "Level = " + this.levelNumber,
+    //   "Wall = " + (currLevel.CM.IsColliding(currLevel.Amelia).Count()),
+    //   "Amelia = " + currLevel.Amelia.Hitbox.ToString(),
+    // });
     Pb.Refresh();
   }
 }
