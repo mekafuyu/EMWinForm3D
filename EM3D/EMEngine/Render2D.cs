@@ -111,6 +111,10 @@ public partial class EMEngine
     {
       RenderPersp(persp, g, size);
     }
+    if (entity is PerspectivePortal perspPor)
+    {
+      RenderPerspPortal(perspPor, g, size);
+    }
   }
 
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
@@ -205,10 +209,27 @@ public partial class EMEngine
       path.AddLines(pointsHitbox);
       path.CloseFigure();
 
-      if (perspObs.IsOpen(VirtualCamera.VCamera))
-        g.DrawPath(Pens.Red, path);
-      else
-        g.DrawPath(Pens.Green, path);
+      // if (perspObs.IsOpen(VirtualCamera.VCamera))
+      //   g.DrawPath(Pens.Red, path);
+      // else
+      //   g.DrawPath(Pens.Green, path);
+
+    }
+  }
+  public void RenderPerspPortal(PerspectivePortal perspObs, Graphics g, (float h, float w) size)
+  {
+    var (pointsHitbox, draw) = ProjectHitbox(perspObs, size);
+    if (draw)
+    {
+      var path = new GraphicsPath();
+
+      path.AddLines(pointsHitbox);
+      path.CloseFigure();
+
+      // if (perspObs.IsOpen(VirtualCamera.VCamera))
+      //   g.DrawPath(Pens.Pink, path);
+      // else
+      //   g.DrawPath(Pens.Purple, path);
 
     }
   }
