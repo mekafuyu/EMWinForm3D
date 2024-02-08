@@ -176,5 +176,5 @@ level4.Amelia.Anchor3D = new(0.5f, 0, 0);
 level4.Amelia.Height = 5;
 
 game.Levels.Add(level2);
-game.Levels.Add(level3);
+game.Levels.Add(level4);
 game.Run();
