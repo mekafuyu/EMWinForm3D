@@ -11,7 +11,7 @@ namespace EM3D;
 
 public partial class EMEngine
 {
-  public bool HideHitboxes = true;
+  public bool HideHitboxes = false;
   private (Vertex, float) projectPoint(
       Vertex p,
       (float width, float height) size
@@ -117,6 +117,10 @@ public partial class EMEngine
     if (entity is PerspectivePortal perspPor)
     {
       RenderPerspPortal(perspPor, g, size);
+    }
+    if (entity is Book book)
+    {
+      RenderBook(book, g, size);
     }
   }
 
@@ -252,6 +256,36 @@ public partial class EMEngine
       else
         g.DrawPath(Pens.Pink, path);
 
+    }
+  }
+
+  public void RenderBook(Book book, Graphics g, (float h, float w) size)
+  {
+    var (newPBook, bookResize) = projectPoint(book.Anchor3D, size);
+
+    var (pointsHitbox, draw) = ProjectHitbox(book, size);
+    if (draw)
+    {
+      var path = new GraphicsPath();
+
+      path.AddLines(pointsHitbox);
+      path.CloseFigure();
+
+      RectangleF imageBounds = path.GetBounds();
+      PointF imageLocation = new PointF(imageBounds.X, imageBounds.Y);
+      SizeF imageSize = new SizeF(imageBounds.Width, imageBounds.Height);
+
+      Brush b = new SolidBrush(Color.FromArgb(0, 0, 0, 0));
+
+      g.DrawPath(Pens.Red, path);
+    }
+    if (bookResize > 0)
+    {
+      book.X = newPBook.X;
+      book.Y = newPBook.Y;
+      var d = Vector3.Distance(VirtualCamera.VCamera, book.Anchor3D.V3);
+      if (d > 5)
+        book.Draw(g, d, fAspectRatio);
     }
   }
 }

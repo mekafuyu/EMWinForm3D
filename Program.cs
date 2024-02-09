@@ -89,6 +89,9 @@ lvl2Portal2.destiny = lvl2Portal1;
 lvl2Portal3.destiny = lvl2Portal4;
 lvl2Portal4.destiny = lvl2Portal3;
 
+var lvl2Book1 = new Book(-1, 1.5f, -5, 0.4f, 1f, 1f);
+var lvl2Book2 = new Book(-8, 20.5f, -18.929f , 0.4f, 1f, 1f);
+var lvl2Book3 = new Book(0, 31.6f, -6.929f , 0.4f, 1f, 1f);
 
 var lvl2Entities = new List<Entity> {
     lvl2Floor1,
@@ -102,7 +105,10 @@ var lvl2Entities = new List<Entity> {
     lvl2Portal1,
     lvl2Portal2,
     lvl2Portal3,
-    lvl2Portal4 };
+    lvl2Portal4,
+    lvl2Book1,
+    lvl2Book2,
+    lvl2Book3};
 
 float xCenter = (lvl2Floor1.Hitbox.X + lvl2Floor1.Hitbox.Width) / 2;
 float zCenter = (lvl2Floor1.Hitbox.Y - lvl2Floor1.Hitbox.Height) / 2;
@@ -127,12 +133,10 @@ var lvl4Floor4 = new Floor(-12f, 2.3f, -5.2f, 0.6F, 2);
 var lvl4Floor5 = new Floor(-8.5f, 6.6f, -13.5f, 0.6F, 2);
 var lvl4Floor6 = new Floor(9, 6.6f, 1.2f, 0.6F, 2);
 var lvl4Floor7 = new Floor(4, 22.6f, -2.3f, 0.6F, 2);
-
 var lvl4Floor8 = new Floor(-12.5f, 22.6f, 13.7f, 0.6F, 8);
 var lvl4Floor9 = new Floor(-1.5f, -2.3f, 11.7f, 0.6F, 2);
 var lvl4Floor10 = new Floor(-6.5f, 9f, 12f, -0.6F, 2);
 var lvl4Floor11 = new Floor(3.4f, 11.5f, -8f, -0.6F, 3);
-
 
 var lvl4Portal1 = new Portal(1, 0, 0.2f, 0.4f, 1, true); //chao 1
 var lvl4Portal2 = new Portal(-1.3f, -2.3f, 11.5f, 0.4f, 1, true); //chao 9
@@ -149,7 +153,10 @@ var lvl4Portal12 = new Portal(5f, 22.6f, -2, 0.4f, 1, true); //chao 7
 var lvl4Portal13 = new Portal(4f, 11.5f, -8, 0.4f, 1, true); //chao 11
 var lvl4Portal14 = new Portal(2f, 0, 0.2f, 0.4f, 1, true); //chao 1
 
-
+var lvl4Book1 = new Book(-1, 0, -1, 0.4f, 0.5f, 0.5f);
+var lvl4Book2 = new Book(-11.7f, -6f, 1.2f, 0.4f, 0.5f, 0.5f);
+var lvl4Book3 = new Book(-8, 22.6f, 13.9f, 0.4f, 0.5f, 0.5f);
+var lvl4Book4 = new Book(10, 6.6f, 1.3f, 0.4f, 0.5f, 0.5f);
 lvl4Portal1.destiny = lvl4Portal2;
 lvl4Portal2.destiny = lvl4Portal3;
 lvl4Portal3.destiny = lvl4Portal4;
@@ -169,7 +176,7 @@ lvl4Portal12.destiny = lvl4Portal11;
 
 var lvl4Entities = new List<Entity> { lvl4Floor1, lvl4Floor2, lvl4Floor3, lvl4Floor4, lvl4Floor5, lvl4Floor6, lvl4Floor7, lvl4Floor8, lvl4Floor9, lvl4Floor10, lvl4Floor11,
                                       lvl4Portal1, lvl4Portal2, lvl4Portal3, lvl4Portal4, lvl4Portal5, lvl4Portal6, lvl4Portal7, lvl4Portal8, lvl4Portal9, lvl4Portal10, lvl4Portal11,
-                                      lvl4Portal12, lvl4Portal13, lvl4Portal14
+                                      lvl4Portal12, lvl4Portal13, lvl4Portal14, lvl4Book1, lvl4Book2, lvl4Book3, lvl4Book4
                                     };
 Level level4 = new();
 List<Mesh> level4Mesh = new List<Mesh>{chaoPortas, portas, objetivoPortas};

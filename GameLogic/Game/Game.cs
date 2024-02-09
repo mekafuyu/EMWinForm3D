@@ -23,6 +23,8 @@ public partial class Game
   public bool LastState = false;
   public PointF CursorPos = new();
   public bool IsDown;
+  public int ColectedPages { get; set; } = 0;
+  public int Pages { get; set; } = 7;
 
   public Game()
   {
@@ -127,9 +129,15 @@ public partial class Game
 
     Application.Run(GameForm);
   }
-
+  public bool AllColected()
+  {
+    if(this.Pages == this.ColectedPages)
+      return true;
+    return false;
+  }
   public void RenderLevel(Graphics g)
   {
+    Font font = new Font("Comic Sans MS", 0.015f * GameForm.Width, FontStyle.Bold);
     Engine.RefreshAspectRatio(GameForm.Width, GameForm.Height);
 
     Engine.VirtualCamera.VCamera = currLevel.VirtualCamera.VCamera;
@@ -137,12 +145,13 @@ public partial class Game
     Engine.VirtualCamera.Pitch = currLevel.VirtualCamera.Pitch;
     currLevel.VirtualCamera.RefreshVTarget();
 
-    currLevel.Refresh(g, Pb, Engine);
+    currLevel.Refresh(g, Pb, Engine, this);
 
     cursorReset = new Point(Pb.Width / 2, Pb.Height / 2);
     if (GameForm.Focused)
       Cursor.Position = cursorReset;
-
+    RectangleF countPos = new(0.8f * Pb.Width, 0.89f * Pb.Height, 0.2f * Pb.Width, 0.1f * Pb.Height);
+    g.DrawString($"Páginas Coletadas: {ColectedPages.ToString()} / {Pages.ToString()}", font, Brushes.White, countPos);
     // Mapper.Map(g, Engine.VirtualCamera);
     // Debugger.ShowOnScreen(g, new string[]{
     //   "ScreenSize = " + GameForm.Width + " | " + GameForm.Height,
@@ -164,6 +173,10 @@ public partial class Game
     //   "Wall = " + (currLevel.CM.IsColliding(currLevel.Amelia).Count()),
     //   "Amelia = " + currLevel.Amelia.Hitbox.ToString(),
     // });
+    
     Pb.Refresh();
   }
+  public void RemoveBook(Book book)
+    => currLevel.Entities.Remove(book);
+  
 }

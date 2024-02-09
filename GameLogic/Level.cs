@@ -40,7 +40,7 @@ public class Level
   }
 
   public float RSpeed = 0f;
-  public void Refresh(Graphics g, PictureBox pb, EMEngine eng)
+  public void Refresh(Graphics g, PictureBox pb, EMEngine eng, Game game)
   {
     g.DrawImage(Background, 0, 0, pb.Width, pb.Height);
 
@@ -50,7 +50,7 @@ public class Level
       RSpeed *= 0.9f;
     }
 
-    Amelia.Move(CM, eng.VirtualCamera.VCamera);
+    Amelia.Move(CM, eng.VirtualCamera.VCamera, game);
     eng.GetFrame(
       (pb.Width, pb.Height),
       g,

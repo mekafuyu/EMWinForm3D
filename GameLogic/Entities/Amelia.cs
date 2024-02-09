@@ -112,7 +112,7 @@ public class Amelia : Entity
     manager.QuantSprite = 4;
   }
 
-  public void Move(ColissionManager colissionManager, Vector3 cameraPos)
+  public void Move(ColissionManager colissionManager, Vector3 cameraPos, Game game)
   {
     this.Anchor3D = new(Anchor3D.X + SpeedX, Anchor3D.Y, Anchor3D.Z + SpeedZ);
     SetHitbox();
@@ -122,6 +122,11 @@ public class Amelia : Entity
     {
       foreach (var obj in list)
       {
+        if(obj is Book book)
+        {
+          game.ColectedPages+=1;
+          game.RemoveBook(book);
+        }
         if (obj is Floor)
         {
           // MessageBox.Show("coringa");
