@@ -122,9 +122,11 @@ public class Amelia : Entity
     {
       foreach (var obj in list)
       {
-        if(obj is Book book)
+        if(obj is Book book )
         {
-          game.ColectedPages+=1;
+          if(MathF.Abs(book.Anchor3D.Y - this.Anchor3D.Y) > 3)
+            continue;
+          game.ColectedPages += 1;
           game.RemoveBook(book);
         }
         if (obj is Floor)

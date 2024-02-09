@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
 using EM3D;
@@ -43,6 +44,8 @@ public class Level
   public void Refresh(Graphics g, PictureBox pb, EMEngine eng, Game game)
   {
     g.DrawImage(Background, 0, 0, pb.Width, pb.Height);
+    Entities = Entities.OrderByDescending((e) => Vector3.Distance(e.Anchor3D.V3, VirtualCamera.VCamera)).ToList();
+    CM.entities = Entities;
 
     if(MathF.Abs(RSpeed) > 0.001f)
     {

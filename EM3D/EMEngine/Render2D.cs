@@ -11,7 +11,7 @@ namespace EM3D;
 
 public partial class EMEngine
 {
-  public bool HideHitboxes = false;
+  public bool HideHitboxes = true;
   private (Vertex, float) projectPoint(
       Vertex p,
       (float width, float height) size
@@ -89,6 +89,10 @@ public partial class EMEngine
       RenderAmelia(amelia, g, size);
       return;
     }
+    if (entity is Book book)
+    {
+      RenderBook(book, g, size);
+    }
     if(HideHitboxes)
       return;
 
@@ -118,10 +122,7 @@ public partial class EMEngine
     {
       RenderPerspPortal(perspPor, g, size);
     }
-    if (entity is Book book)
-    {
-      RenderBook(book, g, size);
-    }
+
   }
 
   public void RenderAmelia(Amelia amelia, Graphics g, (float h, float w) size)
@@ -277,7 +278,6 @@ public partial class EMEngine
 
       Brush b = new SolidBrush(Color.FromArgb(0, 0, 0, 0));
 
-      g.DrawPath(Pens.Red, path);
     }
     if (bookResize > 0)
     {
